@@ -10,10 +10,8 @@ import UIKit
 
 enum Tab: String, CaseIterable {
     case house
-    case person
     case froop
-    case clock
-    case message
+    case person
 }
 
 struct FroopTabBar: View {
@@ -29,14 +27,10 @@ struct FroopTabBar: View {
     
     private func fillImage(for tab: Tab) -> String {
         switch tab {
-            case .clock:
-                return "clock.arrow.circlepath"
             case .house:
                 return "house.circle"
             case .person:
                 return "person.circle"
-            case .message:
-                return "message.circle"
             case .froop:
                 return "pinkLogo"
         }
@@ -44,14 +38,10 @@ struct FroopTabBar: View {
     
     private func regularImage(for tab: Tab) -> String {
         switch tab {
-            case .clock:
-                return "clock.arrow.circlepath"
             case .house:
                 return "house"
             case .person:
                 return "person"
-            case .message:
-                return "message"
             case .froop:
                 return "darkLogo"
         }

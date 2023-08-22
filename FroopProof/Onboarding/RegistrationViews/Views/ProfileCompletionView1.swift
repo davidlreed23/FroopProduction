@@ -31,7 +31,7 @@ struct ProfileCompletionView1: View {
                     .padding(.horizontal)
                 }
             }
-            .navigationTitle("Froop Beta")
+            .navigationTitle("Froop Sports")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {

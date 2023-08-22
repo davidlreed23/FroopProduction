@@ -200,7 +200,8 @@ struct ProfileCompletionView4: View {
                 
             }
             
-            //.navigationTitle("Froop Beta")
+            //            .navigationTitle("Froop Sports")
+
             //.navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 

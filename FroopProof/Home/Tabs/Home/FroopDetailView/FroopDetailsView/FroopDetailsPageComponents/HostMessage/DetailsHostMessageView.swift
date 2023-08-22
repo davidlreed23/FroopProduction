@@ -46,7 +46,7 @@ struct DetailsHostMessageView: View {
                         Spacer()
                         
                         HStack {
-                            Text("Message from the Host")
+                            Text("Message from the Coach")
                                 .font(.system(size: 14))
                                 .foregroundColor(.black)
                                 .opacity(0.7)
@@ -89,7 +89,7 @@ struct DetailsHostMessageView: View {
                                 .frame(maxWidth: 75, maxHeight: 125)
                                 .foregroundColor(.clear)
                                 .ignoresSafeArea()
-                            Image("BurningMan")
+                            Image("angels_bk")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(maxWidth: 75, maxHeight: 125)

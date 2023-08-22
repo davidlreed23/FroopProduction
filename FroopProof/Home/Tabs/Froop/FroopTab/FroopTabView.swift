@@ -19,13 +19,11 @@ enum FroopTab: Int {
     case info = 1
     case map = 2
     case messages = 3
-    case media = 4
+   //case media = 4
 }
 
 struct FroopTabView: View {
-    
-    
-    
+
     @ObservedObject var printControl = PrintControl.shared
     @ObservedObject var appStateManager = AppStateManager.shared
     @ObservedObject var froopDataListener = FroopDataListener.shared
@@ -102,8 +100,8 @@ struct FroopTabView: View {
                                 ActiveOrPassiveView(friendData: friendData)
                             case .messages:
                                 FroopMessagesView()
-                            case .media:
-                                FroopMediaShareView(uploadedImages: $uploadedImages)
+//                            case .media:
+//                                FroopMediaShareView(uploadedImages: $uploadedImages)
                         }
                         
                         VStack {
@@ -119,8 +117,7 @@ struct FroopTabView: View {
                                     tabButton(title: "info.square.fill", tab: .info)
                                     tabButton(title: "map.fill", tab: .map)
                                     tabButton(title: "message.fill", tab: .messages)
-                                        .badge(5)
-                                    tabButton(title: "square.grid.2x2.fill", tab: .media)
+                                    //tabButton(title: "square.grid.2x2.fill", tab: .media)
                                 }
                             }
                             .padding(.leading, 30)

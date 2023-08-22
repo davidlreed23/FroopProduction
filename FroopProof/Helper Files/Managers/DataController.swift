@@ -17,6 +17,7 @@ class DataController: ObservableObject {
     var db = FirebaseServices.shared.db
     let uid = Auth.auth().currentUser?.uid ?? ""
     @Published var allSelected: Int = 0
+    @Published var selectedUser: UserData = UserData()
     
     // MARK: - User Functions
     

@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct FroopLandingView: View {
+    @ObservedObject var dataController = DataController.shared
     var size: CGSize
     var safeArea: EdgeInsets
-    @Binding var profileView: Bool
     @Binding var selectedFriend: UserData
+    @Binding var profileView: Bool
     @State var friendsView: Bool = false
     @State private var offsetY: CGFloat = 0
     
@@ -27,10 +28,10 @@ struct FroopLandingView: View {
                                 .ignoresSafeArea()
                             
                             if profileView {
-                                FriendFroopsView(selectedFriend: $selectedFriend)
+                                FriendFroopsView(selectedFriend: $dataController.selectedUser)
                                     .transition(.opacity)
                             } else {
-                                FriendListView(selectedFriend: $selectedFriend)
+                                FriendListView(selectedFriend: $dataController.selectedUser)
                                     .transition(.opacity)
                             }
                         }

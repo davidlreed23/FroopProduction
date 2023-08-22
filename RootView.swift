@@ -80,12 +80,11 @@ struct RootView: View {
                     VStack{
                         TabView(selection: $locationServices.selectedTab) {
                             if LocationServices.shared.selectedTab == .house {
-                                HomeView2(detailFroopData: Froop(dictionary: [:]))
+                                ParentView(detailFroopData: Froop(dictionary: [:]))
                                     .tabItem {
                                         Image(systemName: "house")
                                         Text("Home")
                                     }
-                                    .badge(5)
                                     .tag(Tab.house)
                                     .environmentObject(changeView)
                                     .environmentObject(locationSearchViewModel)
@@ -101,6 +100,22 @@ struct RootView: View {
                                     .environmentObject(mediaManager)
                                     .environmentObject(invitationList)
                                     
+                            } else if LocationServices.shared.selectedTab == .froop {
+                                FroopTabView(friendData: friendData, viewModel: ImageGridViewModel(), uploadedImages: $uploadedImages, thisFroop: Froop.emptyFroop(), froopTabPosition: $froopTabPosition) 
+                                    .environmentObject(locationSearchViewModel)
+                                    .environmentObject(MyData.shared)
+                                    .environmentObject(AppStateManager.shared)
+                                    .environmentObject(FirebaseServices.shared)
+                                    .environmentObject(LocationServices.shared)
+                                    .environmentObject(LocationManager.shared)
+                                    .environmentObject(PrintControl.shared)
+                                    .environmentObject(FroopDataController.shared)
+                                    .environmentObject(NotificationsManager.shared)
+                                    .environmentObject(timeZoneManager)
+                                    .environmentObject(appDelegate)
+                                    .environmentObject(mediaManager)
+                                    .environmentObject(invitationList)
+                                    .tag(Tab.froop)
                             } else if LocationServices.shared.selectedTab == .person {
                                 MainFriendView(areThereFriendRequests: $areThereFriendRequests, friendInviteData: FriendInviteData(dictionary: [:]), friendStore: friendStore, timestamp: Date())
                                     .environmentObject(locationSearchViewModel)
@@ -119,62 +134,7 @@ struct RootView: View {
                                         Image(systemName: "person")
                                         Text("Friends")
                                     }
-                                    .badge(5)
                                     .tag(Tab.person)
-                            } else if LocationServices.shared.selectedTab == .froop {
-                                FroopTabView(friendData: friendData, viewModel: ImageGridViewModel(), uploadedImages: $uploadedImages, thisFroop: Froop.emptyFroop(), froopTabPosition: $froopTabPosition) 
-                                    .environmentObject(locationSearchViewModel)
-                                    .environmentObject(MyData.shared)
-                                    .environmentObject(AppStateManager.shared)
-                                    .environmentObject(FirebaseServices.shared)
-                                    .environmentObject(LocationServices.shared)
-                                    .environmentObject(LocationManager.shared)
-                                    .environmentObject(PrintControl.shared)
-                                    .environmentObject(FroopDataController.shared)
-                                    .environmentObject(NotificationsManager.shared)
-                                    .environmentObject(timeZoneManager)
-                                    .environmentObject(appDelegate)
-                                    .environmentObject(mediaManager)
-                                    .environmentObject(invitationList)
-                                    .tag(Tab.froop)
-                            } else if LocationServices.shared.selectedTab == .clock {
-                                FroopChainView()
-                                    .environmentObject(locationSearchViewModel)
-                                    .environmentObject(MyData.shared)
-                                    .environmentObject(AppStateManager.shared)
-                                    .environmentObject(FirebaseServices.shared)
-                                    .environmentObject(LocationServices.shared)
-                                    .environmentObject(LocationManager.shared)
-                                    .environmentObject(PrintControl.shared)
-                                    .environmentObject(FroopDataController.shared)
-                                    .environmentObject(timeZoneManager)
-                                    .environmentObject(appDelegate)
-                                    .environmentObject(mediaManager)
-                                    .environmentObject(invitationList)
-                                    .tabItem {
-                                        Image(systemName: "clock")
-                                        Text("History")
-                                    }
-                                    .tag(Tab.clock)
-                            } else if LocationServices.shared.selectedTab == .message {
-                                ProvideFeedbackView()
-                                    .environmentObject(locationSearchViewModel)
-                                    .environmentObject(MyData.shared)
-                                    .environmentObject(AppStateManager.shared)
-                                    .environmentObject(FirebaseServices.shared)
-                                    .environmentObject(LocationServices.shared)
-                                    .environmentObject(LocationManager.shared)
-                                    .environmentObject(PrintControl.shared)
-                                    .environmentObject(FroopDataController.shared)
-                                    .environmentObject(timeZoneManager)
-                                    .environmentObject(appDelegate)
-                                    .environmentObject(mediaManager)
-                                    .environmentObject(invitationList)
-                                    .tabItem {
-                                        Image(systemName: "message")
-                                        Text("Message")
-                                    }
-                                    .tag(Tab.message)
                             }
                         }
                         .ignoresSafeArea()
@@ -189,7 +149,7 @@ struct RootView: View {
             .onAppear {
                 PrintControl.shared.printStartUp("RootView Appear")
             }
-            .navigationTitle("Froop Beta")
+            .navigationTitle("Froop Sports")
             .foregroundColor(colorScheme == .dark ? .white : .black)
             .navigationBarTitleDisplayMode(.inline)
             .toolbarBackground(Color.black.opacity(0.8), for: .navigationBar)

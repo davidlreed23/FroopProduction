@@ -64,14 +64,14 @@ struct DetailsGuestView: View {
                             Spacer()
                         }
                         VStack {
-                        Text("GUESTS")
+                        Text("PLAYERS")
                                 .foregroundColor(.black)
                                 .opacity(0.7)
                                 .font(.system(size: 15))
                                 .fontWeight(.semibold)
                                 .offset(y: -15)
                             HStack {
-                                Text("Invited:")
+                                Text("SCHEDULED:")
                                     .foregroundColor(.black)
                                     .opacity(0.5)
                                     .font(.system(size: 14))

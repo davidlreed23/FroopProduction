@@ -127,7 +127,7 @@ struct HomeView1: View {
                 }
             }
         }
-        .navigationTitle("Froop Beta")
+        .navigationTitle("Froop Sports")
         .foregroundColor(.white)
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(Color.black, for: .navigationBar)

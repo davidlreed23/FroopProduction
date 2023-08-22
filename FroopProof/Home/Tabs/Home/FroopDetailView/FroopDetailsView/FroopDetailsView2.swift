@@ -18,6 +18,7 @@ import FirebaseCrashlytics
 
 struct FroopDetailsView2: View {
     
+    @ObservedObject var dataController = DataController.shared
     @ObservedObject var appStateManager = AppStateManager.shared
     @ObservedObject var printControl = PrintControl.shared
     @ObservedObject var locationServices = LocationServices.shared
@@ -28,6 +29,7 @@ struct FroopDetailsView2: View {
     @ObservedObject var timeZoneManager: TimeZoneManager = TimeZoneManager()
     @ObservedObject var froopData: FroopData = FroopData()
     @ObservedObject var friendData: UserData = UserData()
+
     
     @State var tasks: [FroopTask] = []
     @State var detailGuests: [UserData] = []
@@ -38,6 +40,7 @@ struct FroopDetailsView2: View {
     @State var acceptFraction1 = 1
     @State var acceptFraction2 = 1
     @State private var templateMade: Bool = false
+    @State private var friendDetailOpen: Bool = false
     @Binding var detailFroopData: Froop
     @Binding var froopAdded: Bool
     @Binding var invitedFriends: [UserData]
@@ -74,6 +77,38 @@ struct FroopDetailsView2: View {
                 }
                 DetailsAddFriendsView(froopAdded: $froopAdded, invitedFriends: $invitedFriends)
             }
+            
+            //MARK: FRIEND DETAIL VIEW OPEN
+            .fullScreenCover(isPresented: $friendDetailOpen) {
+//                friendListViewOpen = false
+            } content: {
+                ZStack {
+                    VStack {
+                        Spacer()
+                        UserDetailView2(selectedFriend: $dataController.selectedUser)
+    //                        .ignoresSafeArea()
+                    }
+                    VStack {
+                        HStack {
+                            Spacer()
+                            Image(systemName: "xmark")
+                                .font(.system(size: 24))
+                                .foregroundColor(.white)
+                                .blendMode(.difference)
+                                .padding(.trailing, 25)
+                                .padding(.top, 20)
+                                .onTapGesture {
+                                    dataController.allSelected = 0
+                                    self.friendDetailOpen = false
+                                    print("CLEAR TAP MainFriendView 1")
+                                }
+                        }
+                        .frame(alignment: .trailing)
+                        Spacer()
+                    }
+                }
+            }
+            
             
             .blurredSheet(.init(.ultraThinMaterial), show: $froopManager.froopMapOpen) {
             } content: {

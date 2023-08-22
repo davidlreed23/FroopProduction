@@ -43,22 +43,20 @@ class NotificationsManager: ObservableObject {
     @Published var newFriendRequest: Int = 0 //@User you have a new friend request waiting
     @Published var newFriendAccept: Int = 0  //@Sending User A friend you invited has accepted
     @Published var newFriendJoined: Int = 0  //@Sending User A friend you invited by SMS has joined
-    ////@Published var newFriendDeclined: Int = 0  //@Sending User A friend you invited has declined
-    ////@Published var newAcquaintanceJoined: Int = 0  //@User Someone you know has joined Froop
+    //@Published var newFriendDeclined: Int = 0  //@Sending User A friend you invited has declined
+    //@Published var newAcquaintanceJoined: Int = 0  //@User Someone you know has joined Froop
     
     //MARK: Communication Badges
-    ////@Published var friendMessage: Int = 0  //@User a friend has messaged you in Froop
-    ////@Published var friendMessages: Int = 0  //@User aggregate of all messages sent to you in Froop
-    ////@Published var froopHostMessage: Int = 0  //@User Host from inactive froop has sent a message to all invited / confirmed users
-    ////@Published var systemMessage: Int = 0  //@User Froop System Message
+    //@Published var friendMessage: Int = 0  //@User a friend has messaged you in Froop
+    //@Published var friendMessages: Int = 0  //@User aggregate of all messages sent to you in Froop
+    //@Published var froopHostMessage: Int = 0  //@User Host from inactive froop has sent a message to all invited / confirmed users
+    //@Published var systemMessage: Int = 0  //@User Froop System Message
     
 
     @Published var badgeCounts: [Tab: Int] = [
         .house: 0,
         .person: 0,
         .froop: 0,
-        .clock: 0,
-        .message: 0
     ]
     
     let db = FirebaseServices.shared.db

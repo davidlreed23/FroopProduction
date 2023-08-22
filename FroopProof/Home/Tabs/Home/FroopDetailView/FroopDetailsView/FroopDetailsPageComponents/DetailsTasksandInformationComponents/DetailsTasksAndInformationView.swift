@@ -38,7 +38,6 @@ struct DetailsTasksAndInformationView: View {
     @Binding var taskOn: Bool
     
     
-    
     var body: some View {
         ZStack {
             Rectangle()
@@ -65,13 +64,13 @@ struct DetailsTasksAndInformationView: View {
                     
                     SignUpView(taskOn: $taskOn)
                     
-//                    FroopMessageView()
+                    //FroopMessageView()
 //
 //                    FlightInfoView()
 //
-//                    DetailsView()
+                    DetailsView()
 //
-//                    SafetyView()
+                    SafetyView()
                     
                     
                 }

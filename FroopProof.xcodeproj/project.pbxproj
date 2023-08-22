@@ -157,6 +157,8 @@
 		6377B3942A2FE32200FB173C /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 6377B3932A2FE32200FB173C /* FirebaseMessaging */; };
 		6377B3962A2FF3F800FB173C /* ActiveMapViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6377B3952A2FF3F800FB173C /* ActiveMapViewRepresentable.swift */; };
 		6382DA8429FD796C00B33B48 /* AlertListenerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6382DA8329FD796C00B33B48 /* AlertListenerManager.swift */; };
+		63835A4B2A942A4B008A4A67 /* ParentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63835A4A2A942A4B008A4A67 /* ParentView.swift */; };
+		63835A4D2A9439C6008A4A67 /* UserDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63835A4C2A9439C6008A4A67 /* UserDetailView.swift */; };
 		6388FDC92A450A7C0099B802 /* FroopTasksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6388FDC82A450A7C0099B802 /* FroopTasksView.swift */; };
 		63893F1A29CE71EF00337678 /* DetailFriendCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63893F1929CE71EF00337678 /* DetailFriendCardView.swift */; };
 		638BDE172A0EBAB000FB7305 /* AttendingUserCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638BDE162A0EBAB000FB7305 /* AttendingUserCard.swift */; };
@@ -415,6 +417,8 @@
 		6377B3912A2F9FFF00FB173C /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		6377B3952A2FF3F800FB173C /* ActiveMapViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveMapViewRepresentable.swift; sourceTree = "<group>"; };
 		6382DA8329FD796C00B33B48 /* AlertListenerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertListenerManager.swift; sourceTree = "<group>"; };
+		63835A4A2A942A4B008A4A67 /* ParentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentView.swift; sourceTree = "<group>"; };
+		63835A4C2A9439C6008A4A67 /* UserDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailView.swift; sourceTree = "<group>"; };
 		6388FDC82A450A7C0099B802 /* FroopTasksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FroopTasksView.swift; sourceTree = "<group>"; };
 		63893F1929CE71EF00337678 /* DetailFriendCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailFriendCardView.swift; sourceTree = "<group>"; };
 		638BDE162A0EBAB000FB7305 /* AttendingUserCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendingUserCard.swift; sourceTree = "<group>"; };
@@ -741,6 +745,7 @@
 				63B0CBC8298F12E1000E5687 /* HomeView2.swift */,
 				63EFFB6629D891520069958A /* HomeView2VM */,
 				63F18E9629D4F45900345EB7 /* List Views */,
+				63835A4A2A942A4B008A4A67 /* ParentView.swift */,
 			);
 			path = HomeView2;
 			sourceTree = "<group>";
@@ -1334,6 +1339,7 @@
 				63CB194C2A423FAB007106F6 /* FroopDetailsView2.swift */,
 				63721ADF2A8DA49D0082E8E9 /* NonActiveMapView.swift */,
 				63CB194B2A423F88007106F6 /* FroopDetailsPageComponents */,
+				63835A4C2A9439C6008A4A67 /* UserDetailView.swift */,
 			);
 			path = FroopDetailsView;
 			sourceTree = "<group>";
@@ -1702,6 +1708,7 @@
 				638BDE1B2A1425F500FB7305 /* CFSBackGroundComponent.swift in Sources */,
 				634D596E29799E150052BF16 /* LocationManager.swift in Sources */,
 				63BAA29529C7AB0D00B3D9B8 /* TimeZoneManager.swift in Sources */,
+				63835A4B2A942A4B008A4A67 /* ParentView.swift in Sources */,
 				63EFFB8029DE13B70069958A /* ContactPicker.swift in Sources */,
 				63DC2AD029B4344700B739BD /* DataController.swift in Sources */,
 				6329EC1D2A60E4FA0095D9C7 /* CustomAnnotationPin.swift in Sources */,
@@ -1779,6 +1786,7 @@
 				635E77292A3F61EC000FB858 /* FroopSavedTemplates.swift in Sources */,
 				6314489A2A171F6F009EBAD2 /* FeedbackDataModel.swift in Sources */,
 				63EFFB8429E09D7A0069958A /* InvitationList.swift in Sources */,
+				63835A4D2A9439C6008A4A67 /* UserDetailView.swift in Sources */,
 				633CC9EE2A0192D700F94093 /* FroopPhotoSelectView.swift in Sources */,
 				63DC2ACB29B2D99600B739BD /* FroopMapBackgroundView.swift in Sources */,
 				632EE60129F98701004A0034 /* FroopMapView.swift in Sources */,

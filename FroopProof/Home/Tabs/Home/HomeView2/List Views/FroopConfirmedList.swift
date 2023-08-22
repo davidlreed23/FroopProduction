@@ -39,7 +39,7 @@ struct FroopConfirmedList: View {
     
     var body: some View {
         ZStack {
-            
+        
             ZStack {
                 RoundedRectangle(cornerRadius: 10)
                     .foregroundColor(colorScheme == .dark ? .black: .white)
@@ -60,19 +60,22 @@ struct FroopConfirmedList: View {
             .offset(y: -100)
 
             ScrollView (showsIndicators: false) {
-                VStack(spacing: 10) {
-                    ForEach(froopDataListener.myConfirmedList.filter { froop in
-                        let endTime = froop.froopStartTime.addingTimeInterval(TimeInterval(froop.froopDuration * 60))
-                        return endTime > Date()
+                ZStack {
+                    
+                    VStack(spacing: 10) {
+                        ForEach(froopDataListener.myConfirmedList.filter { froop in
+                            let endTime = froop.froopStartTime.addingTimeInterval(TimeInterval(froop.froopDuration * 60))
+                            return endTime > Date()
+                        }
+                                
+                            .sorted(by: { $0.froopStartTime < $1.froopStartTime })) { result in
+                                FroopConfirmedCardView(froopDetailOpen: $froopDetailOpen, froop: result, invitedFriends: $invitedFriends)
+                                
+                            }
+                            .onAppear {
+                                PrintControl.shared.printLists("Selected Froop UID printed from FroopSelectionView ForEachLoop \($selectedFroopUUID)")
+                            }
                     }
-                            
-                        .sorted(by: { $0.froopStartTime < $1.froopStartTime })) { result in
-                            FroopConfirmedCardView(froopDetailOpen: $froopDetailOpen, froop: result, invitedFriends: $invitedFriends)
-                            
-                        }
-                        .onAppear {
-                            PrintControl.shared.printLists("Selected Froop UID printed from FroopSelectionView ForEachLoop \($selectedFroopUUID)")
-                        }
                 }
             }
             

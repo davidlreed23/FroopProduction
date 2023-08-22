@@ -153,7 +153,7 @@ struct MainFriendView: View {
             }
             
             VStack {
-                Text("Your Friends")
+                Text("Your Team")
                     .fontWeight(.semibold)
                     .font(.title)
                     .multilineTextAlignment(.center)
