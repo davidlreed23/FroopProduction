@@ -35,7 +35,7 @@ struct RootView: View {
     @ObservedObject var confirmedFroopsList: ConfirmedFroopsList
     @ObservedObject var versionChecker: VersionChecker = VersionChecker.shared 
 
-    @State var selectedTab: Tab = .house
+    @State var selectedTab: Tab = .make
     @State var froopTabPosition: Int = 1
     @State var friends: [UserData] = []
     @State var areThereFriendRequests: Bool = false
@@ -79,13 +79,13 @@ struct RootView: View {
                 ZStack {
                     VStack{
                         TabView(selection: $locationServices.selectedTab) {
-                            if LocationServices.shared.selectedTab == .house {
-                                ParentView(detailFroopData: Froop(dictionary: [:]))
+                            if LocationServices.shared.selectedTab == .make {
+                                HomeView2(detailFroopData: Froop(dictionary: [:]))
                                     .tabItem {
-                                        Image(systemName: "house")
-                                        Text("Home")
+                                        Image(systemName: "Create")
+                                        Text("Create")
                                     }
-                                    .tag(Tab.house)
+                                    .tag(Tab.make)
                                     .environmentObject(changeView)
                                     .environmentObject(locationSearchViewModel)
                                     .environmentObject(MyData.shared)

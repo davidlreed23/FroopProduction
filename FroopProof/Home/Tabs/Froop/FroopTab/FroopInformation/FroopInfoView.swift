@@ -129,7 +129,7 @@ struct FroopInfoView: View {
                                             .clipShape(Circle())
                                             .onTapGesture {
                                                 froopManager.comeFrom = true
-                                                locationServices.selectedTab = .house
+                                                locationServices.selectedTab = .make
                                                 froopManager.froopDetailOpen = true
                                                 froopManager.selectedFroop = appStateManager.inProgressFroop
                                                 froopManager.selectedFroopUUID = appStateManager.inProgressFroop.froopId

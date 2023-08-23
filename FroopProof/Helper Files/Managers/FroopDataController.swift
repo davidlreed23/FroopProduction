@@ -33,6 +33,7 @@ class FroopDataController: NSObject, ObservableObject, MFMessageComposeViewContr
     @Published var isLoading: Bool = false
     @Published var collectedFroops: [Froop] = []
     
+    
     let timeZoneManager = TimeZoneManager()
     
     enum FroopListStatus {
@@ -557,14 +558,14 @@ class FroopDataController: NSObject, ObservableObject, MFMessageComposeViewContr
             case "accept":
                 sourceCollection = "myInvitesList"
                 destinationCollection = "myConfirmedList"
-                if let houseCount = notificationsManager.badgeCounts[.house], houseCount > 0 {
-                    notificationsManager.badgeCounts[.house] = houseCount - 1
+                if let makeCount = notificationsManager.badgeCounts[.make], makeCount > 0 {
+                    notificationsManager.badgeCounts[.make] = makeCount - 1
                 }
             case "decline":
                 sourceCollection = "myInvitesList"
                 destinationCollection = "myDeclinedList"
-                if let houseCount = notificationsManager.badgeCounts[.house], houseCount > 0 {
-                    notificationsManager.badgeCounts[.house] = houseCount - 1
+                if let makeCount = notificationsManager.badgeCounts[.make], makeCount > 0 {
+                    notificationsManager.badgeCounts[.make] = makeCount - 1
                 }
             default:
                 print("Invalid decision")

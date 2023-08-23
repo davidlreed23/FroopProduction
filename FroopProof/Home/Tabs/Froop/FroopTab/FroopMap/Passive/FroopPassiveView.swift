@@ -33,7 +33,7 @@ struct FroopPassiveView: View {
     @State private var currentIndex: Int = 0
     @State private var now = Date()
     @State private var loadIndex = 0
-    
+    @State var selectedTab: Int = 0
     
     
     
@@ -69,7 +69,7 @@ struct FroopPassiveView: View {
     
     var body: some View {
         
-        Text(froopManager.myFroopFeed.isEmpty ? "Your friend's Froops will show up here if they have decided to share them with their community." : "")
+        Text(froopManager.froopHistory.count == 0 ? "Your friend's Froops will show up here if they have decided to share them with their community." : "")
             .foregroundColor(colorScheme == .dark ? .white: .black)
             .font(.system(size: 20))
             .fontWeight(.regular)
@@ -78,7 +78,7 @@ struct FroopPassiveView: View {
         
         ZStack (alignment: .top){
             VStack {
-                UserDetailView()
+                UserDetailView(selectedTab: $selectedTab)
                     .ignoresSafeArea()
             }
         }

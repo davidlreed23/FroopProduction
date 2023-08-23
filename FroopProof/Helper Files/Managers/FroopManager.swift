@@ -54,6 +54,9 @@ class FroopManager: ObservableObject {
     @Published var showChatView = false
     @Published var froopTemplates: [Froop] = []
     @Published var myUserData: UserData = UserData()
+    @Published var areAllCardsExpanded: Bool = true
+
+    
     
     var invitedListener: ListenerRegistration?
     var confirmedListener: ListenerRegistration?
@@ -78,25 +81,6 @@ class FroopManager: ObservableObject {
             }
         }
         setupTemplateStoreListener()
-        fetchFriendLists(uid: uid) { friendUIDs in
-            self.fetchFriendsData(from: friendUIDs) { userFriend in
-                self.fetchFroops(for: userFriend) { fetchedFroops in
-                    self.combineFroopAndHostWithFriends(froopAndHostArray: fetchedFroops) { result in
-                        DispatchQueue.main.async {
-                            switch result {
-                                case .success(let froopHostAndFriendsArray):
-                                    self.froopFeed = froopHostAndFriendsArray
-                                    self.preloadImages()
-                                    self.isFroopFetchingComplete = true
-                                case .failure(let error):
-                                    print("Failed to combine Froop and Host with Friends: \(error)")
-                                    // Handle error accordingly
-                            }
-                        }
-                    }
-                }
-            }
-        }
     }
     
     func fetchFroopData(fuid: String) {

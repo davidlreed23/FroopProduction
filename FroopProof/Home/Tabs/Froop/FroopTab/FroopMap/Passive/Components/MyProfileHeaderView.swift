@@ -16,7 +16,7 @@ struct MyProfileHeaderView: View {
     @ObservedObject var froopManager = FroopManager.shared
     var size: CGSize
     var safeArea: EdgeInsets
-    @State private var selectedTab = 0
+    @Binding var selectedTab: Int
 
     
     private var headerHeight: CGFloat {
@@ -87,11 +87,34 @@ struct MyProfileHeaderView: View {
                         Spacer()
                     }
                     .offset(y: 10)
-//                    .padding(.leading, 25)
-//                    .padding(.trailing, 25)
+                    .padding(.leading, 25)
+                    .padding(.trailing, 25)
                     .opacity(1.0 * (1 - progress))
 
                     Spacer()
+                    Picker("", selection: $selectedTab) {
+                        Text("All Froops").tag(0)
+                        Text("My Froops").tag(1)
+                    }
+                    .foregroundColor(.black)
+                    .pickerStyle(SegmentedPickerStyle())
+                    .padding(.leading, 25 + (75 * progress))
+                    .padding(.trailing, 25 + (75 * progress))
+                    .frame(height: 50)
+                    .onChange(of: selectedTab) { newValue in
+                        if selectedTab == 0 {
+                            withAnimation {
+                                froopManager.areAllCardsExpanded = true
+                            }
+                        } else {
+                            withAnimation {
+                                froopManager.areAllCardsExpanded = false
+                            }
+                        }
+                        print("CardsExpanded \(froopManager.areAllCardsExpanded)")
+                        
+                    }
+                    .moveMenu(progress, headerHeight, minimumHeaderHeight, headerWidth, minimumHeaderWidth)
                 }
                 
                 .padding(.top, safeArea.top)

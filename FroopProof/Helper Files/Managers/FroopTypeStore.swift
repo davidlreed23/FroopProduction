@@ -15,9 +15,9 @@ import UIKit
 
 class FroopTypeStore: ObservableObject {
     static let shared = FroopTypeStore()
-    
-    @Published var froopTypes: [FroopType] = []
     @ObservedObject var froopType: FroopType = FroopType(dictionary: [:])
+    @Published var froopTypes: [FroopType] = []
+    
     
     private var db = Firestore.firestore()
     

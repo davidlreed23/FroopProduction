@@ -153,12 +153,13 @@
 		63721AE02A8DA49D0082E8E9 /* NonActiveMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63721ADF2A8DA49D0082E8E9 /* NonActiveMapView.swift */; };
 		6375AF7929A1413D0035B4FD /* friendStoreAccept.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6375AF7829A1413D0035B4FD /* friendStoreAccept.swift */; };
 		6375AF7B29A144140035B4FD /* FriendAcceptCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6375AF7A29A144140035B4FD /* FriendAcceptCardView.swift */; };
+		6376762B2A95CE5200918302 /* MyMinCardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6376762A2A95CE5200918302 /* MyMinCardsView.swift */; };
 		6377B3922A2F9FFF00FB173C /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6377B3912A2F9FFF00FB173C /* NetworkMonitor.swift */; };
 		6377B3942A2FE32200FB173C /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 6377B3932A2FE32200FB173C /* FirebaseMessaging */; };
 		6377B3962A2FF3F800FB173C /* ActiveMapViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6377B3952A2FF3F800FB173C /* ActiveMapViewRepresentable.swift */; };
 		6382DA8429FD796C00B33B48 /* AlertListenerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6382DA8329FD796C00B33B48 /* AlertListenerManager.swift */; };
 		63835A4B2A942A4B008A4A67 /* ParentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63835A4A2A942A4B008A4A67 /* ParentView.swift */; };
-		63835A4D2A9439C6008A4A67 /* UserDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63835A4C2A9439C6008A4A67 /* UserDetailView.swift */; };
+		63835A4D2A9439C6008A4A67 /* UserDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63835A4C2A9439C6008A4A67 /* UserDetailsView.swift */; };
 		6388FDC92A450A7C0099B802 /* FroopTasksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6388FDC82A450A7C0099B802 /* FroopTasksView.swift */; };
 		63893F1A29CE71EF00337678 /* DetailFriendCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63893F1929CE71EF00337678 /* DetailFriendCardView.swift */; };
 		638BDE172A0EBAB000FB7305 /* AttendingUserCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638BDE162A0EBAB000FB7305 /* AttendingUserCard.swift */; };
@@ -414,11 +415,12 @@
 		63721ADF2A8DA49D0082E8E9 /* NonActiveMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonActiveMapView.swift; sourceTree = "<group>"; };
 		6375AF7829A1413D0035B4FD /* friendStoreAccept.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = friendStoreAccept.swift; sourceTree = "<group>"; };
 		6375AF7A29A144140035B4FD /* FriendAcceptCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendAcceptCardView.swift; sourceTree = "<group>"; };
+		6376762A2A95CE5200918302 /* MyMinCardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMinCardsView.swift; sourceTree = "<group>"; };
 		6377B3912A2F9FFF00FB173C /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		6377B3952A2FF3F800FB173C /* ActiveMapViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveMapViewRepresentable.swift; sourceTree = "<group>"; };
 		6382DA8329FD796C00B33B48 /* AlertListenerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertListenerManager.swift; sourceTree = "<group>"; };
 		63835A4A2A942A4B008A4A67 /* ParentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentView.swift; sourceTree = "<group>"; };
-		63835A4C2A9439C6008A4A67 /* UserDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailView.swift; sourceTree = "<group>"; };
+		63835A4C2A9439C6008A4A67 /* UserDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailsView.swift; sourceTree = "<group>"; };
 		6388FDC82A450A7C0099B802 /* FroopTasksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FroopTasksView.swift; sourceTree = "<group>"; };
 		63893F1929CE71EF00337678 /* DetailFriendCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailFriendCardView.swift; sourceTree = "<group>"; };
 		638BDE162A0EBAB000FB7305 /* AttendingUserCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendingUserCard.swift; sourceTree = "<group>"; };
@@ -769,6 +771,7 @@
 				63A3D59F29EE1F060087FD5A /* AppStateManager.swift */,
 				63FDEF7F29F0DC6900A5D048 /* MediaManager.swift */,
 				634E023E29BE4277009C97DA /* NotificationManager.swift */,
+				634D593929798B110052BF16 /* FroopTypeStore.swift */,
 				6351807E2A2D32980054637B /* FroopManager.swift */,
 				638C32882A34F9C1008F46C0 /* AlertManager.swift */,
 			);
@@ -910,6 +913,7 @@
 			isa = PBXGroup;
 			children = (
 				634054F62A90406A0013CB9E /* MyCardView.swift */,
+				6376762A2A95CE5200918302 /* MyMinCardsView.swift */,
 			);
 			path = "Sub-Components";
 			sourceTree = "<group>";
@@ -1081,7 +1085,6 @@
 		634D594E2979958A0052BF16 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				634D593929798B110052BF16 /* FroopTypeStore.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -1339,7 +1342,7 @@
 				63CB194C2A423FAB007106F6 /* FroopDetailsView2.swift */,
 				63721ADF2A8DA49D0082E8E9 /* NonActiveMapView.swift */,
 				63CB194B2A423F88007106F6 /* FroopDetailsPageComponents */,
-				63835A4C2A9439C6008A4A67 /* UserDetailView.swift */,
+				63835A4C2A9439C6008A4A67 /* UserDetailsView.swift */,
 			);
 			path = FroopDetailsView;
 			sourceTree = "<group>";
@@ -1740,6 +1743,7 @@
 				634E024129BE908D009C97DA /* TextFriendOutsideFroop.swift in Sources */,
 				634D594B297994E70052BF16 /* FroopSummaryView.swift in Sources */,
 				6337361029E6826F00CC4A17 /* UserNotificationsController.swift in Sources */,
+				6376762B2A95CE5200918302 /* MyMinCardsView.swift in Sources */,
 				636162A1297E321B00DC068B /* KeyboardEvents.swift in Sources */,
 				635E77272A3F533E000FB858 /* FroopTypeOrTemplate.swift in Sources */,
 				633698482A215BC6008032A1 /* LocationServices.swift in Sources */,
@@ -1786,7 +1790,7 @@
 				635E77292A3F61EC000FB858 /* FroopSavedTemplates.swift in Sources */,
 				6314489A2A171F6F009EBAD2 /* FeedbackDataModel.swift in Sources */,
 				63EFFB8429E09D7A0069958A /* InvitationList.swift in Sources */,
-				63835A4D2A9439C6008A4A67 /* UserDetailView.swift in Sources */,
+				63835A4D2A9439C6008A4A67 /* UserDetailsView.swift in Sources */,
 				633CC9EE2A0192D700F94093 /* FroopPhotoSelectView.swift in Sources */,
 				63DC2ACB29B2D99600B739BD /* FroopMapBackgroundView.swift in Sources */,
 				632EE60129F98701004A0034 /* FroopMapView.swift in Sources */,

@@ -14,6 +14,8 @@ struct MyFroopLandingView: View {
     var safeArea: EdgeInsets
     @State var friendsView: Bool = false
     @State private var offsetY: CGFloat = 0
+    @Binding var selectedTab: Int
+
     
     
     var body: some View {
@@ -22,10 +24,10 @@ struct MyFroopLandingView: View {
                 ZStack {
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack(spacing: 5) {
-                            MyProfileHeaderView(offsetY: $offsetY, size: size, safeArea: safeArea)
+                            MyProfileHeaderView(offsetY: $offsetY, size: size, safeArea: safeArea, selectedTab: $selectedTab)
                                 .zIndex(1000)
                                 .ignoresSafeArea()
-                            MyFroopsView()
+                            MyFroopsView(selectedTab: $selectedTab)
                                 .transition(.opacity)
                         }
                         .id("SCROLLVIEW")

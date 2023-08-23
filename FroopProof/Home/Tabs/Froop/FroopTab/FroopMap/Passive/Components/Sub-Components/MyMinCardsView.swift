@@ -9,7 +9,7 @@
 import SwiftUI
 import Kingfisher
 
-struct MyCardsView: View {
+struct MyMinCardsView: View {
 
     @Environment(\.colorScheme) var colorScheme
     @ObservedObject var appStateManager = AppStateManager.shared
@@ -125,29 +125,6 @@ struct MyCardsView: View {
                 .padding(.horizontal, 10)
                 .padding(.bottom, 1)
                 .frame(maxHeight: 60)
-
-                ZStack {
-                    Rectangle()
-                        .frame(minWidth: UIScreen.main.bounds.width, maxWidth: UIScreen.main.bounds.width, minHeight: UIScreen.main.bounds.width * 1.3333, maxHeight: UIScreen.main.bounds.width * 1.3333)
-                        .foregroundColor(.white)
-                    TabView(selection: $selectedImageIndex) {
-                        ForEach(froopHostAndFriends.froop.froopDisplayImages.indices, id: \.self) { index in
-                            VStack () {
-                                KFImage(URL(string: froopHostAndFriends.froop.froopDisplayImages[index]))
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(minWidth: UIScreen.main.bounds.width, maxWidth: UIScreen.main.bounds.width, minHeight: UIScreen.main.bounds.width * 0.5, alignment: .top)
-                                    .overlay(downloadButton, alignment: .topTrailing)
-                                Spacer()
-                            }
-                        }
-                    }
-                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
-                    Spacer()
-                }
-                //.matchedGeometryEffect(id: "ZStackAnimation", in: animation)
-                //.transition(froopManager.areAllCardsExpanded ? .move(edge: .top) : .move(edge: .bottom))
-                .background(Color(.white))
                 
                 Divider()
                     .padding(.top, 10)

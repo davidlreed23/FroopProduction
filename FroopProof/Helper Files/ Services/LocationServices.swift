@@ -14,7 +14,7 @@ class LocationServices: NSObject, ObservableObject {
     
     @Published var trackActiveUserLocation: Bool = false
     @Published var trackUserLocation: Bool = true
-    @Published var selectedTab: Tab = .house
+    @Published var selectedTab: Tab = .froop
     @Published var selectedFroopTab: FroopTab = .map
     
     

@@ -99,7 +99,7 @@ struct ParentView: View {
                     HVBackGroundComponent()
                         .ignoresSafeArea()
                         .onAppear {
-                            notificationsManager.badgeCounts[.house] = invitationList.myInvitesList.count
+                            notificationsManager.badgeCounts[.make] = invitationList.myInvitesList.count
                             FirebaseServices.shared.listenToInvitesList(uid: FirebaseServices.shared.uid) { (invitesList) in
                                 FroopDataListener.shared.myInvitesList = invitesList
                             }

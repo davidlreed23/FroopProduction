@@ -9,7 +9,7 @@ import SwiftUI
 import UIKit
 
 enum Tab: String, CaseIterable {
-    case house
+    case make
     case froop
     case person
 }
@@ -27,8 +27,8 @@ struct FroopTabBar: View {
     
     private func fillImage(for tab: Tab) -> String {
         switch tab {
-            case .house:
-                return "house.circle"
+            case .make:
+                return "plus.circle.fill"
             case .person:
                 return "person.circle"
             case .froop:
@@ -38,8 +38,8 @@ struct FroopTabBar: View {
     
     private func regularImage(for tab: Tab) -> String {
         switch tab {
-            case .house:
-                return "house"
+            case .make:
+                return "plus.circle"
             case .person:
                 return "person"
             case .froop:

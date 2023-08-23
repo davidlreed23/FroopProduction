@@ -24,7 +24,7 @@ struct FriendDetailView: View {
                 let size = $0.size
                 let safeArea = $0.safeAreaInsets
                 
-                FroopLandingView(size: size, safeArea: safeArea, profileView: $profileView, selectedFriend: $selectedFriend)
+                FroopLandingView(size: size, safeArea: safeArea, selectedFriend: $selectedFriend, profileView: $profileView)
                     .ignoresSafeArea(.all, edges: .top)
             }
             

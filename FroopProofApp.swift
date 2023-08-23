@@ -147,7 +147,7 @@ class AppDelegate: NSObject, ObservableObject, UIApplicationDelegate, UNUserNoti
             if let selectedTab = data["selectedTab"] as? String,
                let selectedFroopTabString = data["selectedFroopTab"] as? String,
                let selectedFroopTabInt = Int(selectedFroopTabString) {
-                LocationServices.shared.selectedTab = Tab(rawValue: selectedTab) ?? .house
+                LocationServices.shared.selectedTab = Tab(rawValue: selectedTab) ?? .make
                 LocationServices.shared.selectedFroopTab = FroopTab(rawValue: selectedFroopTabInt) ?? .map
             }
         }
