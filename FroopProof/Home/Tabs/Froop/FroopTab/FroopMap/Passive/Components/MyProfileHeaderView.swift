@@ -142,18 +142,18 @@ struct MyProfileHeaderView: View {
                                 ZStack(alignment: .center) {
                                     
                                     Circle()
-                                        .frame(minWidth: 75,maxWidth: 75, minHeight: 75, maxHeight: 75, alignment: .center)
+                                        .frame(minWidth: 70,maxWidth: 70, minHeight: 75, maxHeight: 75, alignment: .center)
                                         .foregroundColor(.white)
                                         .opacity(1)
                                     
-                                    Circle()
-                                        .frame(minWidth: 65,maxWidth: 65, minHeight: 65, maxHeight: 65, alignment: .center)
-                                        .foregroundColor(.white)
-                                        .opacity(1)
+//                                    Circle()
+//                                        .frame(minWidth: 65,maxWidth: 65, minHeight: 65, maxHeight: 65, alignment: .center)
+//                                        .foregroundColor(.white)
+//                                        .opacity(1)
                                     
                                     Image(systemName: "plus.circle.fill")
                                         .font(.system(size: 60))
-                                        .fontWeight(.semibold)
+                                        .fontWeight(.thin)
                                         .foregroundColor(.black)
                                     
                                 }
@@ -221,6 +221,9 @@ struct MyProfileHeaderView: View {
                 }
                 .frame(height: (headerHeight + offsetY) < minimumHeaderHeight ? minimumHeaderHeight : (headerHeight + offsetY), alignment: .bottom)
                 .offset(y: -offsetY)
+                .sheet(isPresented: $showNFWalkthroughScreen) {
+                    self.walkthroughScreen
+                }
             }
             .frame(height: headerHeight)
         }
