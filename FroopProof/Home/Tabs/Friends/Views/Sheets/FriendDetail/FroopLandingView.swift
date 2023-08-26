@@ -79,7 +79,7 @@ extension View {
                     // let halfScaledTextWidth = (rect.width * 0.85) / 2
                     /// Profile Image
                     let profileImageHeight = (headerHeight * 0.9)
-                    let profileImageWidth = (headerWidth * 0.9)
+//                    let profileImageWidth = (headerWidth * 0.9)
                     /// Since Image Scaling will be 0.3 (1 - 0.7)
                     let scaledImageHeight = profileImageHeight * 0.3
                     //let scaledImageWidth = profileImageWidth * 0.3
@@ -111,7 +111,7 @@ extension View {
                     // let halfScaledTextWidth = (rect.width * 1) / 2
                     /// Profile Image
                     let profileImageHeight = (headerHeight * 0.9)
-                    let profileImageWidth = (headerWidth * 0.9)
+//                    let profileImageWidth = (headerWidth * 0.9)
                     /// Since Image Scaling will be 0.3 (1 - 0.7)
                     let scaledImageHeight = profileImageHeight * 0.3
                     //let scaledImageWidth = profileImageWidth * 0.3
@@ -144,7 +144,7 @@ extension View {
                     let halfScaledTextHeight = (rect.height * 1) / 2
                     /// Profile Image
                     let profileImageHeight = (headerHeight * 0.9)
-                    let profileImageWidth = (headerWidth * 0.9)
+//                    let profileImageWidth = (headerWidth * 0.9)
                     /// Since Image Scaling will be 0.3 (1 - 0.7)
                     let scaledImageHeight = profileImageHeight * 0.3
                     // let scaledImageWidth = profileImageWidth * 0.3

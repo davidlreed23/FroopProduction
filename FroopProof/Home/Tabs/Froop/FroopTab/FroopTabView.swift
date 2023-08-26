@@ -19,7 +19,7 @@ enum FroopTab: Int {
     case info = 1
     case map = 2
     case messages = 3
-   //case media = 4
+    case media = 4
 }
 
 struct FroopTabView: View {
@@ -100,8 +100,8 @@ struct FroopTabView: View {
                                 ActiveOrPassiveView(friendData: friendData)
                             case .messages:
                                 FroopMessagesView()
-//                            case .media:
-//                                FroopMediaShareView(uploadedImages: $uploadedImages)
+                            case .media:
+                                FroopMediaShareView(uploadedImages: $uploadedImages)
                         }
                         
                         VStack {

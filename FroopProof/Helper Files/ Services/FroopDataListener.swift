@@ -36,9 +36,9 @@ class FroopDataListener: NSObject, ObservableObject {
 
     @Published var froops: [String: Froop] = [:]
     @Published private var froopDatas: [String: FroopData] = [:]
-    private var listeners: [String: ListenerRegistration] = [:]
+    var listeners: [String: ListenerRegistration] = [:]
     
-    private override init() {
+    override init() {
         super.init()
         
     }

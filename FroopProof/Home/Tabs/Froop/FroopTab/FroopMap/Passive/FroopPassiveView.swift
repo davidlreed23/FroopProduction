@@ -33,11 +33,11 @@ struct FroopPassiveView: View {
     @State private var currentIndex: Int = 0
     @State private var now = Date()
     @State private var loadIndex = 0
-    @State var selectedTab: Int = 0
+   
     
     
     
-    let hVTimer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
+    //let hVTimer = Timer.publish(every: 15, on: .main, in: .common).autoconnect()
     
     
     var timeUntilNextFroop: TimeInterval? {
@@ -77,8 +77,9 @@ struct FroopPassiveView: View {
         // .padding(.top, 0)
         
         ZStack (alignment: .top){
+            Color.white
             VStack {
-                UserDetailView(selectedTab: $selectedTab)
+                UserDetailView()
                     .ignoresSafeArea()
             }
         }

@@ -795,7 +795,6 @@ class FroopDataController: NSObject, ObservableObject, MFMessageComposeViewContr
         let confirmedListRef = invitedFriendsRef.document("confirmedList")
         let declinedListRef = invitedFriendsRef.document("declinedList")
         
-        let froopListRef = userRef.collection("froopDecisions").document("froopLists")
 //        let invitedListCollectionRef = froopListRef.collection("myInvitedList")
 //        let confirmedListCollectionRef = froopListRef.collection("myConfirmedList")
 //        let declinedListCollectionRef = froopListRef.collection("myDeclinedList")

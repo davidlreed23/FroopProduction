@@ -78,7 +78,7 @@ struct FroopBaseTView: View {
         }
         
             
-        .navigationTitle("Froop Sports")
+        .navigationTitle("Froop Beta 2")
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(Color.gray, for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)

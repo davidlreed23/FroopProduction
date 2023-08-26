@@ -239,17 +239,17 @@ struct EditProfileView: View {
                 }
                 
             }
-            .navigationTitle("Froop Sports")
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbarBackground(Color.gray, for: .navigationBar)
-            .toolbarBackground(.visible, for: .navigationBar)
-            .toolbarColorScheme(.dark, for: .navigationBar)
-            .toolbar{
-                ToolbarItemGroup(placement: .navigationBarTrailing) {
-                    
-                }
-            }
+//            .navigationTitle("Froop Beta 3")
+//            .navigationBarTitleDisplayMode(.inline)
+//            .navigationBarTitleDisplayMode(.inline)
+//            .toolbarBackground(Color.gray, for: .navigationBar)
+//            .toolbarBackground(.visible, for: .navigationBar)
+//            .toolbarColorScheme(.dark, for: .navigationBar)
+//            .toolbar{
+//                ToolbarItemGroup(placement: .navigationBarTrailing) {
+//                    
+//                }
+//            }
         }
         .disabled(isSaving)
     }

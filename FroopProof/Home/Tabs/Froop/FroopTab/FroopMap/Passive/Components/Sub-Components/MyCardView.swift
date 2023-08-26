@@ -48,61 +48,40 @@ struct MyCardsView: View {
         ZStack {
             VStack (){
                 HStack {
-                    ZStack {
-                        if froopManager.areAllCardsExpanded {
-                            KFImage(URL(string: froopHostAndFriends.host.profileImageUrl))
-                                .placeholder {
-                                    ProgressView()
-                                }
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 50, height: 50, alignment: .leading)
-                                .clipShape(Circle())
-                        } else {
-                                Image(systemName: thisFroopType)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(maxWidth: 50, maxHeight: 50)
-                                    .foregroundColor(.black)
-                            
+                    KFImage(URL(string: froopHostAndFriends.host.profileImageUrl))
+                        .placeholder {
+                            ProgressView()
                         }
-            
-                    }
-                    .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                            if let foundFroopType = froopTypeStore.froopTypes.first(where: { $0.id == froopHostAndFriends.froop.froopType }) {
-                                self.thisFroopType = foundFroopType.imageName
-                                print("Name: \(foundFroopType.name) ImageName: \(foundFroopType.imageName) Froop: \(froopHostAndFriends.froop.froopName)")
-                            } else {
-                                self.thisFroopType = ""
-                            }
-                        }
-                    }
-                    .padding(.top, 5)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 50, height: 50, alignment: .leading)
+                        .clipShape(Circle())
+                        .padding(.leading, 10)
+                        .padding(.top, 5)
                     VStack (alignment:.leading){
                         Text(froopHostAndFriends.froop.froopName)
                             .font(.system(size: 16))
                             .fontWeight(.semibold)
-                            .foregroundColor(colorScheme == .dark ? .white : .black)
+                            .foregroundColor(colorScheme == .dark ? .black : .black)
                             .multilineTextAlignment(.leading)
                             .offset(y: 6)
                         HStack (alignment: .center){
                             Text("Host:")
                                 .font(.system(size: 14))
                                 .fontWeight(.light)
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
+                                .foregroundColor(colorScheme == .dark ? .black : .black)
                                 .multilineTextAlignment(.leading)
                             
                             Text(froopHostAndFriends.host.firstName)
                                 .font(.system(size: 14))
                                 .fontWeight(.light)
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
+                                .foregroundColor(colorScheme == .dark ? .black : .black)
                                 .multilineTextAlignment(.leading)
                             
                             Text(froopHostAndFriends.host.lastName)
                                 .font(.system(size: 14))
                                 .fontWeight(.light)
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
+                                .foregroundColor(colorScheme == .dark ? .black : .black)
                                 .multilineTextAlignment(.leading)
                                 .offset(x: -5)
                         }
@@ -111,7 +90,7 @@ struct MyCardsView: View {
                         Text("\(formatDate(for: froopHostAndFriends.froop.froopStartTime))")
                             .font(.system(size: 14))
                             .fontWeight(.thin)
-                            .foregroundColor(colorScheme == .dark ? .white : .black)
+                            .foregroundColor(colorScheme == .dark ? .black : .black)
                             .multilineTextAlignment(.leading)
                             .padding(.top, 2)
                             .offset(y: -6)
@@ -122,7 +101,7 @@ struct MyCardsView: View {
                     
                 }
                 .background(Color(red: 251/255, green: 251/255, blue: 249/255))
-                .padding(.horizontal, 10)
+//                .padding(.horizontal, 10)
                 .padding(.bottom, 1)
                 .frame(maxHeight: 60)
 
@@ -179,11 +158,18 @@ struct MyCardsView: View {
                     isDownloading = true
                     downloadImage()
                 }) {
-                    Image(systemName: "arrow.down.square")
-                        .font(.system(size: 30))
-                        .fontWeight(.thin)
-                        .foregroundColor(downloadedImages[froopHostAndFriends.froop.froopImages[selectedImageIndex]] == true ? .white : Color(red: 249/255, green: 0/255, blue: 98/255)) // Change color based on isImageDownloaded
-                        .background(.ultraThinMaterial)
+                    if selectedImageIndex < froopHostAndFriends.froop.froopImages.count {
+                        let imageKey = froopHostAndFriends.froop.froopImages[selectedImageIndex]
+                        let isImageDownloaded = downloadedImages[imageKey] ?? false
+                        Image(systemName: "arrow.down.square")
+                            .font(.system(size: 30))
+                            .fontWeight(.thin)
+                            .foregroundColor(isImageDownloaded ? .white : Color(red: 249/255, green: 0/255, blue: 98/255))
+                            .background(.ultraThinMaterial)
+                    } else {
+                        // You may want to provide some default Image or other view when there's an error
+                        EmptyView()
+                    }
                 }
                     .frame(width: 50, height: 50)
                     .background(Color.white.opacity(0.8))

@@ -91,8 +91,8 @@ struct InviteExternalFriendsView: View {
     
     func sendTextInvite() {
      
-        let usersRef = db.collection("users")
-        let formattedPhoneNumber = phoneNumber.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
+       // let usersRef = db.collection("users")
+       // let formattedPhoneNumber = phoneNumber.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
         print("Not")
         
     }

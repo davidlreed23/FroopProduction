@@ -56,7 +56,7 @@ struct HomeView2: View {
         case invites, confirmed, declined
     }
     
-    let hVTimer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
+    //let hVTimer = Timer.publish(every: 15, on: .main, in: .common).autoconnect()
     
     
     var timeUntilNextFroop: TimeInterval? {
@@ -158,7 +158,7 @@ struct HomeView2: View {
                                     .padding(.top, 10)
                                     .padding(.bottom, 1)
                                 Text(countdownText)
-                                    .onReceive(hVTimer) { _ in
+                                    .onReceive(appStateManager.hVTimer) { _ in
                                         now = Date()
                                         print("Timer fired and updated at \(now)")
                                     }

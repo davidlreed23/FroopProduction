@@ -31,23 +31,23 @@ struct ProfileCompletionView1: View {
                     .padding(.horizontal)
                 }
             }
-            .navigationTitle("Froop Sports")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItemGroup(placement: .navigationBarTrailing) {
-                    Button{
-                        if ProfileCompletionCurrentPage <= PCtotalPages {
-                            ProfileCompletionCurrentPage += 1
-                            PrintControl.shared.printProfile(ProfileCompletionCurrentPage.description)
-                        }
-                    }label:{
-                        Text("Next")
-                            .foregroundColor(.primary)
-                        Image(systemName: "arrow.right.square.fill")
-                            .foregroundColor(.primary)
-                    }
-                }
-            }
+//            .navigationTitle("Froop Beta 4")
+//            .navigationBarTitleDisplayMode(.inline)
+//            .toolbar {
+//                ToolbarItemGroup(placement: .navigationBarTrailing) {
+//                    Button{
+//                        if ProfileCompletionCurrentPage <= PCtotalPages {
+//                            ProfileCompletionCurrentPage += 1
+//                            PrintControl.shared.printProfile(ProfileCompletionCurrentPage.description)
+//                        }
+//                    }label:{
+//                        Text("Next")
+//                            .foregroundColor(.primary)
+//                        Image(systemName: "arrow.right.square.fill")
+//                            .foregroundColor(.primary)
+//                    }
+//                }
+//            }
         }
     }
     

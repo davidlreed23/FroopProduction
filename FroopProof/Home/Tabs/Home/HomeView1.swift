@@ -127,21 +127,21 @@ struct HomeView1: View {
                 }
             }
         }
-        .navigationTitle("Froop Sports")
-        .foregroundColor(.white)
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbarBackground(Color.black, for: .navigationBar)
-        .toolbarBackground(.visible, for: .navigationBar)
-        .toolbarColorScheme(.dark, for: .navigationBar)
-        .navigationBarItems(trailing:
-                                NavigationLink(destination: ProfileListView(photoData: photoData), label: {
-            KFImage(URL(string: MyData.shared.profileImageUrl))
-                .resizable()
-                .frame(width: 30, height: 30)
-                .clipShape(Circle())
-            
-        })
-        )
+//        .navigationTitle("Froop Beta 8")
+//        .foregroundColor(.white)
+//        .navigationBarTitleDisplayMode(.inline)
+//        .toolbarBackground(Color.black, for: .navigationBar)
+//        .toolbarBackground(.visible, for: .navigationBar)
+//        .toolbarColorScheme(.dark, for: .navigationBar)
+//        .navigationBarItems(trailing:
+//                                NavigationLink(destination: ProfileListView(photoData: photoData), label: {
+//            KFImage(URL(string: MyData.shared.profileImageUrl))
+//                .resizable()
+//                .frame(width: 30, height: 30)
+//                .clipShape(Circle())
+//            
+//        })
+//        )
     }
 }
 

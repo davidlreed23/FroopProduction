@@ -55,8 +55,12 @@ class FroopManager: ObservableObject {
     @Published var froopTemplates: [Froop] = []
     @Published var myUserData: UserData = UserData()
     @Published var areAllCardsExpanded: Bool = true
-
+    @Published var hostedFroopCount: Int = 0
     
+    
+    var getHostedFroopCount: [FroopHistory] {
+        return froopHistory.filter { $0.froop.froopHost == uid }
+    }
     
     var invitedListener: ListenerRegistration?
     var confirmedListener: ListenerRegistration?
@@ -69,6 +73,7 @@ class FroopManager: ObservableObject {
     private let notificationCenter = FroopNotificationCenter()
     
     init() {
+       
         fetchUserData(for: uid) { result in
             switch result {
             case .success(let myUserData):
@@ -81,6 +86,12 @@ class FroopManager: ObservableObject {
             }
         }
         setupTemplateStoreListener()
+        getHostedFroopCountTotal()
+    }
+    
+    func getHostedFroopCountTotal() {
+        let filteredFroops = froopHistory.filter { $0.froop.froopHost == uid }
+        hostedFroopCount = filteredFroops.count
     }
     
     func fetchFroopData(fuid: String) {
@@ -283,7 +294,7 @@ class FroopManager: ObservableObject {
     
     func preloadImages() {
         var urls: [URL] = []
-        
+
         // Iterate through all FroopHostAndFriends objects
         for froopHostAndFriends in froopFeed {
             // Append all URLs in froop.froopImages to the urls array
@@ -293,10 +304,10 @@ class FroopManager: ObservableObject {
             // Append all URLs in froop.froopThumbnailImages to the urls array
             urls.append(contentsOf: froopHostAndFriends.FH.froop.froopThumbnailImages.compactMap { URL(string: $0) })
         }
-        
+
         // Create a ImagePrefetcher with the urls
         let prefetcher = ImagePrefetcher(urls: urls)
-        
+
         // Start prefetching
         prefetcher.start()
     }
@@ -539,15 +550,18 @@ class FroopManager: ObservableObject {
     
     func createFroopHistory(completion: @escaping ([FroopHistory]) -> Void) {
         var froopHistoryCollection: [FroopHistory] = []
-        let froops = FroopDataController.shared.myArchivedList
+
+        // Combine items from myArchivedList, myInvitesList, and myConfirmedList
+        let froops = FroopDataController.shared.myArchivedList + FroopDataController.shared.myInvitesList + FroopDataController.shared.myConfirmedList
+
         let dispatchGroup = DispatchGroup()
-        
+
         for froop in froops {
             guard !froop.froopHost.isEmpty else {
                 print("Skipping froop with empty host.")
                 continue
             }
-            
+
             dispatchGroup.enter()
             fetchConfirmedFriendData(for: froop) { result in
                 switch result {
@@ -571,7 +585,7 @@ class FroopManager: ObservableObject {
                 }
             }
         }
-        
+
         dispatchGroup.notify(queue: .main) {
             self.froopHistoryCollection = froopHistoryCollection
             print("David asking: \(FroopManager.shared.froopHistoryCollection.count)")
@@ -968,14 +982,79 @@ struct FroopHostAndFriends : Identifiable, Equatable {
 }
 
 struct FroopHistory: Identifiable, Equatable {
+    
+    enum FroopStatus: String {
+        case invited = "invited"
+        case confirmed = "confirmed"
+        case archived = "archived"
+        case none = "none"
+    }
+    
     let id = UUID() // This is a unique identifier for each FroopHistory
     let froop: Froop
     let host: UserData
     let friends: [UserData]
     let images: [String]
     let videos: [String]
+    var froopStatus: FroopStatus = .none // This property is to store the froop status
+    var statusText: String = ""
+    
+    init(froop: Froop, host: UserData, friends: [UserData], images: [String], videos: [String]) {
+        self.froop = froop
+        self.host = host
+        self.friends = friends
+        self.images = images
+        self.videos = videos
+        
+        textForStatus()
+        determineFroopStatus() 
+    }
     
     static func == (lhs: FroopHistory, rhs: FroopHistory) -> Bool {
         return lhs.id == rhs.id
     }
+}
+
+extension FroopHistory {
+
+    mutating func determineFroopStatus() {
+        let froopId = self.froop.froopId
+
+        if FroopDataController.shared.myArchivedList.contains(where: { $0.froopId == froopId }) {
+            self.froopStatus = .archived
+        } else if FroopDataController.shared.myInvitesList.contains(where: { $0.froopId == froopId }) {
+            self.froopStatus = .invited
+        } else if FroopDataController.shared.myConfirmedList.contains(where: { $0.froopId == froopId }) {
+            self.froopStatus = .confirmed
+        } else {
+            self.froopStatus = .none
+        }
+    }
+    
+    func textForStatus() -> String {
+        switch self.froopStatus {
+            case .invited:
+                return "Invite Pending"
+            case .confirmed:
+                return "Confirmed"
+            case .archived:
+                return "Archived"
+            case .none:
+                return "Error"
+        }
+    }
+    
+    func colorForStatus() -> Color {
+           switch self.froopStatus {
+           case .invited:
+               return Color(red: 249/255, green: 0/255, blue: 98/255)
+           case .confirmed:
+               return Color.blue
+           case .archived:
+               return Color.black
+           case .none:
+               return Color.red
+           }
+       }
+    
 }

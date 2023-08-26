@@ -149,19 +149,26 @@ struct RootView: View {
             .onAppear {
                 PrintControl.shared.printStartUp("RootView Appear")
             }
-            .navigationTitle("Froop Sports")
+            .navigationTitle("Froop Beta 1")
             .foregroundColor(colorScheme == .dark ? .white : .black)
             .navigationBarTitleDisplayMode(.inline)
             .toolbarBackground(Color.black.opacity(0.8), for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
             .toolbarColorScheme(.dark, for: .navigationBar)
-            .navigationBarItems(trailing:
-                                    NavigationLink(destination: ProfileListView(photoData: photoData), label: {
-                KFImage(URL(string:  MyData.shared.profileImageUrl))
-                    .resizable()
-                    .frame(width: 30, height: 30)
-                    .clipShape(Circle())
-            })
+            .navigationBarItems(
+                leading:
+                    Text("\(TimerServices.shared.formatDate(for: Date()))")
+                    .font(.system(size: 16))
+                    .foregroundColor(.white)
+                    .fontWeight(.semibold),
+                        
+                trailing:
+                    NavigationLink(destination: ProfileListView(photoData: photoData), label: {
+                        KFImage(URL(string:  MyData.shared.profileImageUrl))
+                            .resizable()
+                            .frame(width: 30, height: 30)
+                            .clipShape(Circle())
+                    })
             )
         }
     }

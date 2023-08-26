@@ -43,7 +43,7 @@ class TimerServices: ObservableObject {
             self.timer?.invalidate()
             
             // Create and schedule a new timer
-            self.timer = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(self.timerFired), userInfo: nil, repeats: true)
+            self.timer = Timer.scheduledTimer(timeInterval: 15, target: self, selector: #selector(self.timerFired), userInfo: nil, repeats: true)
         }
     }
     
@@ -59,6 +59,12 @@ class TimerServices: ObservableObject {
         if shouldCallupdateUserLocationInFirestore {
             LocationManager.shared.updateUserLocationInFirestore()
         }
+    }
+    
+    func formatDate(for date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "E MMM dd"
+        return formatter.string(from: date)
     }
     
 }

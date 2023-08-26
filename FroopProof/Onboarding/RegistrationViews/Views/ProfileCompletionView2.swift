@@ -44,22 +44,22 @@ struct ProfileCompletionView2: View {
                 .padding(.horizontal)
                 
             }
-            .navigationTitle("Froop Sports")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItemGroup(placement: .navigationBarTrailing) {
-
-                    Button{
-                        if ProfileCompletionCurrentPage <= PCtotalPages{
-                            ProfileCompletionCurrentPage += 1
-                            PrintControl.shared.printProfile(ProfileCompletionCurrentPage.description)
-                        } 
-                    }label:{
-                        Text("Next")
-                        Image(systemName: "arrow.right.square.fill")
-                    }
-                }
-            }
+//            .navigationTitle("Froop Beta 5")
+//            .navigationBarTitleDisplayMode(.inline)
+//            .toolbar {
+//                ToolbarItemGroup(placement: .navigationBarTrailing) {
+//
+//                    Button{
+//                        if ProfileCompletionCurrentPage <= PCtotalPages{
+//                            ProfileCompletionCurrentPage += 1
+//                            PrintControl.shared.printProfile(ProfileCompletionCurrentPage.description)
+//                        } 
+//                    }label:{
+//                        Text("Next")
+//                        Image(systemName: "arrow.right.square.fill")
+//                    }
+//                }
+//            }
         }
        
     }

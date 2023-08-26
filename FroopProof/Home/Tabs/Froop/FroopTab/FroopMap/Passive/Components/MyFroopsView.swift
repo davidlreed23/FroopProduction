@@ -20,7 +20,7 @@ struct MyFroopsView: View {
     @ObservedObject var changeView = ChangeView()
     @ObservedObject var froopData = FroopData()
     
-    //@State private var froopFeed: [FroopHostAndFriends] = []
+    @State private var froopFeed: [FroopHostAndFriends] = []
     @State private var walkthroughScreen: NFWalkthroughScreen? = nil
     @State var showSheet = false
     @State var froopAdded = false
@@ -30,7 +30,6 @@ struct MyFroopsView: View {
     @State private var loadIndex = 0
     @State private var isFroopFetchingComplete = false
     @State private var thisFroopType: String = ""
-    @Binding var selectedTab: Int
 
     var heightOfOneCard: CGFloat {
         (UIScreen.main.bounds.width * 1.5) + 150
@@ -79,7 +78,7 @@ struct MyFroopsView: View {
     }
     
     var displayedFroops: [FroopHistory] {
-        if selectedTab == 1 {
+        if appStateManager.selectedTabTwo == 1 {
             return froopManager.froopHistory.filter { $0.froop.froopHost == uid }
         } else {
             return froopManager.froopHistory
@@ -98,8 +97,13 @@ struct MyFroopsView: View {
         return filteredFroopsForSelectedFriend.sorted(by: { $0.froop.froopStartTime > $1.froop.froopStartTime })
     }
     
+    var sortedFroopsForUser: [FroopHistory] {
+//        froopManager.hostedFroopCount = displayedFroops.count
+        return displayedFroops.sorted(by: { $0.froop.froopStartTime > $1.froop.froopStartTime })
+    }
     
-    let hVTimer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
+    
+    let hVTimer = Timer.publish(every: 15, on: .main, in: .common).autoconnect()
     
     
     var timeUntilNextFroop: TimeInterval? {
@@ -142,6 +146,7 @@ struct MyFroopsView: View {
     
     var body: some View {
         ZStack (alignment: .top){
+            
             Rectangle()
                 .frame(height: 1200)
                 .foregroundColor(.white)
@@ -164,43 +169,15 @@ struct MyFroopsView: View {
                     froopManager.isFroopFetchingComplete = true
                 }
             
-            let maxHeight = max(estimatedHeightOfLazyVStack, estimatedHeightOfVStack)
-
-            ZStack (alignment: .top){
+            if froopManager.areAllCardsExpanded {
+                
                 
                 VStack {
                     if froopManager.isFroopFetchingComplete {
-                        GeometryReader { geometry in
-                            LazyVStack (alignment: .leading, spacing: 0) {
-                                ForEach(sortedFroopsForSelectedFriend.indices, id: \.self) { index in
-                                    let froopHistory = sortedFroopsForSelectedFriend[index]
-                                    MyCardsView(index: index, froopHostAndFriends: froopHistory, thisFroopType: thisFroopType)
-                                        .onAppear {
-                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                                // Increment the current index when a card finishes loading
-                                                currentIndex += 1
-                                            }
-                                        }
-                                }
-                            }
-                            .frame(height: geometry.size.height)
-
-                        }
-                        
-                        .ignoresSafeArea()
-                        .onAppear {
-                            print("Number of froops in froopFeed: \(froopManager.froopFeed.count)")
-                        }
-                    }
-                    Spacer()
-                }
-                .opacity(froopManager.areAllCardsExpanded ? 1.0 : 0.0)
-                VStack {
-                    if froopManager.isFroopFetchingComplete {
-                        VStack (alignment: .leading, spacing: 0) {
-                            ForEach(displayedFroops.indices, id: \.self) { index in
-                                let froopHistory = displayedFroops[index]
-                                MyMinCardsView(index: index, froopHostAndFriends: froopHistory, thisFroopType: thisFroopType)
+                        LazyVStack (alignment: .leading, spacing: 0) {
+                            ForEach(sortedFroopsForSelectedFriend.indices, id: \.self) { index in
+                                let froopHistory = sortedFroopsForSelectedFriend[index]
+                                MyCardsView(index: index, froopHostAndFriends: froopHistory, thisFroopType: thisFroopType)
                                     .onAppear {
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                             // Increment the current index when a card finishes loading
@@ -210,6 +187,8 @@ struct MyFroopsView: View {
                             }
                         }
                         
+                        
+                        
                         .ignoresSafeArea()
                         .onAppear {
                             print("Number of froops in froopFeed: \(froopManager.froopFeed.count)")
@@ -217,11 +196,38 @@ struct MyFroopsView: View {
                     }
                     Spacer()
                 }
-                .opacity(froopManager.areAllCardsExpanded ? 0.0 : 1.0)
+                .padding(.bottom, 75)
+//                .opacity(froopManager.areAllCardsExpanded ? 1.0 : 0.0)
                 
+            } else {
+                
+                VStack {
+                    if froopManager.isFroopFetchingComplete {
+                        VStack (alignment: .leading, spacing: 0) {
+                            
+                            // Sort the displayedFroops by froopEndTime in descending order (most recent first)
+                            ForEach(sortedFroopsForUser.indices, id: \.self) { index in
+                                let froopHistory = sortedFroopsForUser[index]
+                                MyMinCardsView(index: index, froopHostAndFriends: froopHistory, thisFroopType: thisFroopType)
+                                    .onAppear {
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                            // Increment the current index when a card finishes loading
+                                            currentIndex += 1
+                                        }
+                                    }
+                            }
+                            
+                        }
+                        .ignoresSafeArea()
+                        .onAppear {
+                            print("Number of froops in froopFeed: \(froopManager.froopFeed.count)")
+                        }
+                    }
+                    Spacer()
+                }
+                .padding(.bottom, 75)
+//                .opacity(froopManager.areAllCardsExpanded ? 0.0 : 1.0)
             }
-            .frame(minHeight: estimatedHeightOfVStack, maxHeight: estimatedHeightOfLazyVStack)
-            
         }
     }
     func eveningText () -> String {

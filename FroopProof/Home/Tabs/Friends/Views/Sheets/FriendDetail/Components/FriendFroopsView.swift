@@ -44,7 +44,7 @@ struct FriendFroopsView: View {
     
     @Binding var selectedFriend: UserData
     
-    let hVTimer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
+    //let hVTimer = Timer.publish(every: 15, on: .main, in: .common).autoconnect()
     
     
     var timeUntilNextFroop: TimeInterval? {

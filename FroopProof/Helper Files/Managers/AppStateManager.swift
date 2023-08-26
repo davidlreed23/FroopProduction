@@ -68,12 +68,15 @@ class AppStateManager: ObservableObject {
     @Published var parentViewOpacity: Double = 0.0
     @Published var visualEffectViewPresented: Bool = false
     @Published var parentViewPresented: Bool = false
+    @Published var hVTimer = Timer.publish(every: 15, on: .main, in: .common).autoconnect()
+    @Published var selectedTabTwo: Int = 0
     var timerCancellable: Cancellable?
     var now = Date()
     var timer: DispatchSourceTimer?
     var removalTimer: DispatchSourceTimer?
     var froopEndTimers: [String: Timer] = [:]
 
+    
     
     @Published var centerCoordinate: CLLocationCoordinate2D?
     var selectedUserCoordinateCancellable: AnyCancellable?
