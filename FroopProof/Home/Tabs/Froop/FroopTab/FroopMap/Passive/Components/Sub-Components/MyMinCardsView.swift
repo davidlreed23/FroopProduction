@@ -11,10 +11,8 @@
 import SwiftUI
 import Kingfisher
 
-
-
 struct MyMinCardsView: View {
-
+    
     @Environment(\.colorScheme) var colorScheme
     @ObservedObject var appStateManager = AppStateManager.shared
     @ObservedObject var printControl = PrintControl.shared
@@ -40,8 +38,9 @@ struct MyMinCardsView: View {
     @State private var isImageSectionVisible: Bool = true
     @State private var froopTypeArray: [FroopType] = []
     @State private var thisFroopType: String = ""
+    @State private var openFroop: Bool = false
     
-   // @Namespace private var animation
+    // @Namespace private var animation
     
     init(index: Int, froopHostAndFriends: FroopHistory, thisFroopType: String) {
         self.index = index
@@ -50,91 +49,99 @@ struct MyMinCardsView: View {
     
     var body: some View {
         ZStack {
-            VStack (){
-                HStack {
-                    
-                    Image(systemName: thisFroopType)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(maxWidth: 50, maxHeight: 50)
-                        .foregroundColor(froopHostAndFriends.colorForStatus())
+            if openFroop {
+                froopHostAndFriends.cardForStatus()
+                    .padding(.bottom, 10)
+            } else {
+                
+                VStack (){
+                    HStack {
+                        
+                        Image(systemName: thisFroopType)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(maxWidth: 50, maxHeight: 50)
+                            .foregroundColor(froopHostAndFriends.colorForStatus())
                             .onAppear {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                if let foundFroopType = froopTypeStore.froopTypes.first(where: { $0.id == froopHostAndFriends.froop.froopType }) {
-                                    self.thisFroopType = foundFroopType.imageName
-                                    print("Name: \(foundFroopType.name) ImageName: \(foundFroopType.imageName) Froop: \(froopHostAndFriends.froop.froopName)")
-                                } else {
-                                    self.thisFroopType = ""
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                    if let foundFroopType = froopTypeStore.froopTypes.first(where: { $0.id == froopHostAndFriends.froop.froopType }) {
+                                        self.thisFroopType = foundFroopType.imageName
+                                        print("Name: \(foundFroopType.name) ImageName: \(foundFroopType.imageName) Froop: \(froopHostAndFriends.froop.froopName)")
+                                    } else {
+                                        self.thisFroopType = ""
+                                    }
                                 }
                             }
+                            .padding(.top, 5)
+                        VStack (alignment:.leading){
+                            HStack {
+                                Text(froopHostAndFriends.froop.froopName)
+                                    .font(.system(size: 16))
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(colorScheme == .dark ? .black : .black)
+                                    .multilineTextAlignment(.leading)
+                                Spacer()
+                                Text(froopHostAndFriends.textForStatus())
+                                    .font(.system(size: 14))
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(froopHostAndFriends.colorForStatus())
+                                    .multilineTextAlignment(.leading)
+                                    .padding(.trailing, 15)
+                            }
+                            .offset(y: 6)
+                            
+                            HStack (alignment: .center){
+                                Text("Host:")
+                                    .font(.system(size: 14))
+                                    .fontWeight(.light)
+                                    .foregroundColor(colorScheme == .dark ? .black : .black)
+                                    .multilineTextAlignment(.leading)
+                                
+                                Text(froopHostAndFriends.host.firstName)
+                                    .font(.system(size: 14))
+                                    .fontWeight(.light)
+                                    .foregroundColor(colorScheme == .dark ? .black : .black)
+                                    .multilineTextAlignment(.leading)
+                                
+                                Text(froopHostAndFriends.host.lastName)
+                                    .font(.system(size: 14))
+                                    .fontWeight(.light)
+                                    .foregroundColor(colorScheme == .dark ? .black : .black)
+                                    .multilineTextAlignment(.leading)
+                                    .offset(x: -5)
+                            }
+                            .offset(y: 6)
+                            
+                            Text("\(formatDate(for: froopHostAndFriends.froop.froopStartTime))")
+                                .font(.system(size: 14))
+                                .fontWeight(.thin)
+                                .foregroundColor(colorScheme == .dark ? .black : .black)
+                                .multilineTextAlignment(.leading)
+                                .padding(.top, 2)
+                                .offset(y: -6)
                         }
                         .padding(.top, 5)
-                    VStack (alignment:.leading){
-                        HStack {
-                            Text(froopHostAndFriends.froop.froopName)
-                                .font(.system(size: 16))
-                                .fontWeight(.semibold)
-                                .foregroundColor(colorScheme == .dark ? .black : .black)
-                                .multilineTextAlignment(.leading)
-                            Spacer()
-                            Text(froopHostAndFriends.textForStatus())
-                                .font(.system(size: 14))
-                                .fontWeight(.semibold)
-                                .foregroundColor(froopHostAndFriends.colorForStatus())
-                                .multilineTextAlignment(.leading)
-                                .padding(.trailing, 15)
-                        }
-                        .offset(y: 6)
-
-                        HStack (alignment: .center){
-                            Text("Host:")
-                                .font(.system(size: 14))
-                                .fontWeight(.light)
-                                .foregroundColor(colorScheme == .dark ? .black : .black)
-                                .multilineTextAlignment(.leading)
-                            
-                            Text(froopHostAndFriends.host.firstName)
-                                .font(.system(size: 14))
-                                .fontWeight(.light)
-                                .foregroundColor(colorScheme == .dark ? .black : .black)
-                                .multilineTextAlignment(.leading)
-                            
-                            Text(froopHostAndFriends.host.lastName)
-                                .font(.system(size: 14))
-                                .fontWeight(.light)
-                                .foregroundColor(colorScheme == .dark ? .black : .black)
-                                .multilineTextAlignment(.leading)
-                                .offset(x: -5)
-                        }
-                        .offset(y: 6)
                         
-                        Text("\(formatDate(for: froopHostAndFriends.froop.froopStartTime))")
-                            .font(.system(size: 14))
-                            .fontWeight(.thin)
-                            .foregroundColor(colorScheme == .dark ? .black : .black)
-                            .multilineTextAlignment(.leading)
-                            .padding(.top, 2)
-                            .offset(y: -6)
+                        Spacer()
+                        
                     }
-                    .padding(.top, 5)
+                    .background(Color(red: 251/255, green: 251/255, blue: 249/255))
+                    .padding(.horizontal, 10)
+                    .padding(.bottom, 1)
+                    .frame(maxHeight: 60)
                     
-                    Spacer()
-                    
+                    Divider()
+                        .padding(.top, 10)
                 }
-                .background(Color(red: 251/255, green: 251/255, blue: 249/255))
-                .padding(.horizontal, 10)
-                .padding(.bottom, 1)
-                .frame(maxHeight: 60)
-                
-                Divider()
-                    .padding(.top, 10)
             }
             
         }
         .onTapGesture {
+            withAnimation(.spring()) {
+                openFroop.toggle()
+            }
             print("tap")
             for friend in froopHostAndFriends.friends {
-                
                 print(friend.firstName)
             }
         }

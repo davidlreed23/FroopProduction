@@ -78,10 +78,15 @@ struct MyFroopsView: View {
     }
     
     var displayedFroops: [FroopHistory] {
-        if appStateManager.selectedTabTwo == 1 {
-            return froopManager.froopHistory.filter { $0.froop.froopHost == uid }
-        } else {
-            return froopManager.froopHistory
+        return froopManager.froopHistory.filter { froopHistory in
+            switch froopHistory.froopStatus {
+            case .invited, .confirmed:
+                return true
+            case .archived:
+                return froopHistory.froop.froopHost == uid
+            default:
+                return false
+            }
         }
     }
     
@@ -150,7 +155,7 @@ struct MyFroopsView: View {
             Rectangle()
                 .frame(height: 1200)
                 .foregroundColor(.white)
-                .opacity(0.001)
+                .opacity(0.1)
                 .onAppear {
                     FroopDataController.shared.loadFroopLists(forUserWithUID: uid) {
                         FroopDataListener.shared.myConfirmedList = FroopDataController.shared.myConfirmedList

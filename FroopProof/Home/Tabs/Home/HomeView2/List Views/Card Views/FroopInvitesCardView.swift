@@ -17,42 +17,34 @@ import EventKit
 import FirebaseCrashlytics
 
 struct FroopInvitesCardView: View {
-    @Binding var selectedTab: Int
     @ObservedObject var appStateManager = AppStateManager.shared
     @ObservedObject var printControl = PrintControl.shared
     @ObservedObject var locationServices = LocationServices.shared
     @ObservedObject var froopDataListener = FroopDataListener.shared
-    
-    var db = FirebaseServices.shared.db
-    @ObservedObject var myData = MyData.shared
+    @ObservedObject var froopManager = FroopManager.shared
     @ObservedObject var friendViewController = FriendViewController.shared
+    @ObservedObject var myData = MyData.shared
     @ObservedObject var timeZoneManager: TimeZoneManager = TimeZoneManager()
-    @Binding var froopDetailOpen: Bool
-    //@ObservedObject var froopData: FroopData
-    var froop: Froop
-    var froops: Froop
-    @Binding var selectedFroopUUID: String
-    @Binding var invitedFriends: [UserData]
-    @State private var showAlert = false
-    @State private var confirmedFriends: [UserData] = []
-    @State private var declinedFriends: [UserData] = []
-    @State private var invitedFriendsLocal: [UserData] = []
-    @State private var identifiableInvitedFriends: [IdentifiableFriendData] = []
-    @State var myTimeZone: TimeZone = TimeZone.current
+    
     @State var froopStartTime: Date? = Date()
     @State private var dataLoaded = false
+    @State var hostData: UserData = UserData()
+    @State var invitedFriends: [UserData] = []
+    @State var confirmedFriends: [UserData] = []
+    @State var declinedFriends: [UserData] = []
+    @State private var showAlert = false
+
+    
     let visibleFriendsLimit = 8
     @State private var formattedDateString: String = ""
+    let froopHostAndFriends: FroopHistory
+
     
-    
-    init(selectedTab: Binding<Int>, froopDetailOpen: Binding<Bool>, froop: Froop, selectedFroopUUID: Binding<String>, invitedFriends: Binding<[UserData]>) {
-        self._selectedTab = selectedTab
-        self._froopDetailOpen = froopDetailOpen
-        self.froop = froop
-        self.froops = froop 
-        self._selectedFroopUUID = selectedFroopUUID
-        self._invitedFriends = invitedFriends
+    init(froopHostAndFriends: FroopHistory, invitedFriends: [UserData]) {
         self.timeZoneManager = TimeZoneManager()
+        self.froopHostAndFriends = froopHostAndFriends
+        self.invitedFriends = invitedFriends
+
     }
     
     var body: some View {
@@ -64,32 +56,55 @@ struct FroopInvitesCardView: View {
                 .padding(.leading, 10)
                 .padding(.trailing, 10)
                 .onTapGesture {
-                    selectedFroopUUID = froop.froopId
-                    froopDetailOpen = true
+                    froopManager.selectedFroopUUID = froopHostAndFriends.froop.froopId
+                    froopManager.selectedFroop = froopHostAndFriends.froop
+                    froopManager.selectedHost = hostData
                 }
                 
             VStack (alignment: .leading) {
                 HStack (alignment: .center){
-                    HostProfilePhotoView(imageUrl: froop.froopHostPic)
+                    HostProfilePhotoView(imageUrl: froopHostAndFriends.froop.froopHostPic)
                         .frame(width: 80, height: 80)
                         .padding(.leading, 10)
                       
                     
-                    VStack (alignment: .leading){
-                        Text(froops.froopName)
-                            .font(.system(size: 18))
+                    HStack {
+                        Text(froopHostAndFriends.froop.froopName)
+                            .font(.system(size: 16))
                             .fontWeight(.semibold)
                             .foregroundColor(.black)
-                            .frame(alignment: .leading)
-                        
-                        Text("Created: \(timeZoneManager.formatDurationSinceCreation(creationDate: froop.froopCreationTime)) ago")
-                            .font(.system(size: 11))
-                            .fontWeight(.medium)
-                            .foregroundColor(.black)
-                            .opacity(0.7)
-                            .frame(alignment: .leading)
+                            .multilineTextAlignment(.leading)
+                        Spacer()
+                        Text(froopHostAndFriends.textForStatus())
+                            .font(.system(size: 14))
+                            .fontWeight(.semibold)
+                            .foregroundColor(froopHostAndFriends.colorForStatus())
+                            .multilineTextAlignment(.leading)
+                            .padding(.trailing, 15)
                     }
-                    .padding(.leading, 10)
+                    .offset(y: 6)
+                    
+                    HStack (alignment: .center){
+                        Text("Host:")
+                            .font(.system(size: 14))
+                            .fontWeight(.light)
+                            .foregroundColor(.black)
+                            .multilineTextAlignment(.leading)
+                        
+                        Text(froopHostAndFriends.host.firstName)
+                            .font(.system(size: 14))
+                            .fontWeight(.light)
+                            .foregroundColor(.black)
+                            .multilineTextAlignment(.leading)
+                        
+                        Text(froopHostAndFriends.host.lastName)
+                            .font(.system(size: 14))
+                            .fontWeight(.light)
+                            .foregroundColor(.black)
+                            .multilineTextAlignment(.leading)
+                            .offset(x: -5)
+                    }
+                    .offset(y: 6)
                 }
                 .padding(.top, 10)
                 .padding(.leading, 10)
@@ -108,12 +123,12 @@ struct FroopInvitesCardView: View {
                     
                     Button(action: {
                         LocationManager.shared.requestAlwaysAuthorization()
-                        FroopDataController.shared.moveFroopInvitation(uid: uid, froopId: froop.froopId, froopHost: froop.froopHost, decision: "accept")
+                        FroopDataController.shared.moveFroopInvitation(uid: uid, froopId: froopHostAndFriends.froop.froopId, froopHost: froopHostAndFriends.froop.froopHost, decision: "accept")
                         appStateManager.setupListener() {_ in
                             print("Accepted")
                         }
                          
-                        selectedTab = 1
+                        //selectedTab = 1
                         createCalendarEvent()
                     }) {
                         ZStack {
@@ -130,7 +145,7 @@ struct FroopInvitesCardView: View {
                     .buttonStyle(FroopButtonStyle())
                     
                     Button(action: {
-                        FroopDataController.shared.moveFroopInvitation(uid: uid, froopId: froop.froopId, froopHost: froop.froopHost, decision: "decline")
+                        FroopDataController.shared.moveFroopInvitation(uid: uid, froopId: froopHostAndFriends.froop.froopId, froopHost: froopHostAndFriends.froop.froopHost, decision: "decline")
                     }) {
                         ZStack {
                             Rectangle()
@@ -177,11 +192,11 @@ struct FroopInvitesCardView: View {
                             .fontWeight(.light)
                             .foregroundColor(Color(red: 249/255, green: 0/255, blue: 98/255 ))
                         VStack (alignment: .leading){
-                            Text(froop.froopLocationtitle)
+                            Text(froopHostAndFriends.froop.froopLocationtitle)
                                 .font(.system(size: 16))
                                 .fontWeight(.medium)
                                 .foregroundColor(.black)
-                            Text(froop.froopLocationsubtitle)
+                            Text(froopHostAndFriends.froop.froopLocationsubtitle)
                                 .font(.system(size: 14))
                                 .fontWeight(.light)
                                 .foregroundColor(.black)
@@ -196,7 +211,7 @@ struct FroopInvitesCardView: View {
                 Spacer()
             }
             .onAppear {
-                timeZoneManager.convertUTCToCurrent(date: froop.froopStartTime, currentTZ: TimeZone.current.identifier) { convertedDate in
+                timeZoneManager.convertUTCToCurrent(date: froopHostAndFriends.froop.froopStartTime, currentTZ: TimeZone.current.identifier) { convertedDate in
                     formattedDateString = timeZoneManager.formatDate(passedDate: convertedDate)
                 }
             }
@@ -206,7 +221,7 @@ struct FroopInvitesCardView: View {
 
     
     func printFroop () {
-        print(froop)
+        print(froopHostAndFriends.froop)
     }
     func formatTime(creationTime: Date) -> String {
         let formatter = DateComponentsFormatter()
@@ -223,7 +238,7 @@ struct FroopInvitesCardView: View {
     
     func loadInvitedFriends() {
         let uid = FirebaseServices.shared.uid
-        let froopRef = db.collection("users").document(uid).collection("myFroops").document(froop.froopId).collection("invitedFriends").document("inviteList")
+        let froopRef = db.collection("users").document(uid).collection("myFroops").document(froopHostAndFriends.froop.froopId).collection("invitedFriends").document("inviteList")
 
         froopRef.getDocument { (document, error) in
             if let document = document, document.exists {
@@ -239,7 +254,7 @@ struct FroopInvitesCardView: View {
 
     func loadConfirmedFriends() {
         let uid = FirebaseServices.shared.uid
-        let froopRef = db.collection("users").document(uid).collection("myFroops").document(froop.froopId).collection("invitedFriends").document("confirmedList")
+        let froopRef = db.collection("users").document(uid).collection("myFroops").document(froopHostAndFriends.froop.froopId).collection("invitedFriends").document("confirmedList")
 
         froopRef.getDocument { (document, error) in
             if let document = document, document.exists {
@@ -255,7 +270,7 @@ struct FroopInvitesCardView: View {
 
     func loadDeclinedFriends() {
         let uid = FirebaseServices.shared.uid
-        let froopRef = db.collection("users").document(uid).collection("myFroops").document(froop.froopId).collection("invitedFriends").document("declinedList")
+        let froopRef = db.collection("users").document(uid).collection("myFroops").document(froopHostAndFriends.froop.froopId).collection("invitedFriends").document("declinedList")
 
         froopRef.getDocument { (document, error) in
             if let document = document, document.exists {
@@ -272,7 +287,7 @@ struct FroopInvitesCardView: View {
     func fetchConfirmedFriends() {
         let uid = FirebaseServices.shared.uid
      
-        let invitedFriendsRef = db.collection("users").document(uid).collection("myFroops").document(froop.froopId).collection("invitedFriends")
+        let invitedFriendsRef = db.collection("users").document(uid).collection("myFroops").document(froopHostAndFriends.froop.froopId).collection("invitedFriends")
 
         let confirmedListDocRef = invitedFriendsRef.document("confirmedList")
 
@@ -328,10 +343,10 @@ struct FroopInvitesCardView: View {
         requestCalendarAccess { granted in
             if granted {
                 let event = EKEvent(eventStore: eventStore)
-                event.title = froop.froopName
-                event.startDate = froop.froopStartTime
-                event.endDate = froop.froopEndTime
-                event.notes = ("\(froop.froopLocationtitle) at \(froop.froopLocationsubtitle)")
+                event.title = froopHostAndFriends.froop.froopName
+                event.startDate = froopHostAndFriends.froop.froopStartTime
+                event.endDate = froopHostAndFriends.froop.froopEndTime
+                event.notes = ("\(froopHostAndFriends.froop.froopLocationtitle) at \(froopHostAndFriends.froop.froopLocationsubtitle)")
                 event.calendar = eventStore.defaultCalendarForNewEvents
                 
                 do {

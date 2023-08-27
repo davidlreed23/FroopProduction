@@ -1044,6 +1044,25 @@ extension FroopHistory {
         }
     }
     
+    func cardForStatus() -> AnyView {
+        switch self.froopStatus {
+            case .invited:
+                return AnyView(FroopInvitesCardView(
+                    froopHostAndFriends: self,
+                    invitedFriends: friends
+                ))
+            case .confirmed:
+                return AnyView(FroopConfirmedCardView(
+                    froopHostAndFriends: self,
+                    invitedFriends: friends
+                ))
+            case .archived:
+                return AnyView(FroopArchivedCardView())
+            case .none:
+                return AnyView(EmptyView())
+        }
+    }
+    
     func colorForStatus() -> Color {
            switch self.froopStatus {
            case .invited:

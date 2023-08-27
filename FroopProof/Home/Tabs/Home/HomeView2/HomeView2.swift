@@ -365,29 +365,29 @@ struct HomeView2: View {
                             .frame(height: 10)
                             .offset(y: -10)
                  
-                            VStack {
-                                TabView(selection: $appStateManager.selectedTab) {
-                                    FroopInvitesList(selectedTab: $appStateManager.selectedTab, froopDetailOpen: $froopDetailOpen, froopData: froopData, selectedFroopUUID: $selectedFroopUUID, froopAdded: $froopAdded, invitedFriends: $invitedFriends, refreshView: $refreshView)
-                                        //.environmentObject(invitationList)
-                                        .tag(0)
-                                    FroopConfirmedList(froopDetailOpen: $froopDetailOpen, froopData: froopData, froopAdded: $froopAdded, invitedFriends: invitedFriends)
-                                        .onAppear {
-                                            appStateManager.selectedTab = 1
-                                            print(appStateManager.selectedTab)
-                                            
-                                        }
-                                        //.environmentObject(invitationList)
-                                        .tag(1)
-                                    FroopDeclinedList(froopDetailOpen: $froopDetailOpen,  froopData: froopData, selectedFroopUUID: $selectedFroopUUID, froopAdded: $froopAdded, invitedFriends: $invitedFriends, refreshView: $refreshView)
-                                        //.environmentObject(invitationList)
-                                        .tag(2)
-                                }
-                                .frame(maxHeight: 600)
-                                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-                                .padding(.leading, 15)
-                                .padding(.trailing, 15)
-                            }
-                            .frame(maxHeight: 600)
+//                            VStack {
+//                                TabView(selection: $appStateManager.selectedTab) {
+//                                    FroopInvitesList(selectedTab: $appStateManager.selectedTab, froopDetailOpen: $froopDetailOpen, froopData: froopData, selectedFroopUUID: $selectedFroopUUID, froopAdded: $froopAdded, invitedFriends: $invitedFriends, refreshView: $refreshView)
+//                                        //.environmentObject(invitationList)
+//                                        .tag(0)
+//                                    FroopConfirmedList(froopDetailOpen: $froopDetailOpen, froopData: froopData, froopAdded: $froopAdded, invitedFriends: invitedFriends)
+//                                        .onAppear {
+//                                            appStateManager.selectedTab = 1
+//                                            print(appStateManager.selectedTab)
+//
+//                                        }
+//                                        //.environmentObject(invitationList)
+//                                        .tag(1)
+//                                    FroopDeclinedList(froopDetailOpen: $froopDetailOpen,  froopData: froopData, selectedFroopUUID: $selectedFroopUUID, froopAdded: $froopAdded, invitedFriends: $invitedFriends, refreshView: $refreshView)
+//                                        //.environmentObject(invitationList)
+//                                        .tag(2)
+//                                }
+//                                .frame(maxHeight: 600)
+//                                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+//                                .padding(.leading, 15)
+//                                .padding(.trailing, 15)
+//                            }
+//                            .frame(maxHeight: 600)
                         }
                         
                         .sheet(isPresented: $showNFWalkthroughScreen) {

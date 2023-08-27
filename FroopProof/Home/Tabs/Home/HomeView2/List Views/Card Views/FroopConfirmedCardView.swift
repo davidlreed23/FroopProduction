@@ -33,58 +33,60 @@ struct FroopConfirmedCardView: View {
     @State private var formattedDateString: String = ""
     @State private var isBlinking = false
     @State var hostData: UserData = UserData()
-    @Binding var froopDetailOpen: Bool
-    @Binding var invitedFriends: [UserData]
-    
-    var froop: Froop
+    //@Binding var froopDetailOpen: Bool
+    @State var invitedFriends: [UserData] = []
+    let froopHostAndFriends: FroopHistory
+   
     var db = FirebaseServices.shared.db
    
     let visibleFriendsLimit = 8
     let dateForm = DateForm()
     
-    init(froopDetailOpen: Binding<Bool>, froop: Froop, invitedFriends: Binding<[UserData]>) {
-        self._froopDetailOpen = froopDetailOpen
-        self.froop = froop
-        self._invitedFriends = invitedFriends
+    init(froopHostAndFriends: FroopHistory, invitedFriends: [UserData]) {
         self.timeZoneManager = TimeZoneManager()
+        self.froopHostAndFriends = froopHostAndFriends
+        self.invitedFriends = invitedFriends
+
     }
     
     var body: some View {
         
         ZStack (alignment: .top) {
             RoundedRectangle(cornerRadius: 10)
+                .fill(Color(red: 251/255, green: 251/255, blue: 249/255))
                 .frame(height: 185)
                 .foregroundColor(.white)
                 .padding(.leading, 10)
                 .padding(.trailing, 10)
+                .shadow(radius: 0.05)
                 .onTapGesture {
-                    if appStateManager.appState == .active && appStateManager.inProgressFroops.contains(where: { $0.froopId == froop.froopId }) {
+                    if appStateManager.appState == .active && appStateManager.inProgressFroops.contains(where: { $0.froopId == froopHostAndFriends.froop.froopId }) {
                         locationServices.selectedTab = .froop
-                        appStateManager.findFroopById(froopId: froop.froopId) { found in
+                        appStateManager.findFroopById(froopId: froopHostAndFriends.froop.froopId) { found in
                             if found {
                                 locationServices.selectedTab = .froop
                             } else {
                                 froopManager.froopDetailOpen = true
-                                PrintControl.shared.printLists("ImageURL:  \(froop.froopHostPic)")
+                                PrintControl.shared.printLists("ImageURL:  \(froopHostAndFriends.froop.froopHostPic)")
                             }
                         }
                     } else {
-                        froopManager.selectedFroopUUID = froop.froopId
-                        froopManager.selectedFroop = froop
+                        froopManager.selectedFroopUUID = froopHostAndFriends.froop.froopId
+                        froopManager.selectedFroop = froopHostAndFriends.froop
                         froopManager.selectedHost = hostData
                         viewModel.fetchGuests()
-                        froopManager.fetchFroopData(froopId: froop.froopId, froopHost: froop.froopHost) { completion in
+                        froopManager.fetchFroopData(froopId: froopHostAndFriends.froop.froopId, froopHost: froopHostAndFriends.froop.froopHost) { completion in
                             print("Getting Froop")
                         }
                         froopManager.froopDetailOpen = true
-                        PrintControl.shared.printLists("ImageURL:  \(froop.froopHostPic)")
+                        PrintControl.shared.printLists("ImageURL:  \(froopHostAndFriends.froop.froopHostPic)")
                     }
                 }
             
             VStack {
                 HStack {
                     Spacer()
-                    if appStateManager.inProgressFroops.contains(where: { $0.froopId == froop.froopId }) {
+                    if appStateManager.inProgressFroops.contains(where: { $0.froopId == froopHostAndFriends.froop.froopId }) {
                         Text("IN PROGRESS")
                             .font(.system(size: 12))
                             .fontWeight(.semibold)
@@ -107,12 +109,12 @@ struct FroopConfirmedCardView: View {
             
             VStack (alignment: .leading) {
                 HStack (alignment: .center){
-                    HostProfilePhotoView(imageUrl: froop.froopHostPic)
+                    HostProfilePhotoView(imageUrl: froopHostAndFriends.froop.froopHostPic)
                         .scaledToFit()
                         .frame(width: 65, height: 35)
                         .padding(.leading, 15)
                         .onTapGesture {
-                            print("\(String(describing: froop.froopStartTime))")
+                            print("\(String(describing: froopHostAndFriends.froop.froopStartTime))")
                             print(appStateManager.appState)
                             print("Fetched Froops:")
                             for froop in appStateManager.fetchedFroops {
@@ -124,12 +126,12 @@ struct FroopConfirmedCardView: View {
                                    print(froop.froopName)
                                }
 
-                               print("\(String(describing: froop.froopStartTime))")
+                            print("\(String(describing: froopHostAndFriends.froop.froopStartTime))")
                             
                         }
                 
                   
-                        Text(froop.froopName)
+                    Text(froopHostAndFriends.froop.froopName)
                             .font(.system(size: 16))
                             .fontWeight(.semibold)
                             .foregroundColor(.black)
@@ -171,11 +173,11 @@ struct FroopConfirmedCardView: View {
                             .fontWeight(.light)
                             .foregroundColor(Color(red: 249/255, green: 0/255, blue: 98/255 ))
                         VStack (alignment: .leading){
-                            Text(froop.froopLocationtitle)
+                            Text(froopHostAndFriends.froop.froopLocationtitle)
                                 .font(.system(size: 16))
                                 .fontWeight(.medium)
                                 .foregroundColor(.black)
-                            Text(froop.froopLocationsubtitle)
+                            Text(froopHostAndFriends.froop.froopLocationsubtitle)
                                 .font(.system(size: 14))
                                 .fontWeight(.light)
                                 .foregroundColor(.black)
@@ -191,7 +193,7 @@ struct FroopConfirmedCardView: View {
                 Spacer()
             }
             .onAppear {
-                appStateManager.fetchHostData(uid: froop.froopHost) { result in
+                appStateManager.fetchHostData(uid: froopHostAndFriends.froop.froopHost) { result in
                     switch result {
                     case .success(let userData):
                         self.hostData = userData
@@ -200,8 +202,8 @@ struct FroopConfirmedCardView: View {
                     }
                 }
                 loadConfirmedFriends()
-                PrintControl.shared.printLists("Printing Date \(froop.froopStartTime)")
-                timeZoneManager.convertUTCToCurrent(date: froop.froopStartTime, currentTZ: TimeZone.current.identifier) { convertedDate in
+                PrintControl.shared.printLists("Printing Date \(froopHostAndFriends.froop.froopStartTime)")
+                timeZoneManager.convertUTCToCurrent(date: froopHostAndFriends.froop.froopStartTime, currentTZ: TimeZone.current.identifier) { convertedDate in
                     formattedDateString = timeZoneManager.formatDate(passedDate: convertedDate)
                 }
             }
@@ -210,7 +212,7 @@ struct FroopConfirmedCardView: View {
     }
     
     func printFroop () {
-        print(froop)
+        print(froopHostAndFriends.froop)
     }
     func formatTime(creationTime: Date) -> String {
         let formatter = DateComponentsFormatter()
@@ -227,7 +229,7 @@ struct FroopConfirmedCardView: View {
     
     func loadInvitedFriends() {
         let uid = FirebaseServices.shared.uid
-        let froopRef = db.collection("users").document(uid).collection("myFroops").document(froop.froopId).collection("invitedFriends").document("inviteList")
+        let froopRef = db.collection("users").document(uid).collection("myFroops").document(froopHostAndFriends.froop.froopId).collection("invitedFriends").document("inviteList")
 
         froopRef.getDocument { (document, error) in
             if let document = document, document.exists {
@@ -243,7 +245,7 @@ struct FroopConfirmedCardView: View {
 
     func loadConfirmedFriends() {
         let uid = FirebaseServices.shared.uid
-        let froopRef = db.collection("users").document(uid).collection("myFroops").document(froop.froopId).collection("invitedFriends").document("confirmedList")
+        let froopRef = db.collection("users").document(uid).collection("myFroops").document(froopHostAndFriends.froop.froopId).collection("invitedFriends").document("confirmedList")
 
         froopRef.getDocument { (document, error) in
             if let document = document, document.exists {
@@ -259,7 +261,7 @@ struct FroopConfirmedCardView: View {
 
     func loadDeclinedFriends() {
         let uid = FirebaseServices.shared.uid
-        let froopRef = db.collection("users").document(uid).collection("myFroops").document(froop.froopId).collection("invitedFriends").document("declinedList")
+        let froopRef = db.collection("users").document(uid).collection("myFroops").document(froopHostAndFriends.froop.froopId).collection("invitedFriends").document("declinedList")
 
         froopRef.getDocument { (document, error) in
             if let document = document, document.exists {
@@ -276,7 +278,7 @@ struct FroopConfirmedCardView: View {
     func fetchConfirmedFriends() {
         let uid = FirebaseServices.shared.uid
      
-        let invitedFriendsRef = db.collection("users").document(uid).collection("myFroops").document(froop.froopId).collection("invitedFriends")
+        let invitedFriendsRef = db.collection("users").document(uid).collection("myFroops").document(froopHostAndFriends.froop.froopId).collection("invitedFriends")
 
         let confirmedListDocRef = invitedFriendsRef.document("confirmedList")
 

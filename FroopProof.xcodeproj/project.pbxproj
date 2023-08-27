@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6304C04029CFED6B00041661 /* FroopDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6304C03F29CFED6B00041661 /* FroopDataController.swift */; };
+		630628712A9BAFA400B254A3 /* FroopArchivedCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630628702A9BAFA400B254A3 /* FroopArchivedCardView.swift */; };
 		6307378529CFB12B00299D4A /* FroopInvitesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6307378429CFB12B00299D4A /* FroopInvitesList.swift */; };
 		6307378729CFB14E00299D4A /* FroopConfirmedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6307378629CFB14E00299D4A /* FroopConfirmedList.swift */; };
 		6307378929CFB17B00299D4A /* FroopDeclinedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6307378829CFB17B00299D4A /* FroopDeclinedList.swift */; };
@@ -284,6 +285,7 @@
 
 /* Begin PBXFileReference section */
 		6304C03F29CFED6B00041661 /* FroopDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FroopDataController.swift; sourceTree = "<group>"; };
+		630628702A9BAFA400B254A3 /* FroopArchivedCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FroopArchivedCardView.swift; sourceTree = "<group>"; };
 		6307378429CFB12B00299D4A /* FroopInvitesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FroopInvitesList.swift; sourceTree = "<group>"; };
 		6307378629CFB14E00299D4A /* FroopConfirmedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FroopConfirmedList.swift; sourceTree = "<group>"; };
 		6307378829CFB17B00299D4A /* FroopDeclinedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FroopDeclinedList.swift; sourceTree = "<group>"; };
@@ -1477,6 +1479,7 @@
 				63F18E9729D4F4F500345EB7 /* FroopInvitesCardView.swift */,
 				63F18E9929D4F51600345EB7 /* FroopConfirmedCardView.swift */,
 				63F18E9B29D4F53800345EB7 /* FroopDeclinedCardView.swift */,
+				630628702A9BAFA400B254A3 /* FroopArchivedCardView.swift */,
 			);
 			path = "Card Views";
 			sourceTree = "<group>";
@@ -1846,6 +1849,7 @@
 				6336984C2A218575008032A1 /* AnnotationController.swift in Sources */,
 				6311DD5529790A16009063AC /* ProfileCompletionView4.swift in Sources */,
 				6337361629E8A0E600CC4A17 /* TouchCaptureControl.swift in Sources */,
+				630628712A9BAFA400B254A3 /* FroopArchivedCardView.swift in Sources */,
 				634D594329798CEB0052BF16 /* ProfileCompletionExtensions.swift in Sources */,
 				63EEB7722A3915AB005238DB /* DetailsMapViewRepresentable.swift in Sources */,
 				63EFFB6A29D8D2240069958A /* KeyboardAdaptive.swift in Sources */,
