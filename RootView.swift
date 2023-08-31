@@ -35,7 +35,7 @@ struct RootView: View {
     @ObservedObject var confirmedFroopsList: ConfirmedFroopsList
     @ObservedObject var versionChecker: VersionChecker = VersionChecker.shared 
 
-    @State var selectedTab: Tab = .make
+    @State var selectedTab: Tab = .froop
     @State var froopTabPosition: Int = 1
     @State var friends: [UserData] = []
     @State var areThereFriendRequests: Bool = false
@@ -79,28 +79,9 @@ struct RootView: View {
                 ZStack {
                     VStack{
                         TabView(selection: $locationServices.selectedTab) {
-                            if LocationServices.shared.selectedTab == .make {
-                                HomeView2(detailFroopData: Froop(dictionary: [:]))
-                                    .tabItem {
-                                        Image(systemName: "Create")
-                                        Text("Create")
-                                    }
-                                    .tag(Tab.make)
-                                    .environmentObject(changeView)
-                                    .environmentObject(locationSearchViewModel)
-                                    .environmentObject(MyData.shared)
-                                    .environmentObject(AppStateManager.shared)
-                                    .environmentObject(FirebaseServices.shared)
-                                    .environmentObject(LocationServices.shared)
-                                    .environmentObject(LocationManager.shared)
-                                    .environmentObject(PrintControl.shared)
-                                    .environmentObject(FroopDataController.shared)
-                                    .environmentObject(timeZoneManager)
-                                    .environmentObject(appDelegate)
-                                    .environmentObject(mediaManager)
-                                    .environmentObject(invitationList)
+                          
                                     
-                            } else if LocationServices.shared.selectedTab == .froop {
+                           if LocationServices.shared.selectedTab == .froop {
                                 FroopTabView(friendData: friendData, viewModel: ImageGridViewModel(), uploadedImages: $uploadedImages, thisFroop: Froop.emptyFroop(), froopTabPosition: $froopTabPosition) 
                                     .environmentObject(locationSearchViewModel)
                                     .environmentObject(MyData.shared)
@@ -116,25 +97,6 @@ struct RootView: View {
                                     .environmentObject(mediaManager)
                                     .environmentObject(invitationList)
                                     .tag(Tab.froop)
-                            } else if LocationServices.shared.selectedTab == .person {
-                                MainFriendView(areThereFriendRequests: $areThereFriendRequests, friendInviteData: FriendInviteData(dictionary: [:]), friendStore: friendStore, timestamp: Date())
-                                    .environmentObject(locationSearchViewModel)
-                                    .environmentObject(MyData.shared)
-                                    .environmentObject(AppStateManager.shared)
-                                    .environmentObject(FirebaseServices.shared)
-                                    .environmentObject(LocationServices.shared)
-                                    .environmentObject(LocationManager.shared)
-                                    .environmentObject(PrintControl.shared)
-                                    .environmentObject(FroopDataController.shared)
-                                    .environmentObject(timeZoneManager)
-                                    .environmentObject(appDelegate)
-                                    .environmentObject(mediaManager)
-                                    .environmentObject(invitationList)
-                                    .tabItem {
-                                        Image(systemName: "person")
-                                        Text("Friends")
-                                    }
-                                    .tag(Tab.person)
                             }
                         }
                         .ignoresSafeArea()
@@ -149,7 +111,7 @@ struct RootView: View {
             .onAppear {
                 PrintControl.shared.printStartUp("RootView Appear")
             }
-            .navigationTitle("Froop Beta 1")
+            .navigationTitle("Froop Beta")
             .foregroundColor(colorScheme == .dark ? .white : .black)
             .navigationBarTitleDisplayMode(.inline)
             .toolbarBackground(Color.black.opacity(0.8), for: .navigationBar)
@@ -163,7 +125,7 @@ struct RootView: View {
                     .fontWeight(.semibold),
                         
                 trailing:
-                    NavigationLink(destination: ProfileListView(photoData: photoData), label: {
+                    NavigationLink(destination: ProfileView(), label: {
                         KFImage(URL(string:  MyData.shared.profileImageUrl))
                             .resizable()
                             .frame(width: 30, height: 30)

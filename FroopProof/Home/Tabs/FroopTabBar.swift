@@ -9,9 +9,9 @@ import SwiftUI
 import UIKit
 
 enum Tab: String, CaseIterable {
-    case make
+//    case make
     case froop
-    case person
+//    case person
 }
 
 struct FroopTabBar: View {
@@ -27,10 +27,10 @@ struct FroopTabBar: View {
     
     private func fillImage(for tab: Tab) -> String {
         switch tab {
-            case .make:
-                return "plus.circle.fill"
-            case .person:
-                return "person.circle"
+//            case .make:
+//                return "plus.circle.fill"
+//            case .person:
+//                return "person.circle"
             case .froop:
                 return "pinkLogo"
         }
@@ -38,10 +38,10 @@ struct FroopTabBar: View {
     
     private func regularImage(for tab: Tab) -> String {
         switch tab {
-            case .make:
-                return "plus.circle"
-            case .person:
-                return "person"
+//            case .make:
+//                return "plus.circle"
+//            case .person:
+//                return "person"
             case .froop:
                 return "darkLogo"
         }
@@ -128,7 +128,7 @@ struct FroopTabBar: View {
                     return
                 }
                 print("Snapshot Count \(snapshot.documents.count)")
-                self.notificationsManager.badgeCounts[.person] = snapshot.documents.count
+//                self.notificationsManager.badgeCounts[.person] = snapshot.documents.count
             }
         }
     }

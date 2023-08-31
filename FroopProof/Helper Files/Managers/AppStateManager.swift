@@ -70,6 +70,7 @@ class AppStateManager: ObservableObject {
     @Published var parentViewPresented: Bool = false
     @Published var hVTimer = Timer.publish(every: 15, on: .main, in: .common).autoconnect()
     @Published var selectedTabTwo: Int = 0
+    @Published var profileToggle: Bool = true
     var timerCancellable: Cancellable?
     var now = Date()
     var timer: DispatchSourceTimer?

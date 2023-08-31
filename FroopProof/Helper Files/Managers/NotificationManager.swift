@@ -54,8 +54,8 @@ class NotificationsManager: ObservableObject {
     
 
     @Published var badgeCounts: [Tab: Int] = [
-        .make: 0,
-        .person: 0,
+//        .make: 0,
+//        .person: 0,
         .froop: 0,
     ]
     

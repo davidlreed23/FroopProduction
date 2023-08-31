@@ -21,8 +21,8 @@ struct FroopBaseTView: View {
     let uid = FirebaseServices.shared.uid
     let db = FirebaseServices.shared.db
     @State private var profileImageUrl: URL?
-
-
+    
+    
     
     var body: some View {
         ZStack (alignment: .top){
@@ -32,16 +32,21 @@ struct FroopBaseTView: View {
                 .opacity(0.2)
                 .ignoresSafeArea()
             
-                VStack{
+            VStack{
+                
+                ZStack (alignment: .top){
                     
-                    ZStack (alignment: .top){
-                        
                     Rectangle()
                         .frame(minWidth: 0,maxWidth: .infinity, minHeight: 125, maxHeight: 125, alignment: .top)
                         .foregroundColor(.black)
                         .opacity(0.5)
-                        //.ignoresSafeArea()
+                    //.ignoresSafeArea()
                         .offset(y: 0)
+                    HStack {
+                        Rectangle()
+                            .frame(height: 126)
+                            .foregroundColor(.clear)
+                            .opacity(0.001)
                         
                         VStack{
                             KFImage(URL(string: MyData.shared.profileImageUrl))
@@ -51,38 +56,47 @@ struct FroopBaseTView: View {
                                 .clipShape(Circle())
                             
                         }
-//                        .onAppear {
-//                            FirebaseServices.shared.getDownloadUrl(uid: uid) { url in
-//                                self.profileImageUrl = url
-//                            }
-//                        }
-                        .padding(.top, 20)
-                        
-                    }
-            }
-                .toolbar{
-                    ToolbarItemGroup(placement: .navigationBarTrailing) {
-                        Button{
-                            showEditView = true
-                            TimerServices.shared.shouldCallupdateUserLocationInFirestore = false
-                            TimerServices.shared.shouldCallAppStateTransition = false
-                        
-                        }label:{
-                            Text("Edit")
-                                .foregroundColor(.white)
-                            Image(systemName: "square.and.arrow.right.fill")
-                                .foregroundColor(.white)
+                        VStack {
+                            HStack {
+                                Spacer()
+                                Button {
+                                    withAnimation (.easeInOut) {
+                                        showEditView = true
+                                        TimerServices.shared.shouldCallupdateUserLocationInFirestore = false
+                                        TimerServices.shared.shouldCallAppStateTransition = false
+                                    }
+                                    print("CreateNewFriend")
+                                } label: {
+                                    Text("Edit")
+                                        .foregroundColor(.white)
+                                    Image(systemName: "square.and.arrow.right.fill")
+                                        .foregroundColor(.white)
+                                    
+                                }
+                                .padding(.trailing, 25)
+                            }
+                            Spacer()
                         }
+                        .frame(height: 126)
                     }
+                    //                        .onAppear {
+                    //                            FirebaseServices.shared.getDownloadUrl(uid: uid) { url in
+                    //                                self.profileImageUrl = url
+                    //                            }
+                    //                        }
+                    .padding(.top, 20)
+                    
                 }
+            }
+            
         }
         
-            
-        .navigationTitle("Froop Beta 2")
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbarBackground(Color.gray, for: .navigationBar)
-        .toolbarBackground(.visible, for: .navigationBar)
-        .toolbarColorScheme(.dark, for: .navigationBar)
+        
+        //        .navigationTitle("Froop Beta 2")
+        //        .navigationBarTitleDisplayMode(.inline)
+        //        .toolbarBackground(Color.gray, for: .navigationBar)
+        //        .toolbarBackground(.visible, for: .navigationBar)
+        //        .toolbarColorScheme(.dark, for: .navigationBar)
         
     }
 }

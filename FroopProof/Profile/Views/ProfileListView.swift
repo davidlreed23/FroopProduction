@@ -32,7 +32,7 @@ struct ProfileListView: View {
     
     var body: some View {
         ZStack (alignment: .top){
-            
+           
             VStack {
                 Rectangle()
                     .fill(.clear)
@@ -57,7 +57,7 @@ struct ProfileListView: View {
                                     if newValue {
                                         // New value is true, user is trying to grant permission
                                         userSettings.requestCalendarAccess { _ in
-                                         print("calendar access granted")
+                                            print("calendar access granted")
                                         }
                                     } else {
                                         // User is trying to revoke permission, guide them to settings
@@ -69,14 +69,14 @@ struct ProfileListView: View {
                                     if newValue {
                                         // New value is true, user is trying to grant permission
                                         userSettings.requestPhotoLibraryAuthorization { _ in
-                                         print("calendar access granted")
+                                            print("calendar access granted")
                                         }
                                     } else {
                                         // User is trying to revoke permission, guide them to settings
                                         userSettings.openAppSettings()
                                     }
                                 }
-                            Toggle("Track Always", isOn: $userSettings.trackAlwaysPermission)
+                            Toggle("Location Tracking Always", isOn: $userSettings.trackAlwaysPermission)
                                 .onChange(of: userSettings.locateNowPermission) { newValue in
                                     if newValue {
                                         // New value is true, user is trying to grant permission
@@ -109,8 +109,10 @@ struct ProfileListView: View {
                         }
                     }
                     .environment(\.defaultMinListRowHeight, 5)
-                        .font(.subheadline)
-                        .frame(maxHeight: 600)
+                    .font(.subheadline)
+                    .frame(maxHeight: 600)
+                    
+                    
                 }
                 Spacer()
                 HStack {
@@ -125,13 +127,15 @@ struct ProfileListView: View {
                 }
                 Spacer()
             }
-            FroopBaseTView(showEditView: $showEditView)
-                .fullScreenCover(isPresented: $showEditView, onDismiss: nil, content: {
-                    EditProfileView(photoData: photoData, showEditView: self.$showEditView, showAlert: self.$showAlert, alertMessage: self.$alertMessage, urlHolder: MyData.shared.profileImageUrl, firstName: "", lastName: "", phoneNumber: "", addressNumber: "", addressStreet: "", unitName: "", addressCity: "", addressState: "", addressZip: "", addressCountry: "")
-                })
+         
         }
+        FroopBaseTView(showEditView: $showEditView)
+            .fullScreenCover(isPresented: $showEditView, onDismiss: nil, content: {
+                EditProfileView(photoData: photoData, showEditView: self.$showEditView, showAlert: self.$showAlert, alertMessage: self.$alertMessage, urlHolder: MyData.shared.profileImageUrl, firstName: "", lastName: "", phoneNumber: "", addressNumber: "", addressStreet: "", unitName: "", addressCity: "", addressState: "", addressZip: "", addressCountry: "")
+            })
     }
 }
+
 
 
 

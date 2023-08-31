@@ -558,15 +558,15 @@ class FroopDataController: NSObject, ObservableObject, MFMessageComposeViewContr
             case "accept":
                 sourceCollection = "myInvitesList"
                 destinationCollection = "myConfirmedList"
-                if let makeCount = notificationsManager.badgeCounts[.make], makeCount > 0 {
-                    notificationsManager.badgeCounts[.make] = makeCount - 1
-                }
+//                if let makeCount = notificationsManager.badgeCounts[.make], makeCount > 0 {
+//                    notificationsManager.badgeCounts[.make] = makeCount - 1
+//                }
             case "decline":
                 sourceCollection = "myInvitesList"
                 destinationCollection = "myDeclinedList"
-                if let makeCount = notificationsManager.badgeCounts[.make], makeCount > 0 {
-                    notificationsManager.badgeCounts[.make] = makeCount - 1
-                }
+//                if let makeCount = notificationsManager.badgeCounts[.make], makeCount > 0 {
+//                    notificationsManager.badgeCounts[.make] = makeCount - 1
+//                }
             default:
                 print("Invalid decision")
                 return

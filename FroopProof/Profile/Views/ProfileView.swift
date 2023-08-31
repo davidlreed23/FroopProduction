@@ -2,136 +2,113 @@
 //  ProfileView.swift
 //  FroopProof
 //
-//  Created by David Reed on 1/18/23.
+//  Created by David Reed on 8/9/23.
 //
-//
-//import SwiftUI
-//import UIKit
-//import Firebase
-//import FirebaseFirestore
-//import FirebaseFirestoreSwift
-//import FirebaseAuth
-//import FirebaseCore
-//import FirebaseStorage
-//import Kingfisher
-//
-//struct ProfileView: View {
-//    @Environment(\.colorScheme) var colorScheme
-//    @ObservedObject var myData = MyData.shared
-//    @Binding var showEditView: Bool
-//    @Binding var showAlert: Bool
-//    @Binding var alertMessage: String
-//    @State private var profileImageUrl: URL?
-//    @State private var showSheet = true
-//    var uid = FirebaseServices.shared.uid
-//    var db = FirebaseServices.shared.db
-//    @State var showProfileImagePicker = false
-//    @State private var avatarImage: UIImage?
-//    @State var selectedImage: UIImage?
-//    @State var urlHolder: String
-//
-//    var body: some View {
-//        ZStack (alignment: .top){
-//            Rectangle()
-//                .frame(minWidth: 0,maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-//                .foregroundColor(.gray)
-//                .opacity(0.2)
-//                .ignoresSafeArea()
-//
-//
-//            VStack {
-//                ZStack(alignment: .top) {
-//                    Rectangle()
-//                        .frame(minWidth: 0,maxWidth: .infinity, minHeight: 175, maxHeight: 175, alignment: .top)
-//                        .foregroundColor(.black)
-//                        .opacity(0.5)
-//                        .ignoresSafeArea()
-//                        .offset(y: -50)
-//                    HStack{
-//                        Spacer()
-//                        Text("Profile")
-//                            .foregroundColor(colorScheme == .dark ? .white : .black)
-//                            .fontWeight(.light)
-//                        Spacer()
-//                    }
-//                    .offset(y: -45)
-//                    HStack{
-//                        Spacer()
-//
-//                        VStack{
-//
-//
-//                            KFImage(URL(string: (String(describing: profileImageUrl))))
-//                                .placeholder {
-//                                    ProgressView()
-//                                }
-//                                .resizable()
-//                                .scaledToFill()
-//                                .frame(width: 126, height: 126)
-//                                .clipShape(Circle())
-//                                .padding()
-//                                .onTapGesture {
-//                                    showProfileImagePicker = true
-//                                }
-//                                .onAppear {
-//                                    FirebaseServices.shared.getDownloadUrl(uid: uid) { url in
-//                                        self.profileImageUrl = url
-//                                    }
-//                                }
-//
-//
-//                            Text("Profile Picture")
-//                                .font(.system(size: 10, weight: .light))
-//                                .foregroundColor(.gray)
-//                                .offset(y: -10)
-//                        }
-//
-//                        Spacer()
-//
-//                    }
-//                    .padding(.top, 50)
-//
-//                }
-//
-//                List {
-//                    Section(header: Text("Name")) {
-//                        Text(MyData.shared.firstName)
-//                        Text(MyData.shared.lastName)
-//                    }
-//                    Section(header: Text("Contact")) {
-//                        Text(MyData.shared.phoneNumber)
-//                    }
-//                    Section(header: Text("Address")) {
-//                        Text(MyData.shared.addressNumber)
-//                        Text(MyData.shared.addressStreet)
-//                        Text(MyData.shared.unitName)
-//                        Text(MyData.shared.addressCity)
-//                        Text(MyData.shared.addressState)
-//                        Text(MyData.shared.addressZip)
-//                        Text(MyData.shared.addressCountry)
-//                        Text(MyData.shared.profileImageUrl)
-//                    }
-//                }
-//                .scrollContentBackground(.hidden)
-//
-//            }
-//        }
-//        .toolbar{
-//            ToolbarItemGroup(placement: .navigationBarTrailing) {
-//                Button{
-//
-//
-//                }label:{
-//                    Text("Edit")
-//                        .foregroundColor(colorScheme == .dark ? .white : .black)
-//                    Image(systemName: "square.and.arrow.right.fill")
-//                        .foregroundColor(colorScheme == .dark ? .white : .black)
-//                }
-//            }
-//        }
-//
-//    }
-//
-//}
-//
-//
+
+import SwiftUI
+import Kingfisher
+import UIKit
+import Combine
+
+struct ProfileView: View {
+    @ObservedObject var appStateManager = AppStateManager.shared
+    @ObservedObject var dataController = DataController.shared
+    @ObservedObject var froopDataListener = FroopDataListener.shared
+    @ObservedObject var timeZoneManager: TimeZoneManager = TimeZoneManager()
+    @ObservedObject var froopManager = FroopManager.shared
+    @ObservedObject var friendStore = FriendStore()
+    @ObservedObject var mediaManager = MediaManager()
+    @ObservedObject var invitationList: InvitationList = InvitationList(uid: FirebaseServices.shared.uid)
+    @ObservedObject var photoData = PhotoData()
+
+    @State var locationSearchViewModel = LocationSearchViewModel()
+    @State var areThereFriendRequests: Bool = false
+    @State var profileTab: Int = 0
+    
+    init() {
+        UISegmentedControl.appearance().selectedSegmentTintColor = .white
+        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
+        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.gray], for: .normal)
+    }
+    
+    var body: some View {
+        VStack{
+            ZStack (alignment: .top) {
+                //                Color.offWhite
+                Rectangle()
+                    .foregroundColor(.black)
+                    .opacity(0.75)
+                    .offset(y: 0)
+                    .frame(height: 160)
+                    .ignoresSafeArea()
+                    .onAppear {
+                        TimerServices.shared.shouldCallupdateUserLocationInFirestore = false
+                        TimerServices.shared.shouldCallAppStateTransition = false
+                    }
+
+                Picker("", selection: $profileTab) {
+                    Text("My Profile").tag(0)
+                    Text("My Friends").tag(1)
+                }
+                .pickerStyle(SegmentedPickerStyle())
+                .padding(.top, 35)
+                .padding(.leading, 25)
+                .padding(.trailing, 25)
+                .frame(height: 50)
+                .onChange(of: profileTab) { newValue in
+                    if profileTab == 0 {
+                        withAnimation {
+                            appStateManager.profileToggle = true
+                            print(appStateManager.profileToggle)
+                        }
+                    } else {
+                        withAnimation {
+                            appStateManager.profileToggle = false
+                            print(appStateManager.profileToggle)
+                            
+                        }
+                    }
+                }
+                if profileTab == 0 {
+                    ProfileListView(photoData: photoData)
+                        .padding(.top, 160)
+                        .ignoresSafeArea()
+                } else {
+                    MainFriendView(areThereFriendRequests: $areThereFriendRequests, friendInviteData: FriendInviteData(dictionary: [:]), friendStore: friendStore, timestamp: Date())
+                        .padding(.top, 160)
+                        .ignoresSafeArea()
+                }
+                
+            }
+
+            //            ZStack () {
+            //                if appStateManager.profileToggle == true {
+            //                  //  ProfileListView(photoData: photoData)
+           
+            //                } else {
+            //                    MainFriendView(areThereFriendRequests: $areThereFriendRequests, friendInviteData: FriendInviteData(dictionary: [:]), friendStore: friendStore, timestamp: Date())
+            //                    //                                .environmentObject(locationSearchViewModel)
+            //                    //                                .environmentObject(MyData.shared)
+            //                    //                                .environmentObject(AppStateManager.shared)
+            //                    //                                .environmentObject(FirebaseServices.shared)
+            //                    //                                .environmentObject(LocationServices.shared)
+            //                    //                                .environmentObject(LocationManager.shared)
+            //                    //                                .environmentObject(PrintControl.shared)
+            //                    //                                .environmentObject(FroopDataController.shared)
+            //                    //                                .environmentObject(timeZoneManager)
+            //                    //                                .environmentObject(mediaManager)
+            //                    //                                .environmentObject(invitationList)
+            //                }
+            //
+            //            }
+            //            }
+            
+            .navigationTitle(profileTab == 0 ? "Profile" : "Friends")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbarBackground(Color.black, for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
+            .toolbarColorScheme(.dark, for: .navigationBar)
+        }
+        Spacer()
+    }
+}

@@ -15,6 +15,7 @@ struct FriendFroopsView: View {
     @ObservedObject var froopDataListener = FroopDataListener.shared
     @ObservedObject var froopManager = FroopManager.shared
     @ObservedObject var timeZoneManager:TimeZoneManager = TimeZoneManager()
+    @Binding var selectedFriend: UserData
 
     @ObservedObject var myData = MyData.shared
     @ObservedObject var changeView = ChangeView()
@@ -31,18 +32,18 @@ struct FriendFroopsView: View {
     @State private var isFroopFetchingComplete = false
     
     var filteredFroopsForSelectedFriend: [FroopHistory] {
+        let currentUserId = FirebaseServices.shared.uid // Fetch current user's UID
+        
         return froopManager.froopHistory.filter {
             !$0.images.isEmpty &&
-            ($0.host.froopUserID == selectedFriend.froopUserID ||
-             $0.friends.contains(where: { $0.froopUserID == selectedFriend.froopUserID }))
+            $0.friends.contains(where: { $0.froopUserID == currentUserId }) &&
+            $0.friends.contains(where: { $0.froopUserID == selectedFriend.froopUserID })
         }
     }
     
     var sortedFroopsForSelectedFriend: [FroopHistory] {
         return filteredFroopsForSelectedFriend.sorted(by: { $0.froop.froopStartTime > $1.froop.froopStartTime })
     }
-    
-    @Binding var selectedFriend: UserData
     
     //let hVTimer = Timer.publish(every: 15, on: .main, in: .common).autoconnect()
     
@@ -91,7 +92,7 @@ struct FriendFroopsView: View {
                     .foregroundColor(.white)
                     .opacity(0.001)
             if sortedFroopsForSelectedFriend.count == 0 {
-                Text(froopManager.froopFeed.isEmpty ? "Your friend's Froops will show up here if they have decided to share them with their community." : "")
+                Text(froopManager.froopHistory.isEmpty ? "Your friend's Froops will show up here if they have decided to share them with their community." : "")
                     .foregroundColor(colorScheme == .dark ? .white: .black)
                     .font(.system(size: 20))
                     .fontWeight(.regular)
@@ -101,24 +102,21 @@ struct FriendFroopsView: View {
                     .padding(.trailing, 5)
             } else {
                 VStack {
-                    if froopManager.isFroopFetchingComplete {
-                        LazyVStack (alignment: .leading, spacing: 0) {
-                            ForEach(sortedFroopsForSelectedFriend.indices, id: \.self) { index in
-                                let froopHistory = sortedFroopsForSelectedFriend[index]
-                                CardsView(index: index, froopHostAndFriends: froopHistory)
-                                    .onAppear {
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                            // Increment the current index when a card finishes loading
-                                            currentIndex += 1
-                                        }
+                    LazyVStack (alignment: .leading, spacing: 0) {
+                        ForEach(sortedFroopsForSelectedFriend.indices.filter { sortedFroopsForSelectedFriend[$0].host.froopUserID == selectedFriend.froopUserID }, id: \.self) { index in
+                            let froopHistory = sortedFroopsForSelectedFriend[index]
+                            CardsView(index: index, froopHostAndFriends: froopHistory)
+                                .onAppear {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                        // Increment the current index when a card finishes loading
+                                        currentIndex += 1
                                     }
-                            }
+                                }
                         }
-                        
-                        .ignoresSafeArea()
-                        .onAppear {
-                            print("Number of froops in froopFeed: \(froopManager.froopFeed.count)")
-                        }
+                    }
+                    .ignoresSafeArea()
+                    .onAppear {
+                        print("Number of froops in froopFeed: \(froopManager.froopHistory.count)")
                     }
                     Spacer()
                 }

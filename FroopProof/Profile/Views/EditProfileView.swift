@@ -82,9 +82,13 @@ struct EditProfileView: View {
                             .offset(y: -50)
                         HStack{
                             
-                            Text("Edit Profile")
-                                .foregroundColor(colorScheme == .dark ? .white : .white)                                .fontWeight(.medium)
+                            Text("Back")
+                                .foregroundColor(.white)
+                                .fontWeight(.medium)
                                 .padding(.leading, 10)
+                                .onTapGesture {
+                                    showEditView = false
+                                }
                             Spacer()
                             
                             
@@ -196,7 +200,7 @@ struct EditProfileView: View {
                                         userSettings.openAppSettings()
                                     }
                                 }
-                            Toggle("Track Always", isOn: $userSettings.trackAlwaysPermission)
+                            Toggle("Location Tracking Always", isOn: $userSettings.trackAlwaysPermission)
                                 .onChange(of: userSettings.locateNowPermission) { newValue in
                                     if newValue {
                                         // New value is true, user is trying to grant permission

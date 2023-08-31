@@ -95,6 +95,73 @@ struct MainFriendView: View {
     var body: some View {
         ZStack (alignment: .top){
             
+           
+            
+            VStack {
+                SearchBar(text: $searchText)
+                    .padding(.top, 25)
+                    .onAppear {
+                        FirebaseServices.shared.checkSMSInvitations()
+                    }
+                    .padding(.leading, 75)
+                    .padding(.trailing, 75)
+                    .padding(.bottom, 25)
+                
+                NavigationView {
+                    ScrollView(showsIndicators: false) {
+                        VStack(spacing: 0) {
+                            ForEach(friendStore.friends.filter { friend in
+                                searchText.isEmpty ? true : friend.firstName.localizedCaseInsensitiveContains(searchText)
+                            }.chunked(into: 3), id: \.self) { friendGroup in
+                                HStack(spacing: 0) {
+                                    ForEach(friendGroup, id: \.id) { friend in
+                                        FriendCardView(selectedFriend: $selectedFriend, friendDetailOpen: $friendDetailOpen, friend: friend)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                .searchable(text: $searchText)
+                .font(.system(size: 18))
+                .foregroundColor(.black)
+                .offset(y: -15)
+                
+            }
+            
+            VStack {
+                Spacer()
+               
+                HStack {
+                    Spacer()
+                    
+                    Text(friendStore.friends.isEmpty ? "Tap the" : "")
+                        .font(.system(size: 28))
+                        .fontWeight(.light)
+                        .foregroundColor(.gray)
+                        .multilineTextAlignment(.center)
+                    
+                    if friendStore.friends.isEmpty {
+                        Image(systemName: "plus")
+                            .foregroundColor(Color(red: 249/255, green: 0/255, blue: 98/255))
+                            .scaledToFill()
+                            .frame(width: 25, height: 25)
+                            .font(.system(size: 25))
+                            .fontWeight(.semibold)
+                    }
+                    
+                    Text(friendStore.friends.isEmpty ? "icon to add Friends!" : "")
+                        .font(.system(size: 28))
+                        .fontWeight(.light)
+                        .foregroundColor(.gray)
+                        .multilineTextAlignment(.center)
+                    
+                    Spacer()
+                }
+               
+                Spacer()
+            }
+            
             HStack {
                 Button {
                     withAnimation (.easeInOut) {
@@ -150,72 +217,6 @@ struct MainFriendView: View {
                     .padding(.trailing, 25)
                     .padding(.top, 25)
                 }
-            }
-            
-            VStack {
-                Text("Your Team")
-                    .fontWeight(.semibold)
-                    .font(.title)
-                    .multilineTextAlignment(.center)
-                    .padding(.top, 50)
-                    .foregroundColor(.black)
-                    .onAppear {
-                        FirebaseServices.shared.checkSMSInvitations()
-                    }
-                
-                NavigationView {
-                    ScrollView(showsIndicators: false) {
-                        VStack(spacing: 0) {
-                            ForEach(friendStore.friends.filter { friend in
-                                searchText.isEmpty ? true : friend.firstName.localizedCaseInsensitiveContains(searchText)
-                            }.chunked(into: 3), id: \.self) { friendGroup in
-                                HStack(spacing: 0) {
-                                    ForEach(friendGroup, id: \.id) { friend in
-                                        FriendCardView(selectedFriend: $selectedFriend, friendDetailOpen: $friendDetailOpen, friend: friend)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                .searchable(text: $searchText)
-                .font(.system(size: 18))
-                .foregroundColor(.black)
-                .offset(y: -15)
-                
-            }
-            
-            VStack {
-                Spacer()
-               
-                HStack {
-                    Spacer()
-                    
-                    Text(friendStore.friends.isEmpty ? "Tap the" : "")
-                        .font(.system(size: 28))
-                        .fontWeight(.light)
-                        .foregroundColor(.gray)
-                        .multilineTextAlignment(.center)
-                    
-                    if friendStore.friends.isEmpty {
-                        Image(systemName: "plus")
-                            .foregroundColor(Color(red: 249/255, green: 0/255, blue: 98/255))
-                            .scaledToFill()
-                            .frame(width: 25, height: 25)
-                            .font(.system(size: 25))
-                            .fontWeight(.semibold)
-                    }
-                    
-                    Text(friendStore.friends.isEmpty ? "icon to add Friends!" : "")
-                        .font(.system(size: 28))
-                        .fontWeight(.light)
-                        .foregroundColor(.gray)
-                        .multilineTextAlignment(.center)
-                    
-                    Spacer()
-                }
-               
-                Spacer()
             }
             
         }
@@ -347,3 +348,24 @@ struct MainFriendView: View {
     
 }
 
+struct SearchBar: View {
+    @Binding var text: String
+    
+    var body: some View {
+        HStack {
+            TextField("Search...", text: $text)
+                .padding(7)
+                .padding(.leading, 25)
+                .background(Color(.systemGray6))
+                .cornerRadius(8)
+                .overlay(
+                    HStack {
+                        Image(systemName: "magnifyingglass")
+                        Spacer()
+                    }
+                    .padding(.horizontal, 10)
+                )
+        }
+        .padding(.horizontal, 10)
+    }
+}
