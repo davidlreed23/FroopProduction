@@ -96,58 +96,6 @@ struct ParentView: View {
         NavigationView  {
             ZStack (alignment: .top){
                 ZStack (alignment: .top) {
-                    HVBackGroundComponent()
-                        .ignoresSafeArea()
-                        .onAppear {
-                            notificationsManager.badgeCounts[.froop] = invitationList.myInvitesList.count
-                            FirebaseServices.shared.listenToInvitesList(uid: FirebaseServices.shared.uid) { (invitesList) in
-                                FroopDataListener.shared.myInvitesList = invitesList
-                            }
-                            FirebaseServices.shared.listenToConfirmedList(uid: FirebaseServices.shared.uid) { (confirmedList) in
-                                FroopDataListener.shared.myConfirmedList = confirmedList
-                                
-                            }
-                            FirebaseServices.shared.listenToDeclinedList(uid: FirebaseServices.shared.uid) { (declinedList) in
-                                FroopDataListener.shared.myDeclinedList = declinedList
-                            }
-                            
-                            FirebaseServices.requestBadgePermission { granted in
-                                if granted {
-                                    print("Badge permission granted")
-                                    // You can now update the app's badge number
-                                } else {
-                                    print("Badge permission denied")
-                                    // The user has denied badge permission, handle accordingly
-                                }
-                            }
-                            LocationManager.shared.updateUserLocationInFirestore()
-                            LocationManager.shared.user2DLocation = LocationManager.shared.getLocation()
-                            PrintControl.shared.printLocationServices("user2DLocation: \(String(describing: LocationManager.shared.user2DLocation))")
-                            PrintControl.shared.printAppState("Active or Passive? \(AppStateManager.shared.appState)")
-                            uNC.requestNotificationPermission()
-                            FroopDataController.shared.processPastEvents()
-                            let uid = FirebaseServices.shared.uid
-                            
-                            FroopDataController.shared.loadFroopLists(forUserWithUID: uid) {
-                                FroopDataListener.shared.myConfirmedList = FroopDataController.shared.myConfirmedList
-                                FroopDataListener.shared.myInvitesList = FroopDataController.shared.myInvitesList
-                                FroopDataListener.shared.myDeclinedList = FroopDataController.shared.myDeclinedList
-                                FroopDataListener.shared.myArchivedList = FroopDataController.shared.myArchivedList
-                                
-                                FroopManager.shared.createFroopHistory() { froopHistoryCollection in
-                                    DispatchQueue.main.async {
-                                        FroopManager.shared.froopHistory = froopHistoryCollection
-                                        print("FroopHistory collection updated. Total count: \(FroopManager.shared.froopHistory.count)")
-                                    }
-                                }
-                                
-                            }
-                            
-                            if invitationList.myDeclinedList.count > 0 {
-                                appStateManager.selectedTab = 0
-                            }
-                            
-                        }
                     VStack{
                         VStack{
                             VStack{
@@ -167,6 +115,57 @@ struct ParentView: View {
                                     .fontWeight(.medium)
                             }
                             .padding(.bottom, 20)
+                            .onAppear {
+                                notificationsManager.badgeCounts[.froop] = invitationList.myInvitesList.count
+                                FirebaseServices.shared.listenToInvitesList(uid: FirebaseServices.shared.uid) { (invitesList) in
+                                    FroopDataListener.shared.myInvitesList = invitesList
+                                }
+                                FirebaseServices.shared.listenToConfirmedList(uid: FirebaseServices.shared.uid) { (confirmedList) in
+                                    FroopDataListener.shared.myConfirmedList = confirmedList
+                                    
+                                }
+                                FirebaseServices.shared.listenToDeclinedList(uid: FirebaseServices.shared.uid) { (declinedList) in
+                                    FroopDataListener.shared.myDeclinedList = declinedList
+                                }
+                                
+                                FirebaseServices.requestBadgePermission { granted in
+                                    if granted {
+                                        print("Badge permission granted")
+                                        // You can now update the app's badge number
+                                    } else {
+                                        print("Badge permission denied")
+                                        // The user has denied badge permission, handle accordingly
+                                    }
+                                }
+                                LocationManager.shared.updateUserLocationInFirestore()
+                                LocationManager.shared.user2DLocation = LocationManager.shared.getLocation()
+                                PrintControl.shared.printLocationServices("user2DLocation: \(String(describing: LocationManager.shared.user2DLocation))")
+                                PrintControl.shared.printAppState("Active or Passive? \(AppStateManager.shared.appState)")
+                                uNC.requestNotificationPermission()
+                                FroopDataController.shared.processPastEvents()
+                                let uid = FirebaseServices.shared.uid
+                                
+                                FroopDataController.shared.loadFroopLists(forUserWithUID: uid) {
+                                    FroopDataListener.shared.myConfirmedList = FroopDataController.shared.myConfirmedList
+                                    FroopDataListener.shared.myInvitesList = FroopDataController.shared.myInvitesList
+                                    FroopDataListener.shared.myDeclinedList = FroopDataController.shared.myDeclinedList
+                                    FroopDataListener.shared.myArchivedList = FroopDataController.shared.myArchivedList
+                                    
+                                    FroopManager.shared.createFroopHistory() { froopHistoryCollection in
+                                        DispatchQueue.main.async {
+                                            FroopManager.shared.froopHistory = froopHistoryCollection
+                                            print("FroopHistory collection updated. Total count: \(FroopManager.shared.froopHistory.count)")
+                                        }
+                                    }
+                                    
+                                }
+                                
+                                if invitationList.myDeclinedList.count > 0 {
+                                    appStateManager.selectedTab = 0
+                                }
+                                
+                            }
+
                             
                             Text("MY FROOPS")
                                 .foregroundColor(colorScheme == .dark ? .white : .white)

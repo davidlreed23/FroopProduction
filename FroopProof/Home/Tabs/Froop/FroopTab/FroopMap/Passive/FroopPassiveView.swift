@@ -23,6 +23,7 @@ struct FroopPassiveView: View {
     @ObservedObject var froopManager = FroopManager.shared
     @ObservedObject var changeView = ChangeView()
     @ObservedObject var froopData = FroopData()
+
     
     @State var selectedFriend: UserData = UserData()
     @State private var walkthroughScreen: NFWalkthroughScreen? = nil

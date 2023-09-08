@@ -27,7 +27,7 @@ struct HomeView2: View {
     @ObservedObject var timeZoneManager:TimeZoneManager = TimeZoneManager()
     @ObservedObject var froopData = FroopData()
     @ObservedObject var notificationsManager = NotificationsManager.shared
-    
+
     @State private var now = Date()
 
     @State private var refreshView: Bool = false
@@ -46,19 +46,19 @@ struct HomeView2: View {
     @State var inviteExternalFriendsOpen = false
     @State var invitedFriends: [UserData] = []
     @State private var froopListStatus: FroopListStatus = .confirmed
-    
+
     private let uNC = UserNotificationsController()
-    
+
     let uid = FirebaseServices.shared.uid
-    
-    
+
+
     enum FroopListStatus {
         case invites, confirmed, declined
     }
-    
+
     //let hVTimer = Timer.publish(every: 15, on: .main, in: .common).autoconnect()
-    
-    
+
+
     var timeUntilNextFroop: TimeInterval? {
         let nextFroops = FroopDataListener.shared.myConfirmedList.filter { $0.froopStartTime > now }
         guard let nextFroop = nextFroops.min(by: { $0.froopStartTime < $1.froopStartTime }) else {
@@ -67,7 +67,7 @@ struct HomeView2: View {
         }
         return nextFroop.froopStartTime.timeIntervalSince(now)
     }
-    
+
     var countdownText: String {
         if let timeUntilNextFroop = timeUntilNextFroop {
             // Use the formatDuration2 function from the timeZoneManager
@@ -79,75 +79,24 @@ struct HomeView2: View {
             return "No Froops Scheduled"
         }
     }
-    
-    
+
+
     var walkthroughView: some View {
         walkthroughScreen
             .environmentObject(froopData)
     }
-    
-    
-    
+
+
+
     var body: some View {
-        
-        
+
+
         let _ = Self._printChanges()
-        
+
         NavigationView  {
             ZStack (alignment: .top){
                 ZStack (alignment: .top) {
-                    HVBackGroundComponent()
-                        .ignoresSafeArea()
-                        .onAppear {
-                            notificationsManager.badgeCounts[.froop] = invitationList.myInvitesList.count
-                            FirebaseServices.shared.listenToInvitesList(uid: FirebaseServices.shared.uid) { (invitesList) in
-                                FroopDataListener.shared.myInvitesList = invitesList
-                            }
-                            FirebaseServices.shared.listenToConfirmedList(uid: FirebaseServices.shared.uid) { (confirmedList) in
-                                FroopDataListener.shared.myConfirmedList = confirmedList
-                                
-                            }
-                            FirebaseServices.shared.listenToDeclinedList(uid: FirebaseServices.shared.uid) { (declinedList) in
-                                FroopDataListener.shared.myDeclinedList = declinedList
-                            }
-                            
-                            FirebaseServices.requestBadgePermission { granted in
-                                if granted {
-                                    print("Badge permission granted")
-                                    // You can now update the app's badge number
-                                } else {
-                                    print("Badge permission denied")
-                                    // The user has denied badge permission, handle accordingly
-                                }
-                            }
-                            LocationManager.shared.updateUserLocationInFirestore()
-                            LocationManager.shared.user2DLocation = LocationManager.shared.getLocation()
-                            PrintControl.shared.printLocationServices("user2DLocation: \(String(describing: LocationManager.shared.user2DLocation))")
-                            PrintControl.shared.printAppState("Active or Passive? \(AppStateManager.shared.appState)")
-                            uNC.requestNotificationPermission()
-                            FroopDataController.shared.processPastEvents()
-                            let uid = FirebaseServices.shared.uid
-                            
-                            FroopDataController.shared.loadFroopLists(forUserWithUID: uid) {
-                                FroopDataListener.shared.myConfirmedList = FroopDataController.shared.myConfirmedList
-                                FroopDataListener.shared.myInvitesList = FroopDataController.shared.myInvitesList
-                                FroopDataListener.shared.myDeclinedList = FroopDataController.shared.myDeclinedList
-                                FroopDataListener.shared.myArchivedList = FroopDataController.shared.myArchivedList
-                                
-                                FroopManager.shared.createFroopHistory() { froopHistoryCollection in
-                                    DispatchQueue.main.async {
-                                        FroopManager.shared.froopHistory = froopHistoryCollection
-                                        print("FroopHistory collection updated. Total count: \(FroopManager.shared.froopHistory.count)")
-                                    }
-                                }
-                                
-                            }
-                            
-                            if invitationList.myDeclinedList.count > 0 {
-                                appStateManager.selectedTab = 0
-                            }
-                            
-                        }
+                     
                     VStack{
                         VStack{
                             VStack{
@@ -167,9 +116,59 @@ struct HomeView2: View {
                                     .fontWeight(.medium)
                             }
                             .padding(.bottom, 20)
+                            .onAppear {
+                                notificationsManager.badgeCounts[.froop] = invitationList.myInvitesList.count
+                                FirebaseServices.shared.listenToInvitesList(uid: FirebaseServices.shared.uid) { (invitesList) in
+                                    FroopDataListener.shared.myInvitesList = invitesList
+                                }
+                                FirebaseServices.shared.listenToConfirmedList(uid: FirebaseServices.shared.uid) { (confirmedList) in
+                                    FroopDataListener.shared.myConfirmedList = confirmedList
+
+                                }
+                                FirebaseServices.shared.listenToDeclinedList(uid: FirebaseServices.shared.uid) { (declinedList) in
+                                    FroopDataListener.shared.myDeclinedList = declinedList
+                                }
+
+                                FirebaseServices.requestBadgePermission { granted in
+                                    if granted {
+                                        print("Badge permission granted")
+                                        // You can now update the app's badge number
+                                    } else {
+                                        print("Badge permission denied")
+                                        // The user has denied badge permission, handle accordingly
+                                    }
+                                }
+                                LocationManager.shared.updateUserLocationInFirestore()
+                                LocationManager.shared.user2DLocation = LocationManager.shared.getLocation()
+                                PrintControl.shared.printLocationServices("user2DLocation: \(String(describing: LocationManager.shared.user2DLocation))")
+                                PrintControl.shared.printAppState("Active or Passive? \(AppStateManager.shared.appState)")
+                                uNC.requestNotificationPermission()
+                                FroopDataController.shared.processPastEvents()
+                                let uid = FirebaseServices.shared.uid
+
+                                FroopDataController.shared.loadFroopLists(forUserWithUID: uid) {
+                                    FroopDataListener.shared.myConfirmedList = FroopDataController.shared.myConfirmedList
+                                    FroopDataListener.shared.myInvitesList = FroopDataController.shared.myInvitesList
+                                    FroopDataListener.shared.myDeclinedList = FroopDataController.shared.myDeclinedList
+                                    FroopDataListener.shared.myArchivedList = FroopDataController.shared.myArchivedList
+
+                                    FroopManager.shared.createFroopHistory() { froopHistoryCollection in
+                                        DispatchQueue.main.async {
+                                            FroopManager.shared.froopHistory = froopHistoryCollection
+                                            print("FroopHistory collection updated. Total count: \(FroopManager.shared.froopHistory.count)")
+                                        }
+                                    }
+
+                                }
+
+                                if invitationList.myDeclinedList.count > 0 {
+                                    appStateManager.selectedTab = 0
+                                }
+
+                            }
                             
                             ZStack {
-                                
+
                                 Text("CREATE")
                                     .font(.system(size: 18))
                                     .fontWeight(.bold)
@@ -187,7 +186,7 @@ struct HomeView2: View {
                                 Circle()
                                     .frame(minWidth: 85,maxWidth: 100, minHeight: 100, maxHeight: 100, alignment: .center)
                                     .foregroundColor(appStateManager.appState == .active ? Color(red: 249/255, green: 0/255, blue: 98/255 ) : colorScheme == .dark ? .black : .white)
-                                
+
                                     .opacity(appStateManager.appState == .active ? 0.5: 1.0)
                                 Circle()
                                     .frame(minWidth: 85,maxWidth: 85, minHeight: 85, maxHeight: 85, alignment: .center)
@@ -211,8 +210,8 @@ struct HomeView2: View {
                                         .fontWeight(.light)
                                 }
                             }
-                            
-                            
+
+
                             Text("MY FROOPS")
                                 .foregroundColor(colorScheme == .dark ? .white : .black)
                                 .font(.system(size: 18))
@@ -221,7 +220,7 @@ struct HomeView2: View {
                                 .padding(.bottom, 5)
                         }
                         VStack (alignment: .center) {
-                            
+
                             ZStack {
                                 RoundedRectangle(cornerRadius: 2, style: .continuous)
                                     .frame(width: appStateManager.selectedTab == 1 ? 125 : appStateManager.selectedTab == 2 ? 125 : 125, height: 30)
@@ -233,10 +232,10 @@ struct HomeView2: View {
                                     .animation(.linear(duration: 0.2), value: appStateManager.selectedTab)
                                     .padding(.leading, 15)
                                     .padding(.trailing, 15)
-                                
-                                
+
+
                                 HStack (alignment: .top){
-                                    
+
                                     ZStack {
                                         HStack {
                                             Text("Invites")
@@ -244,7 +243,7 @@ struct HomeView2: View {
                                                 .fontWeight(appStateManager.selectedTab == 0 ? .semibold : .medium)
                                                 .foregroundColor(appStateManager.selectedTab == 0 ? .green : .primary)
                                                 .opacity(1)
-                                            
+
                                             Text("\(invitationList.myInvitesList.count)")
                                                 .font(.system(size: 16))
                                                 .fontWeight(appStateManager.selectedTab == 0 ? .semibold : .medium)
@@ -261,24 +260,24 @@ struct HomeView2: View {
                                             }
                                             print("Tapped Invites. froopAdded: \(froopAdded), froopListStatus: \(froopListStatus)")
                                         }
-                                        
+
                                     }
                                     .frame(width: 100)
                                     .offset(x: -10)
-                                    
-                                    
+
+
                                     Divider()
                                         .frame(maxHeight: 30)
-                                    
+
                                     ZStack {
-                                        
+
                                         HStack {
                                             Text("I'm Going")
                                                 .font(.system(size: 16))
                                                 .fontWeight(appStateManager.selectedTab == 1 ? .semibold : .medium)
                                                 .foregroundColor(appStateManager.selectedTab == 1 ? Color(red: 249/255, green: 0/255, blue: 98/255) : .primary)
                                                 .opacity(1)
-                                            
+
                                             Text( "\(invitationList.myConfirmedList.count)")
                                                 .font(.system(size: 16))
                                                 .fontWeight(appStateManager.selectedTab == 1 ? .semibold : .medium)
@@ -299,13 +298,13 @@ struct HomeView2: View {
                                             }
                                             print("Tapped I'm Going. froopAdded: \(froopAdded), froopListStatus: \(froopListStatus)")
                                         }
-                                        
+
                                     }
                                     .frame(width: 125)
-                                    
+
                                     Divider()
                                         .frame(maxHeight: 30)
-                                    
+
                                     ZStack {
                                         HStack {
                                             Text("Declined")
@@ -313,7 +312,7 @@ struct HomeView2: View {
                                                 .fontWeight(appStateManager.selectedTab == 2 ? .semibold : .medium)
                                                 .foregroundColor(appStateManager.selectedTab == 2 ? .blue : .primary)
                                                 .opacity(1)
-                                            
+
                                             Text("\(invitationList.myDeclinedList.count)")
                                                 .font(.system(size: 16))
                                                 .fontWeight(appStateManager.selectedTab == 2 ? .semibold : .medium)
@@ -329,16 +328,16 @@ struct HomeView2: View {
                                             }
                                             print("Tapped Declined. froopAdded: \(froopAdded), froopListStatus: \(froopListStatus)")
                                         }
-                                        
+
                                     }
                                     .frame(width: 100)
                                     .offset(x: 10)
-                                    
+
                                 }
                             }
                             .padding(.leading, 25)
                             .padding(.trailing, 25)
-                            
+
                             GeometryReader { geometry in
                                 HStack (spacing: 0){
                                     RoundedRectangle(cornerRadius: 5)
@@ -346,25 +345,25 @@ struct HomeView2: View {
                                         .frame(width: appStateManager.selectedTab == 0 ? geometry.size.width * 0.95 : appStateManager.selectedTab == 2 ? geometry.size.width * 0.0 : geometry.size.width * 0.05, height: 3)
                                         .id("Green")
                                         .ignoresSafeArea()
-                                    
+
                                     RoundedRectangle(cornerRadius: 5)
                                         .foregroundColor(Color(red: 249/255, green: 0/255, blue: 98/255 ))
                                         .frame(width: appStateManager.selectedTab == 1 ? geometry.size.width * 0.90 : geometry.size.width * 0.05, height: 3)
                                         .id("Pink")
-                                    
+
                                     RoundedRectangle(cornerRadius: 5)
                                         .foregroundColor(.blue)
                                         .frame(width: appStateManager.selectedTab == 2 ? geometry.size.width * 0.95 : geometry.size.width * 0.05, height: 3)
                                         .id("Blue")
-                                    
+
                                 }
                                 .ignoresSafeArea()
                                 .animation(.easeInOut(duration: 0.5), value: appStateManager.selectedTab)
-                                
+
                             }
                             .frame(height: 10)
                             .offset(y: -10)
-                 
+
 //                            VStack {
 //                                TabView(selection: $appStateManager.selectedTab) {
 //                                    FroopInvitesList(selectedTab: $appStateManager.selectedTab, froopDetailOpen: $froopDetailOpen, froopData: froopData, selectedFroopUUID: $selectedFroopUUID, froopAdded: $froopAdded, invitedFriends: $invitedFriends, refreshView: $refreshView)
@@ -389,32 +388,32 @@ struct HomeView2: View {
 //                            }
 //                            .frame(maxHeight: 600)
                         }
-                        
+
                         .sheet(isPresented: $showNFWalkthroughScreen) {
                             self.walkthroughScreen
                         }
                     }
-                    
+
                     .fullScreenCover(isPresented: $froopManager.froopDetailOpen) {
                     } content: {
                         ZStack (alignment: .top) {
-                            
+
                             VStack {
                                 Spacer()
                                 switch froopListStatus {
                                     case .invites:
                                         FroopDetailsView2(detailFroopData: $detailFroopData, froopAdded: $froopAdded, invitedFriends: $invitedFriends)
-                                        
+
                                     case .confirmed:
                                         FroopDetailsView2(detailFroopData: $detailFroopData, froopAdded: $froopAdded, invitedFriends: $invitedFriends)
-                                        
+
                                     case .declined:
                                         FroopDetailsView2(detailFroopData: $detailFroopData, froopAdded: $froopAdded, invitedFriends: $invitedFriends)
                                 }
                             }
                             .ignoresSafeArea()
-                            
-                            
+
+
                             VStack {
                                 Rectangle()
                                     .foregroundColor(.white)
@@ -426,7 +425,7 @@ struct HomeView2: View {
                                     .frame(maxWidth: .infinity, maxHeight: 90)
                                     .ignoresSafeArea()
                             }
-                            
+
                             VStack {
                                 Text("tap to close")
                                     .font(.system(size: 18))
@@ -449,26 +448,26 @@ struct HomeView2: View {
                                     froopManager.froopDetailOpen = false
                                     froopManager.froopListener?.remove()
                                 }
-                                
-                                
+
+
                             }
                             .frame(alignment: .center)
                             .padding(.top, 10)
                         }
                         .presentationDetents([.large])
                     }
-                    
+
                     .padding(.top, 45)
-                    
+
                 }
-                
+
             }
-            
+
         }
-        
+
     }
-    
-    
+
+
     func eveningText () -> String {
         let date = Date()
         let calendar = Calendar.current
@@ -481,19 +480,19 @@ struct HomeView2: View {
         } else {
             greeting = "Good Evening"
         }
-        
+
         return greeting
     }
     func formatTime(creationTime: Date) -> String {
         let formatter = DateComponentsFormatter()
         formatter.allowedUnits = [.minute, .hour, .day]
         formatter.unitsStyle = .abbreviated
-        
+
         let currentTime = Date()
         let timeSinceCreation = currentTime.timeIntervalSince(creationTime)
-        
+
         let formattedTime = formatter.string(from: timeSinceCreation) ?? ""
-        
+
         return formattedTime
     }
 }

@@ -20,7 +20,6 @@ struct MyCardsView: View {
     @ObservedObject var froopTypeStore = FroopTypeStore.shared
     
     let currentUserId = FirebaseServices.shared.uid
-    let index: Int
     var db = FirebaseServices.shared.db
     let froopHostAndFriends: FroopHistory
     @State private var offset: CGFloat = 0
@@ -37,10 +36,9 @@ struct MyCardsView: View {
     @State private var froopTypeArray: [FroopType] = []
     @State private var thisFroopType: String = ""
     
-   // @Namespace private var animation
-    
-    init(index: Int, froopHostAndFriends: FroopHistory, thisFroopType: String) {
-        self.index = index
+    @State var openFroop: Bool = false
+
+    init(froopHostAndFriends: FroopHistory, thisFroopType: String) {
         self.froopHostAndFriends = froopHostAndFriends
     }
     

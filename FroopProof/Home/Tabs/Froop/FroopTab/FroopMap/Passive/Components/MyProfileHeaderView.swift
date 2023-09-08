@@ -197,8 +197,8 @@ struct MyProfileHeaderView: View {
                                 Text("My Froops").tag(1)
                             }
                             .pickerStyle(SegmentedPickerStyle())
-                            .padding(.leading, 25 + (75 * progress))
-                            .padding(.trailing, 25 + (75 * progress))
+                            .padding(.leading, 10 + (75 * progress))
+                            .padding(.trailing, 10 + (75 * progress))
                             .frame(height: 50)
                             .onChange(of: appStateManager.selectedTabTwo) { newValue in
                                 if appStateManager.selectedTabTwo == 0 {

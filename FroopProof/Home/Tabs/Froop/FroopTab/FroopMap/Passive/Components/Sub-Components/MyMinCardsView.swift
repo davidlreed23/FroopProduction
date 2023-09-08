@@ -22,7 +22,6 @@ struct MyMinCardsView: View {
     @ObservedObject var froopTypeStore = FroopTypeStore.shared
     
     let currentUserId = FirebaseServices.shared.uid
-    let index: Int
     var db = FirebaseServices.shared.db
     let froopHostAndFriends: FroopHistory
     @State private var offset: CGFloat = 0
@@ -38,19 +37,18 @@ struct MyMinCardsView: View {
     @State private var isImageSectionVisible: Bool = true
     @State private var froopTypeArray: [FroopType] = []
     @State private var thisFroopType: String = ""
-    @State private var openFroop: Bool = false
+    @State var openFroop: Bool = false
     
     // @Namespace private var animation
     
-    init(index: Int, froopHostAndFriends: FroopHistory, thisFroopType: String) {
-        self.index = index
+    init(froopHostAndFriends: FroopHistory, thisFroopType: String) {
         self.froopHostAndFriends = froopHostAndFriends
     }
     
     var body: some View {
         ZStack {
             if openFroop {
-                froopHostAndFriends.cardForStatus()
+                froopHostAndFriends.cardForStatus(openFroop: $openFroop)
                     .padding(.bottom, 10)
             } else {
                 

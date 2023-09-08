@@ -20,6 +20,7 @@ struct MyFroopsView: View {
     @ObservedObject var changeView = ChangeView()
     @ObservedObject var froopData = FroopData()
     
+    
     @State private var froopFeed: [FroopHostAndFriends] = []
     @State private var walkthroughScreen: NFWalkthroughScreen? = nil
     @State var showSheet = false
@@ -30,6 +31,7 @@ struct MyFroopsView: View {
     @State private var loadIndex = 0
     @State private var isFroopFetchingComplete = false
     @State private var thisFroopType: String = ""
+    @State var openFroop: Bool = false
 
     var heightOfOneCard: CGFloat {
         (UIScreen.main.bounds.width * 1.5) + 150
@@ -65,9 +67,8 @@ struct MyFroopsView: View {
     }
 
     var stackContent: some View {
-        ForEach(sortedFroopsForSelectedFriend.indices, id: \.self) { index in
-            let froopHistory = sortedFroopsForSelectedFriend[index]
-            MyCardsView(index: index, froopHostAndFriends: froopHistory, thisFroopType: thisFroopType)
+        ForEach(sortedFroopsForSelectedFriend, id: \.self) { froopHistory in
+            MyCardsView(froopHostAndFriends: froopHistory, thisFroopType: thisFroopType)
                 .onAppear {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         // Increment the current index when a card finishes loading
@@ -175,14 +176,11 @@ struct MyFroopsView: View {
                 }
             
             if froopManager.areAllCardsExpanded {
-                
-                
                 VStack {
                     if froopManager.isFroopFetchingComplete {
                         LazyVStack (alignment: .leading, spacing: 0) {
-                            ForEach(sortedFroopsForSelectedFriend.indices, id: \.self) { index in
-                                let froopHistory = sortedFroopsForSelectedFriend[index]
-                                MyCardsView(index: index, froopHostAndFriends: froopHistory, thisFroopType: thisFroopType)
+                            ForEach(sortedFroopsForSelectedFriend, id: \.self) { froopHistory in
+                                MyCardsView(froopHostAndFriends: froopHistory, thisFroopType: thisFroopType)
                                     .onAppear {
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                             // Increment the current index when a card finishes loading
@@ -191,29 +189,16 @@ struct MyFroopsView: View {
                                     }
                             }
                         }
-                        
-                        
-                        
-                        .ignoresSafeArea()
-                        .onAppear {
-                            print("Number of froops in froopFeed: \(froopManager.froopFeed.count)")
-                        }
                     }
                     Spacer()
                 }
                 .padding(.bottom, 75)
-//                .opacity(froopManager.areAllCardsExpanded ? 1.0 : 0.0)
-                
             } else {
-                
                 VStack {
                     if froopManager.isFroopFetchingComplete {
                         VStack (alignment: .leading, spacing: 0) {
-                            
-                            // Sort the displayedFroops by froopEndTime in descending order (most recent first)
-                            ForEach(sortedFroopsForUser.indices, id: \.self) { index in
-                                let froopHistory = sortedFroopsForUser[index]
-                                MyMinCardsView(index: index, froopHostAndFriends: froopHistory, thisFroopType: thisFroopType)
+                            ForEach(sortedFroopsForUser, id: \.self) { froopHistory in
+                                MyMinCardsView(froopHostAndFriends: froopHistory, thisFroopType: thisFroopType)
                                     .onAppear {
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                             // Increment the current index when a card finishes loading
@@ -221,17 +206,11 @@ struct MyFroopsView: View {
                                         }
                                     }
                             }
-                            
-                        }
-                        .ignoresSafeArea()
-                        .onAppear {
-                            print("Number of froops in froopFeed: \(froopManager.froopFeed.count)")
                         }
                     }
                     Spacer()
                 }
                 .padding(.bottom, 75)
-//                .opacity(froopManager.areAllCardsExpanded ? 0.0 : 1.0)
             }
         }
     }

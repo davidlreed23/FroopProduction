@@ -122,7 +122,7 @@ struct MainFriendView: View {
                         }
                     }
                 }
-                .searchable(text: $searchText)
+                //.searchable(text: $searchText)
                 .font(.system(size: 18))
                 .foregroundColor(.black)
                 .offset(y: -15)

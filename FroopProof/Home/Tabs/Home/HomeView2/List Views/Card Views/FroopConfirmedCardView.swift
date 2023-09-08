@@ -23,6 +23,8 @@ struct FroopConfirmedCardView: View {
     @ObservedObject var friendViewController = FriendViewController.shared
     @ObservedObject var myData = MyData.shared
     @ObservedObject var timeZoneManager: TimeZoneManager = TimeZoneManager()
+    @Binding var openFroop: Bool
+
     @State private var confirmedFriends: [UserData] = []
     @State private var declinedFriends: [UserData] = []
     @State private var invitedFriendsLocal: [UserData] = []
@@ -39,10 +41,40 @@ struct FroopConfirmedCardView: View {
    
     var db = FirebaseServices.shared.db
    
+    var timeUntilStart: String {
+        let calendar = Calendar.current
+        let now = Date()
+
+        if froopHostAndFriends.froop.froopStartTime > now {
+            let components = calendar.dateComponents([.day, .hour, .minute], from: now, to: froopHostAndFriends.froop.froopStartTime)
+
+            let days = components.day ?? 0
+            let hours = components.hour ?? 0
+            let minutes = components.minute ?? 0
+
+            var timeUntilStart = "Starts in: "
+            if days > 0 {
+                timeUntilStart += "\(days) day(s) "
+            }
+            if hours > 0 {
+                timeUntilStart += "\(hours) hour(s) "
+            }
+            if minutes > 0 {
+                timeUntilStart += "\(minutes) minute(s) "
+            }
+
+            return timeUntilStart.trimmingCharacters(in: .whitespaces)
+        } else {
+            return "Froop has already started"
+        }
+    }
+
+    
     let visibleFriendsLimit = 8
     let dateForm = DateForm()
     
-    init(froopHostAndFriends: FroopHistory, invitedFriends: [UserData]) {
+    init(openFroop: Binding<Bool>, froopHostAndFriends: FroopHistory, invitedFriends: [UserData]) {
+        self._openFroop = openFroop
         self.timeZoneManager = TimeZoneManager()
         self.froopHostAndFriends = froopHostAndFriends
         self.invitedFriends = invitedFriends
@@ -53,35 +85,22 @@ struct FroopConfirmedCardView: View {
         
         ZStack (alignment: .top) {
             RoundedRectangle(cornerRadius: 10)
-                .fill(Color(red: 251/255, green: 251/255, blue: 249/255))
-                .frame(height: 185)
+                .fill(Color(red: 241/255, green: 241/255, blue: 255/255))
+                .shadow(color: Color.black.opacity(0.2), radius: 7, x: 7, y: 7)
+                .shadow(color: Color.white.opacity(0.7), radius: 7, x: -4, y: -4)
+                .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color.gray, lineWidth: 0.5)
+                    )                .frame(height: 210)
                 .foregroundColor(.white)
                 .padding(.leading, 10)
                 .padding(.trailing, 10)
-                .shadow(radius: 0.05)
                 .onTapGesture {
-                    if appStateManager.appState == .active && appStateManager.inProgressFroops.contains(where: { $0.froopId == froopHostAndFriends.froop.froopId }) {
-                        locationServices.selectedTab = .froop
-                        appStateManager.findFroopById(froopId: froopHostAndFriends.froop.froopId) { found in
-                            if found {
-                                locationServices.selectedTab = .froop
-                            } else {
-                                froopManager.froopDetailOpen = true
-                                PrintControl.shared.printLists("ImageURL:  \(froopHostAndFriends.froop.froopHostPic)")
-                            }
-                        }
-                    } else {
-                        froopManager.selectedFroopUUID = froopHostAndFriends.froop.froopId
-                        froopManager.selectedFroop = froopHostAndFriends.froop
-                        froopManager.selectedHost = hostData
-                        viewModel.fetchGuests()
-                        froopManager.fetchFroopData(froopId: froopHostAndFriends.froop.froopId, froopHost: froopHostAndFriends.froop.froopHost) { completion in
-                            print("Getting Froop")
-                        }
-                        froopManager.froopDetailOpen = true
-                        PrintControl.shared.printLists("ImageURL:  \(froopHostAndFriends.froop.froopHostPic)")
+                    withAnimation(.spring()) {
+                        openFroop = false
                     }
                 }
+               
             
             VStack {
                 HStack {
@@ -112,33 +131,66 @@ struct FroopConfirmedCardView: View {
                     HostProfilePhotoView(imageUrl: froopHostAndFriends.froop.froopHostPic)
                         .scaledToFit()
                         .frame(width: 65, height: 35)
-                        .padding(.leading, 15)
-                        .onTapGesture {
-                            print("\(String(describing: froopHostAndFriends.froop.froopStartTime))")
-                            print(appStateManager.appState)
-                            print("Fetched Froops:")
-                            for froop in appStateManager.fetchedFroops {
-                                   print(froop.froopName)
-                               }
-
-                               print("\nActive Froops:")
-                            for froop in appStateManager.activeFroops {
-                                   print(froop.froopName)
-                               }
-
-                            print("\(String(describing: froopHostAndFriends.froop.froopStartTime))")
-                            
-                        }
-                
-                  
-                    Text(froopHostAndFriends.froop.froopName)
+                        .padding(.leading, 5)
+                       
+                    
+                    VStack (alignment: .leading) {
+                        Text(froopHostAndFriends.froop.froopName)
                             .font(.system(size: 16))
                             .fontWeight(.semibold)
                             .foregroundColor(.black)
                             .frame(alignment: .leading)
-                            
+                        
+                        Text(timeUntilStart)
+                            .font(.system(size: 14))
+                            .fontWeight(.regular)
+                            .foregroundColor(.black)
+                            .frame(alignment: .leading)
+//                            .padding(.top, 5)
+                        
+                        Text("Host: \(froopHostAndFriends.host.firstName) \(froopHostAndFriends.host.lastName)")
+                            .font(.system(size: 14))
+                            .fontWeight(.light)
+                            .foregroundColor(.black)
+                            .multilineTextAlignment(.leading)
+                    }
+                    Spacer()
                     
-                   
+                    VStack (alignment: .center) {
+                        Image(systemName: "rectangle.expand.vertical")
+                            .font(.system(size: 24))
+                            .fontWeight(.light)
+                            .foregroundColor(.blue)
+                            .frame(alignment: .leading)
+                        
+                        
+                    }
+                    .padding(.trailing, 30)
+                    .onTapGesture {
+                        if appStateManager.appState == .active && appStateManager.inProgressFroops.contains(where: { $0.froopId == froopHostAndFriends.froop.froopId }) {
+                            locationServices.selectedTab = .froop
+                            appStateManager.findFroopById(froopId: froopHostAndFriends.froop.froopId) { found in
+                                if found {
+                                    locationServices.selectedTab = .froop
+                                } else {
+                                    froopManager.froopDetailOpen = true
+                                    PrintControl.shared.printLists("ImageURL:  \(froopHostAndFriends.froop.froopHostPic)")
+                                }
+                            }
+                        } else {
+                            froopManager.selectedFroopUUID = froopHostAndFriends.froop.froopId
+                            froopManager.selectedFroop = froopHostAndFriends.froop
+                            froopManager.selectedHost = hostData
+                            viewModel.fetchGuests()
+                            froopManager.fetchFroopData(froopId: froopHostAndFriends.froop.froopId, froopHost: froopHostAndFriends.froop.froopHost) { completion in
+                                print("Getting Froop")
+                            }
+                            froopManager.froopDetailOpen = true
+                            PrintControl.shared.printLists("ImageURL:  \(froopHostAndFriends.froop.froopHostPic)")
+                        }
+                    }
+                    
+                    
                 }
                 .frame(height: 50)
                 .padding(.top, 10)

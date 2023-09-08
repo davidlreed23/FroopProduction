@@ -79,12 +79,16 @@ struct ActiveOrPassiveView: View {
 struct FroopSelectionView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
+    @ObservedObject var froopDataController = FroopDataController.shared
     @ObservedObject var appStateManager = AppStateManager.shared
     
     var body: some View {
         Rectangle ()
             .background(.ultraThinMaterial)
             .ignoresSafeArea()
+        onAppear {
+            froopDataController.processPastEvents()
+        }
         
         List(appStateManager.inProgressFroops, id: \.id) { froop in
             Button(action: {

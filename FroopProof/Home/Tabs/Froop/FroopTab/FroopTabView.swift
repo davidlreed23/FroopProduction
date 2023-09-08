@@ -90,7 +90,7 @@ struct FroopTabView: View {
         NavigationView  {
             ZStack (alignment: .top){
                 ZStack (alignment: .top) {
-                    FTVBackGroundComponent()
+//                    FTVBackGroundComponent()
                     
                     ZStack {
                         switch LocationServices.shared.selectedFroopTab {
@@ -117,7 +117,7 @@ struct FroopTabView: View {
                                     tabButton(title: "info.square.fill", tab: .info)
                                     tabButton(title: "map.fill", tab: .map)
                                     tabButton(title: "message.fill", tab: .messages)
-                                    //tabButton(title: "square.grid.2x2.fill", tab: .media)
+                                    tabButton(title: "square.grid.2x2.fill", tab: .media)
                                 }
                             }
                             .padding(.leading, 30)

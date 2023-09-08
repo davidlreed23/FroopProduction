@@ -46,7 +46,7 @@ struct DetailsHostMessageView: View {
                         Spacer()
                         
                         HStack {
-                            Text("Message from the Coach")
+                            Text("Message from the Host")
                                 .font(.system(size: 14))
                                 .foregroundColor(.black)
                                 .opacity(0.7)

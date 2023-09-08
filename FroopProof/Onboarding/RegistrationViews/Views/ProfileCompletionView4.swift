@@ -200,9 +200,9 @@ struct ProfileCompletionView4: View {
                 
             }
             
-            //            .navigationTitle("Froop Beta 7")
+                        .navigationTitle("Froop Beta 7")
 
-            //.navigationBarTitleDisplayMode(.inline)
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 
                 ToolbarItemGroup(placement: .navigationBarTrailing) {

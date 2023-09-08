@@ -28,10 +28,10 @@ struct FroopLandingView: View {
                                 .ignoresSafeArea()
                             
                             if profileView {
-                                FriendFroopsView(selectedFriend: $dataController.selectedUser)
+                                FriendFroopsView(selectedFriend: $selectedFriend)
                                     .transition(.opacity)
                             } else {
-                                FriendListView(selectedFriend: $dataController.selectedUser)
+                                FriendListView(selectedFriend: $selectedFriend)
                                     .transition(.opacity)
                             }
                         }

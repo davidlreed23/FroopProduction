@@ -122,8 +122,110 @@ struct FroopSummaryView: View {
                     }
                     .padding(.bottom, 50)
                     
-                    //MARK: Title
-                    ZStack {
+                    VStack {
+                        //MARK: Title
+                        ZStack {
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 10)
+                                    .foregroundColor(.white)
+                                    .frame(height: 50)
+                                    .padding(.leading, 15)
+                                    .padding(.trailing, 15)
+                                VStack {
+                                    HStack {
+                                        Text("Tap below to make changes")
+                                            .font(.system(size: 14))
+                                            .fontWeight(.regular)
+                                            .foregroundColor(Color.white)
+                                            .padding(.leading, 25)
+                                            .padding(.top, -25)
+                                        Spacer()
+                                    }
+                                    Spacer()
+                                }
+                                .frame(height: 50)
+                                
+                            }
+                            VStack (alignment: .leading) {
+                                Text("FROOP TITLE")
+                                    .font(.system(size: 14))
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(.black)
+                                    .padding(.bottom, 5)
+                                HStack (spacing: 0 ){
+                                    Image(systemName: "t.circle")
+                                        .frame(width: 60, height: 50)
+                                        .scaledToFill()
+                                        .font(.system(size: 24))
+                                        .fontWeight(.medium)
+                                        .foregroundColor(Color(red: 249/255, green: 0/255, blue: 98/255 ))
+                                        .padding(.leading, 25)
+                                        .frame(alignment: .center)
+                                    Text("\"\(froopData.froopName)\"")
+                                        .font(.system(size: 20))
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(.black)
+                                        .lineLimit(2)
+                                        .padding(.trailing, 25)
+                                    Spacer()
+                                }
+                                .frame(maxWidth: 400, maxHeight: 50)
+                                
+                            }
+                        }
+                        .frame(maxWidth: 400, maxHeight: 75)
+                        .onTapGesture {
+                            changeView.pageNumber = 4
+                        }
+                        
+                        //MARK: Froop Date
+                        Text("DATE")
+                            .font(.system(size: 14))
+                            .fontWeight(.semibold)
+                            .foregroundColor(.black)
+                            .padding(.bottom, 5)
+                        
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 10)
+                                .foregroundColor(.white)
+                                .frame(height: 50)
+                                .padding(.leading, 15)
+                                .padding(.trailing, 15)
+                            
+                            VStack (alignment: .leading) {
+                                HStack (spacing: 0 ){
+                                    Image(systemName: "clock")
+                                        .frame(width: 60, height: 50)
+                                        .scaledToFill()
+                                        .font(.system(size: 24))
+                                        .fontWeight(.medium)
+                                        .foregroundColor(Color(red: 249/255, green: 0/255, blue: 98/255 ))
+                                        .padding(.leading, 25)
+                                        .frame(alignment: .center)
+                                    Text(formattedDateString)
+                                        .font(.system(size: 16))
+                                        .fontWeight(.medium)
+                                        .foregroundColor(.black)
+                                        .lineLimit(2)
+                                        .padding(.trailing, 25)
+                                    Spacer()
+                                }
+                                .frame(maxWidth: 400, maxHeight: 50)
+                                
+                            }
+                        }
+                        .frame(maxWidth: 400, maxHeight: 75)
+                        .onTapGesture {
+                            changeView.pageNumber = 3
+                        }
+                        
+                        //MARK: Froop Location
+                        Text("ADDRESS")
+                            .font(.system(size: 14))
+                            .fontWeight(.semibold)
+                            .foregroundColor(.black)
+                            .padding(.bottom, 5)
+                        
                         ZStack {
                             RoundedRectangle(cornerRadius: 10)
                                 .foregroundColor(.white)
@@ -131,168 +233,8 @@ struct FroopSummaryView: View {
                                 .padding(.leading, 15)
                                 .padding(.trailing, 15)
                             VStack {
-                                HStack {
-                                    Text("Tap below to make changes")
-                                        .font(.system(size: 14))
-                                        .fontWeight(.regular)
-                                        .foregroundColor(Color.white)
-                                        .padding(.leading, 25)
-                                        .padding(.top, -25)
-                                    Spacer()
-                                }
-                                Spacer()
-                            }
-                            .frame(height: 75)
-
-                        }
-                        VStack (alignment: .leading) {
-                            HStack (spacing: 0 ){
-                                Image(systemName: "t.circle")
-                                    .frame(width: 60, height: 60)
-                                    .scaledToFill()
-                                    .font(.system(size: 24))
-                                    .fontWeight(.medium)
-                                    .foregroundColor(Color(red: 249/255, green: 0/255, blue: 98/255 ))
-                                    .padding(.leading, 25)
-                                    .frame(alignment: .center)
-                                Text("\"\(froopData.froopName)\"")
-                                    .font(.system(size: 20))
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(.black)
-                                    .lineLimit(2)
-                                    .padding(.trailing, 25)
-                                Spacer()
-                            }
-                            .frame(maxWidth: 400, maxHeight: 75)
-                           
-                        }
-                    }
-                    .frame(maxWidth: 400, maxHeight: 75)
-                    .onTapGesture {
-                        changeView.pageNumber = 4
-                    }
-                    
-                    //MARK: Froop Date
-                    ZStack {
-                            RoundedRectangle(cornerRadius: 10)
-                                .foregroundColor(.white)
-                                .frame(height: 75)
-                                .padding(.leading, 15)
-                                .padding(.trailing, 15)
-                           
-                        VStack (alignment: .leading) {
-                            HStack (spacing: 0 ){
-                                Image(systemName: "clock")
-                                    .frame(width: 60, height: 60)
-                                    .scaledToFill()
-                                    .font(.system(size: 24))
-                                    .fontWeight(.medium)
-                                    .foregroundColor(Color(red: 249/255, green: 0/255, blue: 98/255 ))
-                                    .padding(.leading, 25)
-                                    .frame(alignment: .center)
-                                Text(formattedDateString)
-                                    .font(.system(size: 16))
-                                    .fontWeight(.medium)
-                                    .foregroundColor(.black)
-                                    .lineLimit(2)
-                                    .padding(.trailing, 25)
-                                Spacer()
-                            }
-                            .frame(maxWidth: 400, maxHeight: 75)
-                           
-                        }
-                    }
-                    .frame(maxWidth: 400, maxHeight: 75)
-                    .onTapGesture {
-                        changeView.pageNumber = 3
-                    }
-                    
-                    //MARK: Froop Location
-                    ZStack {
-                            RoundedRectangle(cornerRadius: 10)
-                                .foregroundColor(.white)
-                                .frame(height: 75)
-                                .padding(.leading, 15)
-                                .padding(.trailing, 15)
-                        VStack {
-                            HStack (spacing: 0 ){
-                                Image(systemName: "mappin.and.ellipse")
-                                    .frame(width: 60, height: 60)
-                                    .scaledToFill()
-                                    .font(.system(size: 24))
-                                    .fontWeight(.medium)
-                                    .foregroundColor(Color(red: 249/255, green: 0/255, blue: 98/255 ))
-                                    .padding(.leading, 25)
-                                    .frame(alignment: .center)
-                                VStack (alignment: .leading){
-                                    Text(froopData.froopLocationtitle)
-                                        .font(.system(size: 16))
-                                        .fontWeight(.medium)
-                                        .foregroundColor(.black)
-                                        .padding(.trailing, 25)
-                                    Text(froopData.froopLocationsubtitle)
-                                        .font(.system(size: 14))
-                                        .fontWeight(.light)
-                                        .foregroundColor(.black)
-                                        .lineLimit(2)
-                                        .padding(.trailing, 25)
-                                }
-                                Spacer()
-                            }
-                            .frame(maxWidth: 400, maxHeight: 75)
-                            .onTapGesture {
-                                changeView.pageNumber = 2
-                            }
-                            
-                        }
-                    }
-                    .frame(maxWidth: 400, maxHeight: 75)
-                    
-                    //MARK: Froop Duration
-                    ZStack {
-                            RoundedRectangle(cornerRadius: 10)
-                                .foregroundColor(.white)
-                                .frame(height: 75)
-                                .padding(.leading, 15)
-                                .padding(.trailing, 15)
-                        VStack {
-                            HStack (spacing: 0 ){
-                                Image(systemName: "hourglass.tophalf.filled")
-                                    .frame(width: 60, height: 60)
-                                    .scaledToFill()
-                                    .font(.system(size: 24))
-                                    .fontWeight(.medium)
-                                    .foregroundColor(Color(red: 249/255, green: 0/255, blue: 98/255 ))
-                                    .padding(.leading, 25)
-                                    .frame(alignment: .center)
-                                Text("Duration: \(formatDuration(durationInSeconds: froopData.froopDuration))")
-                                    .font(.system(size: 16))
-                                    .fontWeight(.medium)
-                                    .foregroundColor(.black)
-                                    .lineLimit(2)
-                                    .padding(.trailing, 25)
-                                
-                                Spacer()
-                            }
-                            .frame(maxWidth: 400, maxHeight: 75)
-                        }
-                    }
-                    .frame(maxWidth: 400, maxHeight: 75)
-                    .onTapGesture {
-                        changeView.pageNumber = 3
-                    }
-                    
-                    //MARK: Froop Type
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 10)
-                            .foregroundColor(.white)
-                            .frame(height: 75)
-                            .padding(.leading, 15)
-                            .padding(.trailing, 15)
-                        VStack {
-                            HStack (spacing: 0 ){
-                                if let froopType = FroopTypeStore.shared.froopTypes.first(where: { $0.id == froopData.froopType }) {
-                                    Image(systemName: froopType.imageName)
+                                HStack (spacing: 0 ){
+                                    Image(systemName: "mappin.and.ellipse")
                                         .frame(width: 60, height: 60)
                                         .scaledToFill()
                                         .font(.system(size: 24))
@@ -300,21 +242,108 @@ struct FroopSummaryView: View {
                                         .foregroundColor(Color(red: 249/255, green: 0/255, blue: 98/255 ))
                                         .padding(.leading, 25)
                                         .frame(alignment: .center)
-                                    Text("It's a \(froopType.name)")
+                                    VStack (alignment: .leading){
+                                        Text(froopData.froopLocationtitle)
+                                            .font(.system(size: 16))
+                                            .fontWeight(.medium)
+                                            .foregroundColor(.black)
+                                            .padding(.trailing, 25)
+                                        Text(froopData.froopLocationsubtitle)
+                                            .font(.system(size: 14))
+                                            .fontWeight(.light)
+                                            .foregroundColor(.black)
+                                            .lineLimit(2)
+                                            .padding(.trailing, 25)
+                                    }
+                                    Spacer()
+                                }
+                                .frame(maxWidth: 400, maxHeight: 75)
+                                .onTapGesture {
+                                    changeView.pageNumber = 2
+                                }
+                                
+                            }
+                        }
+                        .frame(maxWidth: 400, maxHeight: 75)
+                        
+                        //MARK: Froop Duration
+                        Text("DURATION")
+                            .font(.system(size: 14))
+                            .fontWeight(.semibold)
+                            .foregroundColor(.black)
+                            .padding(.bottom, 5)
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 10)
+                                .foregroundColor(.white)
+                                .frame(height: 50)
+                                .padding(.leading, 15)
+                                .padding(.trailing, 15)
+                            VStack {
+                                HStack (spacing: 0 ){
+                                    Image(systemName: "hourglass.tophalf.filled")
+                                        .frame(width: 60, height: 50)
+                                        .scaledToFill()
+                                        .font(.system(size: 24))
+                                        .fontWeight(.medium)
+                                        .foregroundColor(Color(red: 249/255, green: 0/255, blue: 98/255 ))
+                                        .padding(.leading, 25)
+                                        .frame(alignment: .center)
+                                    Text("Duration: \(formatDuration(durationInSeconds: froopData.froopDuration))")
                                         .font(.system(size: 16))
                                         .fontWeight(.medium)
                                         .foregroundColor(.black)
                                         .lineLimit(2)
                                         .padding(.trailing, 25)
+                                    
+                                    Spacer()
                                 }
-                                Spacer()
+                                .frame(maxWidth: 400, maxHeight: 50)
                             }
-                            .frame(maxWidth: 400, maxHeight: 75)
                         }
-                    }
-                    .frame(maxWidth: 400, maxHeight: 75)
-                    .onTapGesture {
-                        changeView.pageNumber = 1
+                        .frame(maxWidth: 400, maxHeight: 50)
+                        .onTapGesture {
+                            changeView.pageNumber = 3
+                        }
+                        
+                        //MARK: Froop Type
+                        Text("TYPE OF FROOP")
+                            .font(.system(size: 14))
+                            .fontWeight(.semibold)
+                            .foregroundColor(.black)
+                            .padding(.bottom, 5)
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 10)
+                                .foregroundColor(.white)
+                                .frame(height: 50)
+                                .padding(.leading, 15)
+                                .padding(.trailing, 15)
+                            VStack {
+                                HStack (spacing: 0 ){
+                                    if let froopType = FroopTypeStore.shared.froopTypes.first(where: { $0.id == froopData.froopType }) {
+                                        Image(systemName: froopType.imageName)
+                                            .frame(width: 60, height: 50)
+                                            .scaledToFill()
+                                            .font(.system(size: 24))
+                                            .fontWeight(.medium)
+                                            .foregroundColor(Color(red: 249/255, green: 0/255, blue: 98/255 ))
+                                            .padding(.leading, 25)
+                                            .frame(alignment: .center)
+                                        Text("It's a \(froopType.name)")
+                                            .font(.system(size: 16))
+                                            .fontWeight(.medium)
+                                            .foregroundColor(.black)
+                                            .lineLimit(2)
+                                            .padding(.trailing, 25)
+                                    }
+                                    Spacer()
+                                }
+                                .frame(maxWidth: 400, maxHeight: 50)
+                            }
+                        }
+                        .frame(maxWidth: 400, maxHeight: 50)
+                        .onTapGesture {
+                            changeView.pageNumber = 1
+                        }
                     }
                     
                     Spacer()
@@ -354,6 +383,7 @@ struct FroopSummaryView: View {
                                     
                                     // Schedule the Froop reminder notification
                                     userNotificationsController.scheduleFroopReminderNotification(froopId: froopData.froopId, froopName: froopData.froopName, froopStartTime: froopData.froopStartTime)
+                                    self.appStateManager.setupListener() { _ in }
                                 } label: {
                                     Text("Save Froop")
                                         .font(.system(size: 28, weight: .thin))

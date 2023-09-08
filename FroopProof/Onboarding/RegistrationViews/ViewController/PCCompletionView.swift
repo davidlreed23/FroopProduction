@@ -13,8 +13,6 @@ import FirebaseFirestoreSwift
 
 struct ProfileCompletionView: View {
     
-    
-    
     @ObservedObject var printControl = PrintControl.shared
    
     @ObservedObject var froopDataListener = FroopDataListener.shared
@@ -23,6 +21,8 @@ struct ProfileCompletionView: View {
     
     @ObservedObject var photoData: PhotoData
     @ObservedObject var appDelegate: AppDelegate
+    @ObservedObject var friendData: UserData
+
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject var timeZoneManager = TimeZoneManager()
     var PCtotalPages = 6
@@ -58,7 +58,7 @@ struct ProfileCompletionView: View {
             if hasFroops {
                 RootView(friendData: UserData(), photoData: PhotoData(), appDelegate: AppDelegate(), confirmedFroopsList: ConfirmedFroopsList())
             } else if ProfileCompletionCurrentPage == PCtotalPages {
-                HomeView2(detailFroopData: Froop(dictionary: [:]))
+                ActiveOrPassiveView(friendData: friendData)
             } else {
                 PCWalkthroughScreen()
             }

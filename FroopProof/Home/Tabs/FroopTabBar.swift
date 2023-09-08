@@ -109,11 +109,11 @@ struct FroopTabBar: View {
             }
         }
         .frame(width: nil, height: 55)
-        .background(
-            TabBarBackground()
-                .fill(.ultraThinMaterial)
-                .edgesIgnoringSafeArea(.bottom)
-        )
+//        .background(
+//            TabBarBackground()
+//                .fill(.ultraThinMaterial)
+//                .edgesIgnoringSafeArea(.bottom)
+//        )
         .padding(.bottom)
         .ignoresSafeArea()
         .onAppear {

@@ -26,6 +26,7 @@ struct FroopInvitesCardView: View {
     @ObservedObject var myData = MyData.shared
     @ObservedObject var timeZoneManager: TimeZoneManager = TimeZoneManager()
     
+    @Binding var openFroop: Bool
     @State var froopStartTime: Date? = Date()
     @State private var dataLoaded = false
     @State var hostData: UserData = UserData()
@@ -40,11 +41,11 @@ struct FroopInvitesCardView: View {
     let froopHostAndFriends: FroopHistory
 
     
-    init(froopHostAndFriends: FroopHistory, invitedFriends: [UserData]) {
+    init(openFroop: Binding<Bool>, froopHostAndFriends: FroopHistory, invitedFriends: [UserData]) {
+        self._openFroop = openFroop
         self.timeZoneManager = TimeZoneManager()
         self.froopHostAndFriends = froopHostAndFriends
         self.invitedFriends = invitedFriends
-
     }
     
     var body: some View {

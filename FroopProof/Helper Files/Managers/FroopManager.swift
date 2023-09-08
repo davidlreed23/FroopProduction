@@ -981,7 +981,7 @@ struct FroopHostAndFriends : Identifiable, Equatable {
     }
 }
 
-struct FroopHistory: Identifiable, Equatable {
+class FroopHistory: ObservableObject, Identifiable, Equatable, Hashable {
     
     enum FroopStatus: String {
         case invited = "invited"
@@ -991,11 +991,11 @@ struct FroopHistory: Identifiable, Equatable {
     }
     
     let id = UUID() // This is a unique identifier for each FroopHistory
-    let froop: Froop
-    let host: UserData
-    let friends: [UserData]
-    let images: [String]
-    let videos: [String]
+    var froop: Froop
+    var host: UserData
+    var friends: [UserData]
+    var images: [String]
+    var videos: [String]
     var froopStatus: FroopStatus = .none // This property is to store the froop status
     var statusText: String = ""
     
@@ -1013,11 +1013,15 @@ struct FroopHistory: Identifiable, Equatable {
     static func == (lhs: FroopHistory, rhs: FroopHistory) -> Bool {
         return lhs.id == rhs.id
     }
+    
+    func hash(into hasher: inout Hasher) {
+           hasher.combine(id)
+       }
+    
 }
 
 extension FroopHistory {
-
-    mutating func determineFroopStatus() {
+    func determineFroopStatus() {
         let froopId = self.froop.froopId
 
         if FroopDataController.shared.myArchivedList.contains(where: { $0.froopId == froopId }) {
@@ -1044,20 +1048,17 @@ extension FroopHistory {
         }
     }
     
-    func cardForStatus() -> AnyView {
+    func cardForStatus(openFroop: Binding<Bool>) -> AnyView {
         switch self.froopStatus {
             case .invited:
-                return AnyView(FroopInvitesCardView(
-                    froopHostAndFriends: self,
-                    invitedFriends: friends
-                ))
+                return AnyView(FroopInvitesCardView(openFroop: openFroop, froopHostAndFriends: self, invitedFriends: friends))
             case .confirmed:
                 return AnyView(FroopConfirmedCardView(
-                    froopHostAndFriends: self,
+                    openFroop: openFroop, froopHostAndFriends: self,
                     invitedFriends: friends
                 ))
             case .archived:
-                return AnyView(FroopArchivedCardView())
+                return AnyView(FroopArchivedCardView(openFroop: openFroop))
             case .none:
                 return AnyView(EmptyView())
         }
