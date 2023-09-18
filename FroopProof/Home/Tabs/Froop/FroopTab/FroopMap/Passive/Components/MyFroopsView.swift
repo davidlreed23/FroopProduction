@@ -139,17 +139,9 @@ struct MyFroopsView: View {
             .environmentObject(froopData)
     }
     
-//    var sortedIndices: [Int] {
-//        return froopManager.froopFeed.indices.sorted(by: { froopManager.froopFeed[$0].FH.froop.froopStartTime > froopManager.froopFeed[$1].FH.froop.froopStartTime })
-//    }
-    
     let uid = FirebaseServices.shared.uid
     
-    
-    //    init() {
-    //        froopManager.fetchFroopData(fuid: froopManager.myUserData.froopUserID)
-    //    }
-    
+
     var body: some View {
         ZStack (alignment: .top){
             
@@ -163,7 +155,7 @@ struct MyFroopsView: View {
                         FroopDataListener.shared.myInvitesList = FroopDataController.shared.myInvitesList
                         FroopDataListener.shared.myDeclinedList = FroopDataController.shared.myDeclinedList
                         FroopDataListener.shared.myArchivedList = FroopDataController.shared.myArchivedList
-                        
+
                         FroopManager.shared.createFroopHistory() { froopHistoryCollection in
                             DispatchQueue.main.async {
                                 FroopManager.shared.froopHistory = froopHistoryCollection

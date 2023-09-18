@@ -55,30 +55,17 @@ class FirebaseServices: NSObject, ObservableObject, UNUserNotificationCenterDele
         self.storage = Storage.storage()
         self.database = Database.database()
         
-        
         super.init()
-        
-        
-        
-        
+
         authStateDidChangeListenerHandle = Auth.auth().addStateDidChangeListener { (auth, user) in
             if let user = user {
-                // User is signed in
                 self.uid = user.uid
-                // ... any other actions you want to take when the user is signed in ...
             } else {
-                // No user is signed in
                 self.uid = ""
                 self.stopAllListeners()
                 self.cancelAllTasks()
-                // ... any other actions we want to take when no user is signed in ...
             }
         }
-        
-        
-        // Start updating location when the app becomes active
-//        NotificationCenter.default.addObserver(self, selector: #selector(startUpdatingLocation), name: UIApplication.didBecomeActiveNotification, object: nil)
-        
     }
     
     var myData: MyData {
@@ -205,19 +192,19 @@ class FirebaseServices: NSObject, ObservableObject, UNUserNotificationCenterDele
     }
     
     func listenToInvitesList(uid: String, update: @escaping ([Froop]) -> Void) {
-        if let listener = FroopDataListener.shared.listenToInvitesList(uid: uid, update: update) {
+        if let listener = FroopDataListener.shared.listenToInvitesList(uid: uid) {
             addListener(identifier: "InvitesList", listener: listener)
         }
     }
     
     func listenToConfirmedList(uid: String, update: @escaping ([Froop]) -> Void) {
-        if let listener = FroopDataListener.shared.listenToConfirmedList(uid: uid, update: update) {
+        if let listener = FroopDataListener.shared.listenToConfirmedList(uid: uid) {
             addListener(identifier: "ConfirmedList", listener: listener)
         }
     }
     
     func listenToDeclinedList(uid: String, update: @escaping ([Froop]) -> Void) {
-        if let listener = FroopDataListener.shared.listenToDeclinedList(uid: uid, update: update) {
+        if let listener = FroopDataListener.shared.listenToDeclinedList(uid: uid) {
             addListener(identifier: "DeclinedList", listener: listener)
         }
     }
