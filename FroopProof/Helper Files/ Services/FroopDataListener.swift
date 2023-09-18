@@ -205,6 +205,7 @@ class FroopDataListener: NSObject, ObservableObject {
                             print("FroopHistory collection updated. Total count: \(FroopManager.shared.froopHistory.count)")
                         }
                     }
+                    FroopDataController.shared.processPastEvents()
                 }
             }
         }
@@ -256,6 +257,8 @@ class FroopDataListener: NSObject, ObservableObject {
                             print("FroopHistory collection updated. Total count: \(FroopManager.shared.froopHistory.count)")
                         }
                     }
+                    FroopDataController.shared.processPastEvents()
+
                 }
             }
         }
@@ -308,6 +311,8 @@ class FroopDataListener: NSObject, ObservableObject {
                             print("FroopHistory collection updated. Total count: \(FroopManager.shared.froopHistory.count)")
                         }
                     }
+                    FroopDataController.shared.processPastEvents()
+
                 }
             }
         }
@@ -359,6 +364,7 @@ class FroopDataListener: NSObject, ObservableObject {
                             print("FroopHistory collection updated. Total count: \(FroopManager.shared.froopHistory.count)")
                         }
                     }
+                    FroopDataController.shared.processPastEvents()
 
                 }
             }
