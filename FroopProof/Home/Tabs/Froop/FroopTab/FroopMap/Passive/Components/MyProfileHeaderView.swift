@@ -20,7 +20,7 @@ struct MyProfileHeaderView: View {
     @State var froopAdded = false
     @State private var walkthroughScreen: NFWalkthroughScreen? = nil
 
-    @Binding var offsetY: CGFloat
+
     var size: CGSize
     var safeArea: EdgeInsets
     @State private var now = Date()
@@ -65,15 +65,14 @@ struct MyProfileHeaderView: View {
     }
     
     private var progress: CGFloat {
-        max(min(-offsetY / (headerHeight - minimumHeaderHeight), 1), 0)
+        max(min(-dataController.offsetY / (headerHeight - minimumHeaderHeight), 1), 0)
     }
     
     
     
-    init(size: CGSize, safeArea: EdgeInsets, offsetY: Binding<CGFloat>) {
+    init(size: CGSize, safeArea: EdgeInsets) {
         self.size = size
         self.safeArea = safeArea
-        _offsetY = offsetY
         
         UISegmentedControl.appearance().selectedSegmentTintColor = .white
         UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
@@ -92,6 +91,9 @@ struct MyProfileHeaderView: View {
                         .opacity(0.75)
                         .offset(y: 0)
                         .padding(.top, 20)
+                        .onTapGesture {
+                            print(MyData.shared)
+                        }
                     
                     VStack(alignment: .center) {
                         
@@ -145,11 +147,7 @@ struct MyProfileHeaderView: View {
                                         .frame(minWidth: 70,maxWidth: 70, minHeight: 75, maxHeight: 75, alignment: .center)
                                         .foregroundColor(.white)
                                         .opacity(1)
-                                    
-//                                    Circle()
-//                                        .frame(minWidth: 65,maxWidth: 65, minHeight: 65, maxHeight: 65, alignment: .center)
-//                                        .foregroundColor(.white)
-//                                        .opacity(1)
+
                                     
                                     Image(systemName: "plus.circle.fill")
                                         .font(.system(size: 60))
@@ -177,12 +175,7 @@ struct MyProfileHeaderView: View {
                             }
                             .offset(y: -100)
                         }
-                        //                            }
-                        //                            .offset(y: headerHeight * 0.382)
-                        //                            .padding(.bottom, 40)
-                        //                            .opacity(1.0 * (1 - progress))
-                        //
-                        //
+            
                         VStack {
                             Spacer()
                             Text(appStateManager.selectedTabTwo == 0 ? "Froops You have Attended" : "Manage Your Froops")
@@ -200,8 +193,8 @@ struct MyProfileHeaderView: View {
                             .padding(.leading, 10 + (75 * progress))
                             .padding(.trailing, 10 + (75 * progress))
                             .frame(height: 50)
-                            .onChange(of: appStateManager.selectedTabTwo) { newValue in
-                                if appStateManager.selectedTabTwo == 0 {
+                            .onChange(of: appStateManager.selectedTabTwo, initial: (appStateManager.selectedTabTwo != 0)) { oldValue, newValue in
+                                if newValue == 0 {
                                     withAnimation {
                                         froopManager.areAllCardsExpanded = true
                                     }
@@ -216,11 +209,9 @@ struct MyProfileHeaderView: View {
                         }
                     }
                     
-                    //                    .padding(.top, safeArea.top)
-                    //                    .padding(.bottom, 15)
                 }
-                .frame(height: (headerHeight + offsetY) < minimumHeaderHeight ? minimumHeaderHeight : (headerHeight + offsetY), alignment: .bottom)
-                .offset(y: -offsetY)
+                .frame(height: (headerHeight + dataController.offsetY) < minimumHeaderHeight ? minimumHeaderHeight : (headerHeight + dataController.offsetY), alignment: .bottom)
+                .offset(y: -dataController.offsetY)
                 .sheet(isPresented: $showNFWalkthroughScreen) {
                     self.walkthroughScreen
                 }

@@ -38,16 +38,16 @@ struct ChatView: View {
                             }
                         }
                     }
-                    .onChange(of: currentConversation?.messages) { newValue in
+                    .onChange(of: currentConversation?.messages.count ?? 0, initial: currentConversation?.messages.isEmpty == false) { _, newValue in
                         withAnimation {
-                            if let lastMessage = newValue?.last {
+                            if newValue > 0, let lastMessage = currentConversation?.messages.last {
                                 proxy.scrollTo(lastMessage.id, anchor: .bottom)
                             }
                         }
                     }
-                    .onChange(of: notificationsManager.chatEntered) { _ in
+                    .onChange(of: notificationsManager.chatEntered, initial: notificationsManager.chatEntered) { oldValue, newValue in
                         withAnimation {
-                            if let lastMessage = currentConversation?.messages.last {
+                            if newValue, let lastMessage = currentConversation?.messages.last {
                                 proxy.scrollTo(lastMessage.id, anchor: .bottom)
                             }
                         }

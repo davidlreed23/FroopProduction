@@ -141,7 +141,7 @@ struct DetailsHostMessageEditView: View {
                         .padding(.trailing, 10)
                         VStack (alignment: .center, spacing: 0){
                             TextEditor(text: $froopHostMessage)
-                                .onChange(of: froopHostMessage) { newValue in
+                                .onChange(of: froopHostMessage, initial: false) { _, newValue in
                                     if newValue.count > 150 {
                                         froopHostMessage = String(newValue.prefix(150))
                                     }

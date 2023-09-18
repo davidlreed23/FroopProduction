@@ -264,27 +264,6 @@ final class Application_utility {
     }
 }
 
-// MARK: Extensions
-extension UIApplication{
-    func closeKeyboard(){
-        print("-Application_utility: Function: closeKeyboard firing")
-        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-    }
-    
-    // Root Controller
-    func rootController()->UIViewController{
-        print("-Application_utility: Function: rootController firing")
-        guard let window = connectedScenes.first as? UIWindowScene else{
-            fatalError("Unable to get UIWindowScene")
-        }
-        guard let viewcontroller = window.windows.last?.rootViewController else{
-            fatalError("Unable to get rootViewController")
-        }
-        
-        return viewcontroller
-    }
-}
-
 // MARK: Apple Sign in Helpers
 func sha256(_ input: String) -> String {
     print("-LoginViewModel: Function: sha256 firing")

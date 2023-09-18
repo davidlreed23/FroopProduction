@@ -70,16 +70,15 @@ struct RootView: View {
             
             UpdateVersionView()
             
-        } else if ProfileCompletionCurrentPage != 6 {
+        } else if ProfileCompletionCurrentPage != 2 {
                
-            PCWalkthroughScreen()
+            OnboardingView(ProfileCompletionCurrentPage: $ProfileCompletionCurrentPage)
                 
         } else {
             NavigationView {
                 ZStack {
                     Color.offWhite
                     VStack{
-//                        TabView(selection: $locationServices.selectedTab) {
                           
                                     
                            if LocationServices.shared.selectedTab == .froop {
@@ -99,14 +98,8 @@ struct RootView: View {
                                     .environmentObject(invitationList)
                                     .tag(Tab.froop)
                             }
-//                        }
-//                        .ignoresSafeArea()
                     }
-//                    VStack{
-//                        Spacer()
-//                        FroopTabView(friendData: friendData, viewModel: ImageGridViewModel(), uploadedImages: $uploadedImages, thisFroop: Froop.emptyFroop(), froopTabPosition: $froopTabPosition)
-//                    }
-//                    .ignoresSafeArea()
+
                 }
             }
             .onAppear {

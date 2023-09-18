@@ -41,7 +41,7 @@ class LocationSearchViewModel: NSObject, ObservableObject {
     
     // MARK: Lifecycle
     
-    override init() {
+    override init() { 
         //self.froopData = froopData
         super.init()
         searchCompleter.delegate = self
@@ -128,8 +128,4 @@ class LocationSearchViewModel: NSObject, ObservableObject {
 
 // MARK: - MKLocalSearchCompleterDelegate
 
-extension LocationSearchViewModel: MKLocalSearchCompleterDelegate {
-    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
-        self.results = completer.results
-    }
-}
+

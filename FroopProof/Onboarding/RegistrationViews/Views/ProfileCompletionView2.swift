@@ -6,10 +6,6 @@
 //
 
 import SwiftUI
-import iPhoneNumberField
-import Firebase
-import FirebaseFirestore
-import FirebaseFirestoreSwift
 
 
 struct ProfileCompletionView2: View {
@@ -71,7 +67,7 @@ struct InformationDetailView2: View {
     
     var title: String = ""
     var subTitle: String = ""
-    var imageName: String = ""
+    var imageName: String = "circle"
     
     var body: some View {
         HStack(alignment: .center) {
@@ -150,19 +146,6 @@ struct TitleView2: View {
 }
 
 
-extension Text {
-    func customTitleText() -> Text {
-        PrintControl.shared.printProfile("-TitleView2: Function: customTitleText firing")
-        return self
-            .foregroundColor(.primary)
-            .fontWeight(.light)
-            .font(.system(size: 36))
-    }
-}
-
-extension Color {
-    static var mainColor = Color(UIColor.systemIndigo)
-}
 
 
 

@@ -14,11 +14,7 @@ import FirebaseFirestoreSwift
 struct ProfileCompletionView: View {
     
     @ObservedObject var printControl = PrintControl.shared
-   
     @ObservedObject var froopDataListener = FroopDataListener.shared
-   
- 
-    
     @ObservedObject var photoData: PhotoData
     @ObservedObject var appDelegate: AppDelegate
     @ObservedObject var friendData: UserData

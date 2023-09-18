@@ -33,7 +33,8 @@ struct FroopDeclinedList: View {
     var startTime: Date = Date()
     @Binding var invitedFriends: [UserData]
     @Binding var refreshView: Bool
-    
+    @State private var previousFroopAdded: Bool = false
+
     // DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
     
     
@@ -74,15 +75,19 @@ struct FroopDeclinedList: View {
                         }
                 }
             }
-            .onChange(of: froopAdded) { _ in
-                if froopAdded {
+            .onChange(of: froopAdded, initial: previousFroopAdded) { oldValue, newValue in
+                if newValue {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        //                    getData()
+                        // getData()
                         froopAdded = false
                         PrintControl.shared.printLists("froopAdded: \(froopAdded.description)")
                     }
                 }
+
+                // Update the previous value after processing the changes
+                previousFroopAdded = newValue
             }
+
             .padding(.bottom, 35)
             .frame(height: 365)
             .shadow(color: .gray, radius: 2)

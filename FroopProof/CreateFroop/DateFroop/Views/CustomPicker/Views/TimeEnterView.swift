@@ -141,9 +141,7 @@ struct TimeEnterView: View {
                             }
                         }
                     }
-                    
-                    //.modifier(BecomeFirstResponder(becomeFirstResponder: $hour1Focus))
-                    
+                                        
                     Text(":")
                         .multilineTextAlignment(.center)
                         .font(.system(size: 80))

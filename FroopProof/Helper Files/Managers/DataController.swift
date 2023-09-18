@@ -13,7 +13,7 @@ import FirebaseFirestore
 
 class DataController: ObservableObject {
     static let shared = DataController()
-    
+    @Published var offsetY: CGFloat = 0
     var db = FirebaseServices.shared.db
     let uid = Auth.auth().currentUser?.uid ?? ""
     @Published var allSelected: Int = 0

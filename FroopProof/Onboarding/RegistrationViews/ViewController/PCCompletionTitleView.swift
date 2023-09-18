@@ -13,7 +13,7 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 
 struct ProfileCompletionTitleView: View {
-    @Environment(\.colorScheme) var colorScheme
+    @ObservedObject var myData = MyData.shared
     let db = Firestore.firestore()
     let uid = Auth.auth().currentUser?.uid ?? ""
     
@@ -26,13 +26,35 @@ struct ProfileCompletionTitleView: View {
                         .resizable()
                     ,
                     dark:
-                        Image("FroopLogoWhite")
+                        Image("FroopLogo")
                         .resizable()
                 )
+                .onTapGesture {
+                    print(myData)
+                    print("""
+                          MyData:
+                          - firstName: \(myData.firstName)
+                          - lastName: \(myData.lastName)
+                          - phoneNumber: \(myData.phoneNumber)
+                          - addressNumber: \(myData.addressNumber)
+                          - addressStreet: \(myData.addressStreet)
+                          - unitName: \(myData.unitName)
+                          - addressCity: \(myData.addressCity)
+                          - addressState: \(myData.addressState)
+                          - addressZip: \(myData.addressZip)
+                          - addressCountry: \(myData.addressCountry)
+                          - profileImageUrl: \(myData.profileImageUrl)
+                          - coordinate: \(myData.coordinate)
+                          - badgeCount: \(myData.badgeCount)
+                          - fcmToken: \(myData.fcmToken)
+                          - OTPVerified: \(myData.OTPVerified)
+                          - froopUserID: \(myData.froopUserID)
+                          """)
+                }
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 300, alignment: .center)
                 .accessibility(hidden: true)
-                .padding(.top, 50)
+                .padding(.top, 125)
                 .onAppear {
                     createUserAndCollections(uid: Auth.auth().currentUser?.uid ?? "") { err in
                         if let err = err {
@@ -43,16 +65,16 @@ struct ProfileCompletionTitleView: View {
                     }
                 }
                 
-                Spacer(minLength: 50)
-                
                 Text("Do Anything with Anyone, Anywhere!")
                     .font(.title)
-                    .foregroundColor(colorScheme == .dark ? .white : .black)                    .multilineTextAlignment(.center)
+                    .foregroundColor(.black)                    
+                    .multilineTextAlignment(.center)
                     .padding(.bottom, 50)
                 
                 Text("Welcome to our Alpha Launch!")
                     .font(.system(size: 24))
-                    .foregroundColor(colorScheme == .dark ? .white : .black)                    .fontWeight(.light)
+                    .foregroundColor(.black)                    
+                    .fontWeight(.light)
                     .multilineTextAlignment(.center)
                     .padding(.leading, 20)
                     .padding(.trailing, 20)
@@ -62,7 +84,8 @@ struct ProfileCompletionTitleView: View {
                 
                 Text("You are one of the earliest testers of our new platform, so things may not work perfectly every time.")
                     .font(.system(size: 22))
-                    .foregroundColor(colorScheme == .dark ? .white : .black)                   .fontWeight(.light)
+                    .foregroundColor(.black)                   
+                    .fontWeight(.light)
                     .multilineTextAlignment(.center)
                     .padding(.leading, 20)
                     .padding(.trailing, 20)
@@ -70,12 +93,10 @@ struct ProfileCompletionTitleView: View {
                     .padding(.bottom, 10)
                     .foregroundColor(.black)
                     .opacity(0.8)
-                
-                //                Text("User ID: \(Auth.auth().currentUser?.uid ?? "")")
-                
+                                
                 Text("We want to collect as much feedback from you as we can, so please feel free to reach out to the Froop team and share your experience.  Updates will be coming fast and often, so please remember to check if you have a new version to download.")
                     .font(.system(size: 22))
-                    .foregroundColor(.primary)
+                    .foregroundColor(.black)
                     .fontWeight(.light)
                     .multilineTextAlignment(.center)
                     .padding(.leading, 20)
@@ -87,11 +108,13 @@ struct ProfileCompletionTitleView: View {
                 
                 Text("Thanks Again, - Froop Team!")
                     .font(.system(size: 24))
-                    .foregroundColor(.primary)
+                    .foregroundColor(.black)
                     .fontWeight(.light)
                     .multilineTextAlignment(.center)
                     .padding(.leading, 20)
                     .padding(.trailing, 20)
+                
+                Spacer()
             }
         }
     }

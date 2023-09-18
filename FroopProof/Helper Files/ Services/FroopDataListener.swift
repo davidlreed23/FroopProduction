@@ -33,7 +33,7 @@ class FroopDataListener: NSObject, ObservableObject {
     @Published var myDeclinedList: [Froop] = []
     @Published var myArchivedList: [Froop] = []
     @Published var friends: [UserData] = []
-
+    
     @Published var froops: [String: Froop] = [:]
     @Published private var froopDatas: [String: FroopData] = [:]
     var listeners: [String: ListenerRegistration] = [:]
@@ -42,11 +42,11 @@ class FroopDataListener: NSObject, ObservableObject {
         super.init()
         startListeners()
     }
-
+    
     deinit {
         stopListeners()
     }
-
+    
     private func startListeners() {
         let uid = FirebaseServices.shared.uid
         
@@ -56,7 +56,7 @@ class FroopDataListener: NSObject, ObservableObject {
         _ = listenToDeclinedList(uid: uid)
         _ = listenToArchivedList(uid: uid)
     }
-
+    
     private func stopListeners() {
         for listener in listeners.values {
             listener.remove()
@@ -171,15 +171,19 @@ class FroopDataListener: NSObject, ObservableObject {
             } else {
                 var invitesList: [Froop] = []
                 let group = DispatchGroup()
-
+                
                 for document in querySnapshot!.documents {
                     let data = document.data()
-
-                    guard let froopHost = data["froopHost"] as? String, let froopId = data["froopId"] as? String else {
-                        PrintControl.shared.printErrorMessages("Invalid froopHost or froopId")
+                    
+                    if data["placeholder"] as? String == "placeholder" {
                         continue
                     }
-
+                    
+                    guard let froopHost = data["froopHost"] as? String, let froopId = data["froopId"] as? String else {
+                        PrintControl.shared.printErrorMessages("Invalid froopHost or froopId in data: \(data)")
+                        continue
+                    }
+                    
                     let froopDocRef = db.collection("users").document(froopHost).collection("myFroops").document(froopId)
                     
                     group.enter()
@@ -195,7 +199,7 @@ class FroopDataListener: NSObject, ObservableObject {
                         group.leave()
                     }
                 }
-
+                
                 group.notify(queue: .main) {
                     FroopDataController.shared.myInvitesList = invitesList
                     print("myInvitesList Updated")
@@ -205,6 +209,7 @@ class FroopDataListener: NSObject, ObservableObject {
                             print("FroopHistory collection updated. Total count: \(FroopManager.shared.froopHistory.count)")
                         }
                     }
+                    FroopDataController.shared.processPastEvents()
                 }
             }
         }
@@ -213,7 +218,7 @@ class FroopDataListener: NSObject, ObservableObject {
     
     func listenToConfirmedList(uid: String) -> ListenerRegistration? {
         let uid = FirebaseServices.shared.uid
-
+        
         let docRef = db.collection("users").document(uid).collection("froopDecisions").document("froopLists").collection("myConfirmedList")
         let listener = docRef.addSnapshotListener { (querySnapshot, error) in
             if let error = error {
@@ -221,15 +226,19 @@ class FroopDataListener: NSObject, ObservableObject {
             } else {
                 var confirmedList: [Froop] = []
                 let group = DispatchGroup()
-
+                
                 for document in querySnapshot!.documents {
                     let data = document.data()
-
+                    
+                    if data["placeholder"] as? String == "placeholder" {
+                        continue
+                    }
+                    
                     guard let froopHost = data["froopHost"] as? String, let froopId = data["froopId"] as? String else {
                         PrintControl.shared.printErrorMessages("Invalid froopHost or froopId")
                         continue
                     }
-
+                    
                     // Fetch the actual Froop data from the myFroops collection of the froopHost
                     let froopDocRef = db.collection("users").document(froopHost).collection("myFroops").document(froopId)
                     
@@ -246,7 +255,7 @@ class FroopDataListener: NSObject, ObservableObject {
                         group.leave()
                     }
                 }
-
+                
                 group.notify(queue: .main) {
                     FroopDataController.shared.myConfirmedList = confirmedList
                     print("myConfirmedList Updated")
@@ -256,6 +265,8 @@ class FroopDataListener: NSObject, ObservableObject {
                             print("FroopHistory collection updated. Total count: \(FroopManager.shared.froopHistory.count)")
                         }
                     }
+                    FroopDataController.shared.processPastEvents()
+                    
                 }
             }
         }
@@ -265,7 +276,7 @@ class FroopDataListener: NSObject, ObservableObject {
     
     func listenToDeclinedList(uid: String) -> ListenerRegistration? {
         let uid = FirebaseServices.shared.uid
-
+        
         let docRef = db.collection("users").document(uid).collection("froopDecisions").document("froopLists").collection("myDeclinedList")
         let listener = docRef.addSnapshotListener { (querySnapshot, error) in
             if let error = error {
@@ -273,15 +284,19 @@ class FroopDataListener: NSObject, ObservableObject {
             } else {
                 var declinedList: [Froop] = []
                 let group = DispatchGroup()
-
+                
                 for document in querySnapshot!.documents {
                     let data = document.data()
-
+                    
+                    if data["placeholder"] as? String == "placeholder" {
+                        continue
+                    }
+                    
                     guard let froopHost = data["froopHost"] as? String, let froopId = data["froopId"] as? String else {
                         PrintControl.shared.printErrorMessages("Invalid froopHost or froopId")
                         continue
                     }
-
+                    
                     // Fetch the actual Froop data from the myFroops collection of the froopHost
                     let froopDocRef = db.collection("users").document(froopHost).collection("myFroops").document(froopId)
                     
@@ -298,7 +313,7 @@ class FroopDataListener: NSObject, ObservableObject {
                         group.leave()
                     }
                 }
-
+                
                 group.notify(queue: .main) {
                     FroopDataController.shared.myDeclinedList = declinedList
                     print("myDeclinedList Updated")
@@ -308,6 +323,8 @@ class FroopDataListener: NSObject, ObservableObject {
                             print("FroopHistory collection updated. Total count: \(FroopManager.shared.froopHistory.count)")
                         }
                     }
+                    FroopDataController.shared.processPastEvents()
+                    
                 }
             }
         }
@@ -316,40 +333,56 @@ class FroopDataListener: NSObject, ObservableObject {
     
     func listenToArchivedList(uid: String) -> ListenerRegistration? {
         let uid = FirebaseServices.shared.uid
-
+        
         let docRef = db.collection("users").document(uid).collection("froopDecisions").document("froopLists").collection("myArchivedList")
+        
         let listener = docRef.addSnapshotListener { (querySnapshot, error) in
             if let error = error {
                 PrintControl.shared.printErrorMessages("Error listening for document updates: \(error)")
             } else {
                 var archivedList: [Froop] = []
                 let group = DispatchGroup()
-
+                
                 for document in querySnapshot!.documents {
                     let data = document.data()
-
+                    
+                    if data["placeholder"] as? String == "placeholder" {
+                        continue
+                    }
+                    
                     guard let froopHost = data["froopHost"] as? String, let froopId = data["froopId"] as? String else {
                         PrintControl.shared.printErrorMessages("Invalid froopHost or froopId")
                         continue
                     }
-
-                    // Fetch the actual Froop data from the myFroops collection of the froopHost
+                    
                     let froopDocRef = db.collection("users").document(froopHost).collection("myFroops").document(froopId)
                     
                     group.enter()
                     froopDocRef.getDocument { (froopDocument, error) in
                         if let error = error {
                             PrintControl.shared.printErrorMessages("Error fetching Froop document: \(error)")
+                            group.leave() // make sure to leave the group if an error occurs
                         } else if let froopDocument = froopDocument, froopDocument.exists {
                             let froop = Froop(dictionary: froopDocument.data() ?? [:])
                             archivedList.append(froop)
+                            group.leave()
                         } else {
-                            PrintControl.shared.printErrorMessages("Froop document does not exist")
+                            PrintControl.shared.printErrorMessages("Froop document does not exist: \(data)")
+                            
+                            // Delete the document from myArchivedList if the corresponding Froop does not exist
+                            docRef.document(document.documentID).delete { (error) in
+                                if let error = error {
+                                    PrintControl.shared.printErrorMessages("Error deleting document: \(error)")
+                                } else {
+                                    PrintControl.shared.printErrorMessages("Document deleted successfully.")
+                                }
+                            }
+                            
+                            group.leave()
                         }
-                        group.leave()
                     }
                 }
-
+                
                 group.notify(queue: .main) {
                     FroopDataController.shared.myArchivedList = archivedList
                     print("myArchivedList Updated")
@@ -359,12 +392,13 @@ class FroopDataListener: NSObject, ObservableObject {
                             print("FroopHistory collection updated. Total count: \(FroopManager.shared.froopHistory.count)")
                         }
                     }
-
+                    FroopDataController.shared.processPastEvents()
                 }
             }
         }
         return listener
     }
+
 }
 
 

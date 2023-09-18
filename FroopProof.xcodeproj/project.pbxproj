@@ -38,7 +38,7 @@
 		6311DD5529790A16009063AC /* ProfileCompletionView4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6311DD5429790A16009063AC /* ProfileCompletionView4.swift */; };
 		6311DD5729790C7E009063AC /* ProfileCompletionView3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6311DD5629790C7E009063AC /* ProfileCompletionView3.swift */; };
 		6311DD5929790C8C009063AC /* ProfileCompletionView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6311DD5829790C8C009063AC /* ProfileCompletionView2.swift */; };
-		6311DD5B29790C9B009063AC /* ProfileCompletionView1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6311DD5A29790C9B009063AC /* ProfileCompletionView1.swift */; };
+		6311DD5B29790C9B009063AC /* OnboardOne.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6311DD5A29790C9B009063AC /* OnboardOne.swift */; };
 		6311DD5D29790D47009063AC /* PCCompletionTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6311DD5C29790D47009063AC /* PCCompletionTitleView.swift */; };
 		6311DD5F29790D98009063AC /* PCCompletionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6311DD5E29790D98009063AC /* PCCompletionView.swift */; };
 		631448962A171485009EBAD2 /* ActiveOrPassiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 631448952A171485009EBAD2 /* ActiveOrPassiveView.swift */; };
@@ -104,7 +104,6 @@
 		634D593C29798B550052BF16 /* FroopTypeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634D593B29798B550052BF16 /* FroopTypeData.swift */; };
 		634D593E29798BA80052BF16 /* FroopTypeList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634D593D29798BA80052BF16 /* FroopTypeList.swift */; };
 		634D594129798CAA0052BF16 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634D594029798CAA0052BF16 /* Extensions.swift */; };
-		634D594329798CEB0052BF16 /* ProfileCompletionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634D594229798CEB0052BF16 /* ProfileCompletionExtensions.swift */; };
 		634D594B297994E70052BF16 /* FroopSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634D594A297994E70052BF16 /* FroopSummaryView.swift */; };
 		634D5951297995E50052BF16 /* LocationSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634D5950297995E50052BF16 /* LocationSearchViewModel.swift */; };
 		634D59572979964B0052BF16 /* LocationSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634D59562979964B0052BF16 /* LocationSearchView.swift */; };
@@ -123,7 +122,6 @@
 		634D8EFB29A7D1950059083D /* UserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634D8EFA29A7D1950059083D /* UserInfoView.swift */; };
 		634D8F0B29AEBD220059083D /* FriendListData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634D8F0A29AEBD220059083D /* FriendListData.swift */; };
 		634D8F0F29AEC80E0059083D /* FriendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634D8F0E29AEC80E0059083D /* FriendRequest.swift */; };
-		634D8F1129AF57B70059083D /* daySuffix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634D8F1029AF57B70059083D /* daySuffix.swift */; };
 		634E023B29BBC9EC009C97DA /* FriendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634E023A29BBC9EC009C97DA /* FriendViewController.swift */; };
 		634E023D29BE3315009C97DA /* ColorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634E023C29BE3315009C97DA /* ColorViewModel.swift */; };
 		634E023F29BE4277009C97DA /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634E023E29BE4277009C97DA /* NotificationManager.swift */; };
@@ -158,11 +156,17 @@
 		6377B3922A2F9FFF00FB173C /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6377B3912A2F9FFF00FB173C /* NetworkMonitor.swift */; };
 		6377B3942A2FE32200FB173C /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 6377B3932A2FE32200FB173C /* FirebaseMessaging */; };
 		6377B3962A2FF3F800FB173C /* ActiveMapViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6377B3952A2FF3F800FB173C /* ActiveMapViewRepresentable.swift */; };
+		637A96382ABCB80C00667262 /* OnboardTwo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637A96372ABCB80C00667262 /* OnboardTwo.swift */; };
+		637A963A2ABCB83400667262 /* OnboardThree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637A96392ABCB83400667262 /* OnboardThree.swift */; };
+		637A963C2ABCB84800667262 /* OnboardFour.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637A963B2ABCB84800667262 /* OnboardFour.swift */; };
+		637A963E2ABCB85500667262 /* OnboardFive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637A963D2ABCB85500667262 /* OnboardFive.swift */; };
+		637A96452ABE5F1C00667262 /* Highlight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637A96442ABE5F1C00667262 /* Highlight.swift */; };
 		6382DA8429FD796C00B33B48 /* AlertListenerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6382DA8329FD796C00B33B48 /* AlertListenerManager.swift */; };
 		63835A4B2A942A4B008A4A67 /* ParentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63835A4A2A942A4B008A4A67 /* ParentView.swift */; };
 		63835A4D2A9439C6008A4A67 /* UserDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63835A4C2A9439C6008A4A67 /* UserDetailsView.swift */; };
 		6388FDC92A450A7C0099B802 /* FroopTasksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6388FDC82A450A7C0099B802 /* FroopTasksView.swift */; };
 		63893F1A29CE71EF00337678 /* DetailFriendCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63893F1929CE71EF00337678 /* DetailFriendCardView.swift */; };
+		6389DED52ABA9C5900E11CB5 /* GlobalMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6389DED42ABA9C5900E11CB5 /* GlobalMapView.swift */; };
 		638BDE172A0EBAB000FB7305 /* AttendingUserCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638BDE162A0EBAB000FB7305 /* AttendingUserCard.swift */; };
 		638BDE192A1408F700FB7305 /* FirebaseServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638BDE182A1408F700FB7305 /* FirebaseServices.swift */; };
 		638BDE1B2A1425F500FB7305 /* CFSBackGroundComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638BDE1A2A1425F500FB7305 /* CFSBackGroundComponent.swift */; };
@@ -307,7 +311,7 @@
 		6311DD5429790A16009063AC /* ProfileCompletionView4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCompletionView4.swift; sourceTree = "<group>"; };
 		6311DD5629790C7E009063AC /* ProfileCompletionView3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCompletionView3.swift; sourceTree = "<group>"; };
 		6311DD5829790C8C009063AC /* ProfileCompletionView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCompletionView2.swift; sourceTree = "<group>"; };
-		6311DD5A29790C9B009063AC /* ProfileCompletionView1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCompletionView1.swift; sourceTree = "<group>"; };
+		6311DD5A29790C9B009063AC /* OnboardOne.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardOne.swift; sourceTree = "<group>"; };
 		6311DD5C29790D47009063AC /* PCCompletionTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PCCompletionTitleView.swift; sourceTree = "<group>"; };
 		6311DD5E29790D98009063AC /* PCCompletionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PCCompletionView.swift; sourceTree = "<group>"; };
 		631448952A171485009EBAD2 /* ActiveOrPassiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveOrPassiveView.swift; sourceTree = "<group>"; };
@@ -371,7 +375,6 @@
 		634D593B29798B550052BF16 /* FroopTypeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FroopTypeData.swift; sourceTree = "<group>"; };
 		634D593D29798BA80052BF16 /* FroopTypeList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FroopTypeList.swift; sourceTree = "<group>"; };
 		634D594029798CAA0052BF16 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		634D594229798CEB0052BF16 /* ProfileCompletionExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCompletionExtensions.swift; sourceTree = "<group>"; };
 		634D594A297994E70052BF16 /* FroopSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FroopSummaryView.swift; sourceTree = "<group>"; };
 		634D5950297995E50052BF16 /* LocationSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchViewModel.swift; sourceTree = "<group>"; };
 		634D59562979964B0052BF16 /* LocationSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchView.swift; sourceTree = "<group>"; };
@@ -390,7 +393,6 @@
 		634D8EFA29A7D1950059083D /* UserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoView.swift; sourceTree = "<group>"; };
 		634D8F0A29AEBD220059083D /* FriendListData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendListData.swift; sourceTree = "<group>"; };
 		634D8F0E29AEC80E0059083D /* FriendRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendRequest.swift; sourceTree = "<group>"; };
-		634D8F1029AF57B70059083D /* daySuffix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = daySuffix.swift; sourceTree = "<group>"; };
 		634E023A29BBC9EC009C97DA /* FriendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewController.swift; sourceTree = "<group>"; };
 		634E023C29BE3315009C97DA /* ColorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorViewModel.swift; sourceTree = "<group>"; };
 		634E023E29BE4277009C97DA /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
@@ -420,11 +422,17 @@
 		6376762A2A95CE5200918302 /* MyMinCardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMinCardsView.swift; sourceTree = "<group>"; };
 		6377B3912A2F9FFF00FB173C /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		6377B3952A2FF3F800FB173C /* ActiveMapViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveMapViewRepresentable.swift; sourceTree = "<group>"; };
+		637A96372ABCB80C00667262 /* OnboardTwo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardTwo.swift; sourceTree = "<group>"; };
+		637A96392ABCB83400667262 /* OnboardThree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardThree.swift; sourceTree = "<group>"; };
+		637A963B2ABCB84800667262 /* OnboardFour.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardFour.swift; sourceTree = "<group>"; };
+		637A963D2ABCB85500667262 /* OnboardFive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardFive.swift; sourceTree = "<group>"; };
+		637A96442ABE5F1C00667262 /* Highlight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Highlight.swift; sourceTree = "<group>"; };
 		6382DA8329FD796C00B33B48 /* AlertListenerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertListenerManager.swift; sourceTree = "<group>"; };
 		63835A4A2A942A4B008A4A67 /* ParentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentView.swift; sourceTree = "<group>"; };
 		63835A4C2A9439C6008A4A67 /* UserDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailsView.swift; sourceTree = "<group>"; };
 		6388FDC82A450A7C0099B802 /* FroopTasksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FroopTasksView.swift; sourceTree = "<group>"; };
 		63893F1929CE71EF00337678 /* DetailFriendCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailFriendCardView.swift; sourceTree = "<group>"; };
+		6389DED42ABA9C5900E11CB5 /* GlobalMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalMapView.swift; sourceTree = "<group>"; };
 		638BDE162A0EBAB000FB7305 /* AttendingUserCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendingUserCard.swift; sourceTree = "<group>"; };
 		638BDE182A1408F700FB7305 /* FirebaseServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseServices.swift; sourceTree = "<group>"; };
 		638BDE1A2A1425F500FB7305 /* CFSBackGroundComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFSBackGroundComponent.swift; sourceTree = "<group>"; };
@@ -598,7 +606,6 @@
 				6311DD152978DECC009063AC /* Assets.xcassets */,
 				6311DD172978DECC009063AC /* Preview Content */,
 				6311DD0F2978DECB009063AC /* Products */,
-				634D8F1029AF57B70059083D /* daySuffix.swift */,
 			);
 			path = FroopProof;
 			sourceTree = "<group>";
@@ -942,11 +949,15 @@
 			isa = PBXGroup;
 			children = (
 				634055002A9136BD0013CB9E /* OnboardingView.swift */,
-				6311DD5A29790C9B009063AC /* ProfileCompletionView1.swift */,
 				6311DD5829790C8C009063AC /* ProfileCompletionView2.swift */,
 				6311DD5629790C7E009063AC /* ProfileCompletionView3.swift */,
 				6311DD5429790A16009063AC /* ProfileCompletionView4.swift */,
 				639423802A40BA0200F16A1E /* SaveProgressView.swift */,
+				6311DD5A29790C9B009063AC /* OnboardOne.swift */,
+				637A96372ABCB80C00667262 /* OnboardTwo.swift */,
+				637A96392ABCB83400667262 /* OnboardThree.swift */,
+				637A963B2ABCB84800667262 /* OnboardFour.swift */,
+				637A963D2ABCB85500667262 /* OnboardFive.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1013,7 +1024,6 @@
 			isa = PBXGroup;
 			children = (
 				634D594029798CAA0052BF16 /* Extensions.swift */,
-				634D594229798CEB0052BF16 /* ProfileCompletionExtensions.swift */,
 				634D596529799A1D0052BF16 /* Color.swift */,
 				634D596729799A450052BF16 /* Double.swift */,
 			);
@@ -1442,6 +1452,7 @@
 				632297C12A67728D00E4912D /* PinArray.swift */,
 				632297C32A68BB1400E4912D /* GenericMessageView.swift */,
 				632297C52A68C5E200E4912D /* SaveAnnotationView.swift */,
+				6389DED42ABA9C5900E11CB5 /* GlobalMapView.swift */,
 			);
 			path = MapAndLocation;
 			sourceTree = "<group>";
@@ -1523,6 +1534,7 @@
 				63F7331F2A0B14E0007FA1F2 /* PrintControl.swift */,
 				633698492A218246008032A1 /* Annotations.swift */,
 				63CC3ABB2A4687BB0026B29A /* Protocols.swift */,
+				637A96442ABE5F1C00667262 /* Highlight.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1608,7 +1620,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1420;
-				LastUpgradeCheck = 1420;
+				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					6311DD0D2978DECB009063AC = {
 						CreatedOnToolsVersion = 14.2;
@@ -1689,7 +1701,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n\n";
+			shellScript = "
+";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1717,11 +1730,13 @@
 				63835A4B2A942A4B008A4A67 /* ParentView.swift in Sources */,
 				63EFFB8029DE13B70069958A /* ContactPicker.swift in Sources */,
 				63DC2AD029B4344700B739BD /* DataController.swift in Sources */,
+				637A963A2ABCB83400667262 /* OnboardThree.swift in Sources */,
 				6329EC1D2A60E4FA0095D9C7 /* CustomAnnotationPin.swift in Sources */,
 				63EFFB6C29D8E1EA0069958A /* Login.swift in Sources */,
 				6377B3922A2F9FFF00FB173C /* NetworkMonitor.swift in Sources */,
 				634D5929297988960052BF16 /* EditProfileView.swift in Sources */,
 				636EF2A929B95FAA007AA589 /* AddFriendsFroopView.swift in Sources */,
+				637A96382ABCB80C00667262 /* OnboardTwo.swift in Sources */,
 				6311DD4E297902EA009063AC /* ProfileView.swift in Sources */,
 				63CB19552A424002007106F6 /* DetailsMapView.swift in Sources */,
 				63FF4F5F297B5C9E00E19E19 /* HomeViewModel.swift in Sources */,
@@ -1754,6 +1769,7 @@
 				63F18E9A29D4F51600345EB7 /* FroopConfirmedCardView.swift in Sources */,
 				63B0CBA9298DF4C6000E5687 /* FroopBaseTView.swift in Sources */,
 				633CC9FB2A05B83900F94093 /* PhotoLibraryView.swift in Sources */,
+				6389DED52ABA9C5900E11CB5 /* GlobalMapView.swift in Sources */,
 				63EFFB7C29DDE3ED0069958A /* MessageView.swift in Sources */,
 				6337362029E9365700CC4A17 /* DateDisplay.swift in Sources */,
 				634D596629799A1D0052BF16 /* Color.swift in Sources */,
@@ -1801,7 +1817,6 @@
 				63EFFB5D29D883D70069958A /* HomeView2ViewModel.swift in Sources */,
 				63893F1A29CE71EF00337678 /* DetailFriendCardView.swift in Sources */,
 				63DC2AC929B2D30B00B739BD /* TimeTextFieldView.swift in Sources */,
-				634D8F1129AF57B70059083D /* daySuffix.swift in Sources */,
 				633CC9FD2A05BF5700F94093 /* FroopMediaFeedView.swift in Sources */,
 				63B0CC022998154C000E5687 /* RootView.swift in Sources */,
 				63B0CBF7299718FA000E5687 /* FroopChainView.swift in Sources */,
@@ -1819,14 +1834,17 @@
 				633E971E2A6C725400A19C36 /* ChatView.swift in Sources */,
 				633CC9F62A05A68500F94093 /* FTVBackGroundComponent.swift in Sources */,
 				63FF4F6D297B641400E19E19 /* TripState.swift in Sources */,
+				637A96452ABE5F1C00667262 /* Highlight.swift in Sources */,
 				63721AE02A8DA49D0082E8E9 /* NonActiveMapView.swift in Sources */,
 				630FA08B2A267DD40051257B /* FroopTimerServices.swift in Sources */,
 				63CB19532A423FEB007106F6 /* DetailsGuestView.swift in Sources */,
 				634D5920297987320052BF16 /* NFWalkthroughScreen.swift in Sources */,
 				63B0CBF929971910000E5687 /* ProvideFeedbackView.swift in Sources */,
 				63B94D9B299F5BB60045BEFC /* FriendListView.swift in Sources */,
+				637A963C2ABCB84800667262 /* OnboardFour.swift in Sources */,
 				63CC3AC42A46C6F30026B29A /* FlightInfoView.swift in Sources */,
 				6311DD5D29790D47009063AC /* PCCompletionTitleView.swift in Sources */,
+				637A963E2ABCB85500667262 /* OnboardFive.swift in Sources */,
 				63CB19642A43D374007106F6 /* DetailsAddFriendsView.swift in Sources */,
 				6375AF7929A1413D0035B4FD /* friendStoreAccept.swift in Sources */,
 				63CB19572A424016007106F6 /* DetailsCalendarView.swift in Sources */,
@@ -1850,7 +1868,6 @@
 				6311DD5529790A16009063AC /* ProfileCompletionView4.swift in Sources */,
 				6337361629E8A0E600CC4A17 /* TouchCaptureControl.swift in Sources */,
 				630628712A9BAFA400B254A3 /* FroopArchivedCardView.swift in Sources */,
-				634D594329798CEB0052BF16 /* ProfileCompletionExtensions.swift in Sources */,
 				63EEB7722A3915AB005238DB /* DetailsMapViewRepresentable.swift in Sources */,
 				63EFFB6A29D8D2240069958A /* KeyboardAdaptive.swift in Sources */,
 				63CB194F2A423FC7007106F6 /* DetailsTasksAndInformationView.swift in Sources */,
@@ -1903,7 +1920,7 @@
 				634D5935297989B00052BF16 /* FroopLocationView.swift in Sources */,
 				63D5BEE92A298760001AC297 /* MyData.swift in Sources */,
 				632AE8972A815F8F0019C027 /* UpdateVersionView.swift in Sources */,
-				6311DD5B29790C9B009063AC /* ProfileCompletionView1.swift in Sources */,
+				6311DD5B29790C9B009063AC /* OnboardOne.swift in Sources */,
 				6337361829E8A10000CC4A17 /* TouchCaptureView.swift in Sources */,
 				634E023D29BE3315009C97DA /* ColorViewModel.swift in Sources */,
 				6311DD5329790988009063AC /* PCWalkThroughScreen.swift in Sources */,
@@ -1981,6 +1998,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -2045,6 +2063,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -2094,6 +2113,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2143,6 +2163,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

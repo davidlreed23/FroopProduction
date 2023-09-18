@@ -51,17 +51,4 @@ struct FriendRequest: Identifiable {
     }
 }
 
-extension FriendRequest {
-    enum CodingKeys: String, CodingKey {
-        case fromUserID
-        case toUserInfo
-        case toUserID
-        case status
-        case documentID
-        case firstName
-        case lastName
-        case profileImageUrl
-        case phoneNumber
-        case friendsInCommon // Add profile image URLs to CodingKeys
-    }
-}
+

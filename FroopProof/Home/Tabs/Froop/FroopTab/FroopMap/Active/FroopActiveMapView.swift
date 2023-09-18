@@ -319,11 +319,12 @@ struct FroopActiveMapView: View {
                             .transition(.move(edge: .bottom))
                     }
                 }
-                .onChange(of: ActiveMapViewModel.shared.annotationModel.annotation) { newValue in
+                .onChange(of: ActiveMapViewModel.shared.annotationModel.annotation, initial: (ActiveMapViewModel.shared.annotationModel.annotation != nil)) { oldValue, newValue in
                     withAnimation {
                         appStateManager.isAnnotationMade = newValue != nil
                     }
                 }
+
                 .animation(.default, value: appStateManager.isAnnotationMade)
             }
         }

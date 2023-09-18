@@ -51,7 +51,6 @@ struct ActiveOrPassiveView: View {
                         Spacer()
                         Button(action: {
                             isSheetPresented = true
-                            //showTypeImage = true
                         }) {
                             ZStack {
                                 Image(systemName: "rectangle.stack.badge.person.crop.fill")
@@ -61,6 +60,8 @@ struct ActiveOrPassiveView: View {
                                     .opacity(0.6)
                             }
                         }
+                       
+                        
                         .fullScreenCover(isPresented: $isSheetPresented) {
                             FroopSelectionView()
                         }
@@ -71,6 +72,7 @@ struct ActiveOrPassiveView: View {
                 }
             }
         }
+       
     }
 }
 

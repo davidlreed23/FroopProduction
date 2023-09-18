@@ -34,6 +34,7 @@ final class MyData: ObservableObject {
     @Published var addressCountry: String = ""
     @Published var profileImageUrl: String = ""
     @Published var fcmToken: String = ""
+    @Published var OTPVerified: Bool = false
     
     @Published var coordinate: CLLocationCoordinate2D = CLLocationCoordinate2D()
     var geoPoint: GeoPoint {
@@ -68,7 +69,8 @@ final class MyData: ObservableObject {
             "profileImageUrl": profileImageUrl,
             "fcmToken": fcmToken,
             "badgeCount" : badgeCount,
-            "coordinate": geoPoint
+            "coordinate": geoPoint,
+            "OTPVerified" : OTPVerified
         ]
     }
     
@@ -134,6 +136,7 @@ final class MyData: ObservableObject {
         if let geoPoint = data["coordinate"] as? GeoPoint {
             self.coordinate = CLLocationCoordinate2D(latitude: geoPoint.latitude, longitude: geoPoint.longitude)
         }
+        self.OTPVerified = data["OTPVerified"] as? Bool ?? false
         PrintControl.shared.printMyData("--------retrieving User Data")
     }
     func convertToGeoPoint(coordinate: CLLocationCoordinate2D) -> GeoPoint {

@@ -161,7 +161,7 @@ struct TabIcon: View {
     @Environment(\.colorScheme) var colorScheme
     
     var imageName: String
-    var froopImageName: String
+    var froopImageName: String = "circle"
     var tab: Tab
     var body: some View {
         

@@ -23,11 +23,19 @@ struct LogStatus: View {
         } else {
             Login()
                 .onAppear {
-                    if Auth.auth().currentUser == nil {
-                        let error = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "User is not authenticated."])
-                        Crashlytics.crashlytics().record(error: error) // Log error to Crashlytics
-                    }
-                }
+                                   if Auth.auth().currentUser == nil {
+                                       let error = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "User is not authenticated."])
+                                       Crashlytics.crashlytics().record(error: error) // Log error to Crashlytics
+                                   }
+                                   logStatus = false // reset logStatus every time this view appears
+                                   try? Auth.auth().signOut() // sign the user out from Firebase Auth
+                               }
+//                .onAppear {
+//                    if Auth.auth().currentUser == nil {
+//                        let error = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "User is not authenticated."])
+//                        Crashlytics.crashlytics().record(error: error) // Log error to Crashlytics
+//                    }
+//                }
         }
     }
 }

@@ -29,6 +29,8 @@ struct FriendSearchCardView: View {
     @State var friendInviteData: FriendInviteData = FriendInviteData(dictionary: [:])
     var friendData: UserData
     @Binding var revealed: Bool
+    @State private var previousExtractedFriendData: UserData?
+
     
     
     var body: some View {
@@ -39,8 +41,11 @@ struct FriendSearchCardView: View {
                 .padding(.leading, 10)
                 .padding(.trailing, 10)
                 .shadow(color: .black, radius: 1)
-                .onChange(of: extractedFriendData) { newValue in
-                    
+                .onChange(of: extractedFriendData, initial: previousExtractedFriendData != nil) { oldValue, newValue in
+                    // Compare if the newValue is different from the previous value
+                    guard newValue != oldValue else { return }
+
+                    // Your existing logic
                     FriendViewController.shared.getUserFriends(userID: newValue.froopUserID) { userFriendsList, error in
                         if let error = error {
                             print("Error fetching user friends: \(error.localizedDescription)")
@@ -69,7 +74,12 @@ struct FriendSearchCardView: View {
                             }
                         }
                     }
+
+                    // Update the previous value after your logic
+                    previousExtractedFriendData = newValue
                 }
+
+
             
             VStack {
                 VStack (alignment: .leading) {

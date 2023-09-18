@@ -47,6 +47,8 @@ struct FroopLocationView: View {
                         UIApplication.shared.endEditing()
                     }
                 if mapState == .searchingForLocation {
+                    
+//                    GlobalMapView()
                     LocationSearchView(mapState: $mapState, showLocationSearchView: $showLocationSearchView, showRec: $showRec, froopData: froopData)
             
                 } else if mapState == .noInput {

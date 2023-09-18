@@ -198,9 +198,10 @@ class PrintControl: ObservableObject {
         }
     }
     
-    func printErrorMessages(_ message: String) {
-        if printErrorMessages {
-            print(message)
+    func printErrorMessages(_ message: String, file: String = #file, line: Int = #line, function: String = #function) {
+        if printPhotoPicker {
+            let fileName = (file as NSString).lastPathComponent // To get just the file's name, not the whole path
+            print("\(fileName):\(line) \(function) - \(message)")
         }
     }
     

@@ -33,13 +33,3 @@ struct FirstResponderBackground: UIViewRepresentable {
     }
 }
 
-extension UIView {
-    func makeFirstResponder(_ view: UIView) {
-        for subview in subviews {
-            if subview.isFirstResponder {
-                subview.resignFirstResponder()
-            }
-            subview.makeFirstResponder(view)
-        }
-    }
-}

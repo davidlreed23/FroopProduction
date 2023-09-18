@@ -14,15 +14,8 @@ import MapKit
 
 struct PCWalkthroughScreen: View{
     @AppStorage("ProfileCompletionCurrentPage") var ProfileCompletionCurrentPage = 1
-     
-    
-    
     @ObservedObject var printControl = PrintControl.shared
-   
     @ObservedObject var froopDataListener = FroopDataListener.shared
-   
- 
-  
 
     var body: some View{
         // For Slide Animation...
@@ -31,29 +24,11 @@ struct PCWalkthroughScreen: View{
              //Changing Between Views....
             
             if ProfileCompletionCurrentPage == 1{
-                ProfileCompletionView1()
+                OnboardingView(ProfileCompletionCurrentPage: $ProfileCompletionCurrentPage)
                     .transition(.scale)
             }
             if ProfileCompletionCurrentPage == 2{
 
-                ProfileCompletionView2()
-                    .transition(.scale)
-            }
-
-            if ProfileCompletionCurrentPage == 3{
-
-                ProfileCompletionView3()
-                    .transition(.scale)
-            }
-            
-            if ProfileCompletionCurrentPage == 4{
-                
-                ProfileCompletionView4(urlHolder: "")
-                    .transition(.scale)
-            }
-            
-            if ProfileCompletionCurrentPage == 5{
-                
                 HomeView1(userData: UserData(), photoData: PhotoData())
                     .transition(.scale)
             }

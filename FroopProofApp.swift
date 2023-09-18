@@ -15,7 +15,7 @@ import GoogleSignIn
 import UserNotifications
 import FirebaseCrashlytics
 import FirebaseMessaging
-
+import UserNotifications
 
 
 class AppDelegate: NSObject, ObservableObject, UIApplicationDelegate, UNUserNotificationCenterDelegate, FroopNotificationDelegate, MessagingDelegate {
@@ -63,14 +63,18 @@ class AppDelegate: NSObject, ObservableObject, UIApplicationDelegate, UNUserNoti
     //MARK: Reset Badge Count
     func applicationDidBecomeActive(_ application: UIApplication) {
         PrintControl.shared.printNotifications("--> applicatoinDidBecomeActive firing")
+        
         // Reset application badge count
-        application.applicationIconBadgeNumber = 0
-        PrintControl.shared.printNotifications("--> application.applicationsIconBadgeNumber = 0 is firing")
-        PrintControl.shared.printNotifications("badge number = \(application.applicationIconBadgeNumber)")
-        
-        
+        UNUserNotificationCenter.current().setBadgeCount(0) { error in
+            if let error = error {
+                PrintControl.shared.printNotifications("Error setting badge count: \(error)")
+            } else {
+                PrintControl.shared.printNotifications("--> application.applicationsIconBadgeNumber = 0 is firing")
+                PrintControl.shared.printNotifications("badge number is now reset to 0")
+            }
+        }
+
         UserDefaults.standard.set(0, forKey: "badgeCount")
-        
         
         // Assuming you have a reference to the currently logged in user's Firestore document
         let db = Firestore.firestore()
@@ -275,20 +279,16 @@ struct MyApp: App {
     
     var body: some Scene {
         WindowGroup {
-            if !authState.isFirebaseAuthDone {
-                Text("Authenticating...")
-                    .onAppear { print("AUTHENTICATING") }
-            } else if authState.isAuthenticated {
-                NavigationView {
+            if authState.isFirebaseAuthDone {
+                if authState.isAuthenticated {
                     RootView(friendData: UserData(), photoData: PhotoData(), appDelegate: AppDelegate(), confirmedFroopsList: ConfirmedFroopsList())
                         .environmentObject(authState)
                         .onAppear { print("LOADING ROOT VIEW") }
+                } else {
+                    Login().environmentObject(authState)
                 }
             } else {
-                LogStatus()
-                    .environmentObject(appDelegate)
-                    .environmentObject(authState)
-                    .onAppear { print("LOADING LOG STATUS") }
+                Text("Authenticating...")
             }
         }
     }
@@ -299,7 +299,7 @@ struct MyApp: App {
 class AuthState: ObservableObject {
     @Published var isAuthenticated = false
     @Published var isFirebaseAuthDone: Bool = false
-
+    @ObservedObject var myData = MyData.shared
     private var authHandle: AuthStateDidChangeListenerHandle?
     
     init() {

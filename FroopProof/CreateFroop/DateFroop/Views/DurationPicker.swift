@@ -58,9 +58,10 @@ struct DurationPicker: View {
                                 Text("\(day)").font(.system(size: 30, weight: .light))
                             }
                         }
-                        .onChange(of: selectedDay) { value in
+                        .onChange(of: selectedDay, initial: false) { _, _ in
                             self.updateDurationTotal()
                         }
+
                         .pickerStyle(WheelPickerStyle())
                         .offset(y: 0)
                         
@@ -88,9 +89,10 @@ struct DurationPicker: View {
                             }
                             
                         }
-                        .onChange(of: selectedHour) { value in
+                        .onChange(of: selectedHour, initial: false) { _, _ in
                             self.updateDurationTotal()
                         }
+
                         .pickerStyle(WheelPickerStyle())
                         .offset(y: 0)
                         
@@ -117,12 +119,13 @@ struct DurationPicker: View {
                                 Text("\(minutes[index])").font(.system(size: 30, weight: .light))
                             }
                         }
-                        .onChange(of: selectedMinute) { value in
+                        .onChange(of: selectedMinute, initial: false) { _, _ in
                             let roundedMinutes = roundToNearestQuarterHour(selectedMinute)
                             self.durationTotal = self.selectedDay * 24 * 60 * 60 + self.selectedHour * 60 * 60 + roundedMinutes * 60
                             froopData.froopDuration = self.durationTotal
                             PrintControl.shared.printTime(durationTotal.description)
                         }
+
                         .pickerStyle(WheelPickerStyle())
                         .offset(y: 0)
                         

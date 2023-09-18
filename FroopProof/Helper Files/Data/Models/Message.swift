@@ -40,23 +40,3 @@ struct Message: Identifiable, Hashable {
     }
 }
 
-extension Message: Equatable {
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(text)
-        hasher.combine(froopId)
-        hasher.combine(senderId)
-        hasher.combine(receiverId)
-        hasher.combine(timestamp)
-        hasher.combine(conversationId)
-    }
-    
-    static func == (lhs: Message, rhs: Message) -> Bool {
-        return lhs.text == rhs.text &&
-        lhs.froopId == rhs.froopId &&
-        lhs.senderId == rhs.senderId &&
-        lhs.receiverId == rhs.receiverId &&
-        lhs.timestamp == rhs.timestamp &&
-        lhs.conversationId == rhs.conversationId
-    }
-}

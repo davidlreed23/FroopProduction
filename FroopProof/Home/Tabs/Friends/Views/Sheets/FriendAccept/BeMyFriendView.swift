@@ -74,7 +74,7 @@ struct BeMyFriendView: View {
             .onDisappear {
                 isLoaded = false
             }
-            .onChange(of: statusX) { newValue in
+            .onChange(of: statusX, initial: true) { _, newValue in
                 FriendViewController.shared.findFriendInvites(thisUser: uid, statusX: statusX) { friendInviteList, error in
                     if let error = error {
                         print("Error fetching friend invites: \(error.localizedDescription)")
@@ -84,6 +84,7 @@ struct BeMyFriendView: View {
                 }
                 isLoaded = true
             }
+
         
         Button {
             if pendingFriends {

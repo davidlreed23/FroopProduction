@@ -24,6 +24,7 @@ struct FroopConfirmedCardView: View {
     @ObservedObject var myData = MyData.shared
     @ObservedObject var timeZoneManager: TimeZoneManager = TimeZoneManager()
     @Binding var openFroop: Bool
+    @State private var previousAppState: AppState?
 
     @State private var confirmedFriends: [UserData] = []
     @State private var declinedFriends: [UserData] = []
@@ -111,11 +112,19 @@ struct FroopConfirmedCardView: View {
                             .fontWeight(.semibold)
                             .foregroundColor(Color(red: 249/255, green: 0/255, blue: 98/255 ))
                             .opacity(isBlinking ? 0.0 : 1.0)
-                            .onChange(of: appStateManager.appState) { newValue in
+                            .onChange(of: appStateManager.appState, initial: previousAppState != nil) { oldValue, newValue in
+                                // Check if the newValue is different from the previous state, if necessary
+                                // If they are the same, you may wish to skip any updates.
+                                guard newValue != oldValue else { return }
+
                                 withAnimation(Animation.easeInOut(duration: 0.5).repeatForever(autoreverses: true)) {
                                     self.isBlinking = true
                                 }
+
+                                // Update the previous state after processing the changes
+                                previousAppState = newValue
                             }
+
                     }
                 }
                 Spacer()

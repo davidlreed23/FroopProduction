@@ -31,13 +31,14 @@ struct CustomTextField: View {
                 Spacer()
             }
         }
-        .onChange(of: keyboardOff) { _ in
-            if keyboardOff {
+        .onChange(of: keyboardOff, initial: !keyboardOff) { oldValue, newValue in
+            if newValue {
                 isKeyboardVisible = false
                 focusedField = .nofield
                 hideKeyboard()
             }
         }
+
     }
     
     private func hideKeyboard() {

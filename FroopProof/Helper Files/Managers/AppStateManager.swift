@@ -770,29 +770,3 @@ class AppStateManager: ObservableObject {
 }
 
 
-extension AppStateManager {
-    func setupCountdownTimer() {
-        timerCancellable = Timer.publish(every: 60, on: .main, in: .common)
-            .autoconnect()
-            .sink { [weak self] _ in
-                guard let self = self else { return }
-                self.now = Date()
-                if let timeUntilNextFroop = self.timeUntilNextFroop(), timeUntilNextFroop <= 1800 {
-                    self.setupListener { _ in
-                        // Handle the UserData or whatever you want in this closure
-                    }
-                    self.timerCancellable?.cancel() // Optionally, stop the timer after calling the function.
-                }
-            }
-    }
-
-    // This assumes that the logic to determine the next Froop is part of AppStateManager.
-    // If it isn't, you'll need to adjust where this logic is pulled from.
-    private func timeUntilNextFroop() -> TimeInterval? {
-        let nextFroops = FroopDataListener.shared.myConfirmedList.filter { $0.froopStartTime > now }
-        guard let nextFroop = nextFroops.min(by: { $0.froopStartTime < $1.froopStartTime }) else {
-            return nil
-        }
-        return nextFroop.froopStartTime.timeIntervalSince(now)
-    }
-}

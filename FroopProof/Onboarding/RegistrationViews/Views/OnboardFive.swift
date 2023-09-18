@@ -1,9 +1,11 @@
 //
-//  ProfileCompletionView.swift
+//  OnboardFour.swift
 //  FroopProof
 //
-//  Created by David Reed on 1/19/23.
+//  Created by David Reed on 9/21/23.
 //
+
+
 
 import SwiftUI
 import MapKit
@@ -11,227 +13,165 @@ import Firebase
 import FirebaseStorage
 import Kingfisher
 
-struct ProfileCompletionView4: View {
-    
-    @ObservedObject var appStateManager = AppStateManager.shared
-    @ObservedObject var printControl = PrintControl.shared
-    @ObservedObject var locationServices = LocationServices.shared
-    @ObservedObject var froopDataListener = FroopDataListener.shared
-    @State private var isProfileImageSelected = false
-    var db = FirebaseServices.shared.db
-    @AppStorage("ProfileCompletionCurrentPage") var ProfileCompletionCurrentPage = 4
-    @ObservedObject var myData = MyData.shared
+struct OnboardFive: View {
     @ObservedObject var photoData = PhotoData()
-    @ObservedObject var timeZoneManager: TimeZoneManager = TimeZoneManager()
-    
-    @State private var isShowingOTPAlert = false
-    @State private var enteredOTP: String = ""
+    @ObservedObject var myData = MyData.shared
+    @State var address: String = ""
+    @State var city: String = ""
+    @State var state: String = ""
+    @State var zipcode: String = ""
+    @State private var isKeyboardShown: Bool = false
+    @State private var keyboardHeight: CGFloat = 0
     @State private var isSaving = false
     @State var showProfileImagePicker = false
-    @State private var headImage = UIImage(named: "profileImage")!
-    @State private var avatarImage = UIImage()
-    @State var selectedImage: UIImage?
-    @State var urlHolder: String = ""
     @State private var showAlert = false
+    @State private var avatarImage = UIImage()
+    @State private var isProfileImageSelected = false
+    @State private var headImage = UIImage(named: "profileImage")!
     @State private var alertMessage = ""
-    @State private var selectedTimeZoneIndex = 0
-    @State private var progress: Double = 0
-    @State private var status: String = ""
-    @State private var showProgressView: Bool = false
-    let timeZoneIdentifiers = TimeZone.knownTimeZoneIdentifiers.sorted()
-    
-    let largestCityTimeZones = [
-        "America/Puerto_Rico",
-        "America/New_York",
-        "America/Chicago",
-        "America/Houston",
-        "America/Denver",
-        "America/Phoenix",
-        "America/Los_Angeles",
-        "America/San_Francisco",
-        "America/Anchorage",
-        "America/Honolulu"
-    ]
-    
-    var PCtotalPages = 6
-    
-    @State private var formattedPhoneNumber: String = ""
-    
-    var otpAlert: Alert {
-        Alert(title: Text("Enter OTP"),
-              message: Text("Please enter the received OTP code:"),
-              primaryButton: .default(Text("Verify"), action: {
-                  verifyOTP(enteredOTP: enteredOTP)
-              }),
-              secondaryButton: .cancel()
-        )
-    }
-    
- 
+    @Binding var selectedTab: OnboardingTab
+    @Binding var ProfileCompletionCurrentPage: Int
+
+    let imageW: Font.Weight = .thin
+    let fontS = Font.system(size: 35)
     var body: some View {
-        NavigationView{
-            ZStack (alignment: .top){
+        ZStack {
+            VStack {
                 
                 Rectangle()
-                    .frame(minWidth: 0,maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-                    .foregroundColor(.black)
-                    .opacity(0.2)
-                    .ignoresSafeArea()
-                    .onAppear {
-                        formattedPhoneNumber = formatPhoneNumber(myData.phoneNumber)
-                        if myData.phoneNumber != "" {
-                            ProfileCompletionCurrentPage = 6
-                        }
-                    }
-                
-                VStack {
-                    ZStack(alignment: .top) {
-                        
-                        Rectangle()
-                            .frame(minWidth: 0,maxWidth: .infinity, minHeight: 225, maxHeight: 225, alignment: .top)
-                            .foregroundColor(.black)
-                            .opacity(0.5)
-                            .ignoresSafeArea()
-                        
-                        Spacer()
-                        
-                        
-                        HStack{
-                            
-                            Spacer()
-                            
-                            Text("Profile Setup")
-                                .foregroundColor(.white)
-                                .fontWeight(.bold)
-                            
-                            Spacer()
-                        }
-                        .offset(y: -30)
-                        HStack{
-                            
-                            Spacer()
-                            
-                            Button(action: {
-                            
-                                showProfileImagePicker = true
-                                
-                            }) {
-                                
-                                VStack{
-                                    
-                                    ZStack{
-                                        
-                                        Image(uiImage: headImage)
-                                            .resizable()
-                                            .scaledToFill()
-                                            .frame(width: 126, height: 126)
-                                            .clipShape(Circle())
-                                        
-                                        KFImage(URL(string: MyData.shared.profileImageUrl))
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: 126, height: 126)
-                                            .clipShape(Circle())
-                                            .onTapGesture {
-                                                showProfileImagePicker = true
-                                            }
-                                        
-                                        Image(uiImage: avatarImage)
-                                            .resizable()
-                                            .scaledToFill()
-                                            .frame(width: 126, height: 126)
-                                            .clipShape(Circle())
-                                    }
-                                    .padding(.top, 75)
-                                  
-                                    
-                                    Text("Profile Picture")
-                                        .font(.system(size: 16, weight: .regular))
-                                        .foregroundColor(.secondary)
-                                        
-                                }
-                                .padding(.top, -40)
-                                
-                            
-                            
-                            .sheet(isPresented: $showProfileImagePicker, onDismiss: {
-                                isProfileImageSelected = true
-                            }, content: {
-                                PhotoPicker(avatarImage: $avatarImage)
-                            })
-                                .padding(.top, -40)
-                                
-                            }
-                            Spacer()
-                        }
-                        .padding(.top, 50)
-                    }
-                    
-                    Form {
-                        Section(header: Text("Name")) {
-                            TextField("First Name", text: $myData.firstName)
-                            TextField("Last Name", text: $myData.lastName)
-                        }
-                        Section(header: Text("Contact")) {
-                            TextField("Phone Number", text: $formattedPhoneNumber)
-                                .onChange(of: formattedPhoneNumber) { newValue in
-                                    // Update myData.phoneNumber with cleaned (unformatted) value
-                                    myData.phoneNumber = removePhoneNumberFormatting(newValue)
-                                }
-                        }
-                        Section(header: Text("Time Zone")) {
-                            Picker("", selection: $myData.timeZone) {
-                                ForEach(timeZoneIdentifiers, id: \.self) { timeZoneIdentifier in
-                                    Text(timeZoneIdentifier)
-                                }
-                            }
-                        }
-                    }
-                    .scrollContentBackground(.hidden)
-                    .frame(maxHeight: .infinity)
-                    .multilineTextAlignment(.leading)
-                    .padding(.top)
-                    
-                }
-                if isSaving {
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle(tint: .blue))
-                        .scaleEffect(2)
-                }
-                if showProgressView {
-                       ProgressView()
-                   }
-                
+                    .fill(Color(red: 235/255, green: 235/255, blue: 250/255))
+                    .frame(height: UIScreen.main.bounds.height / 2)
+                Spacer()
             }
             
-
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
+            VStack {
+                Text("SELECT A PROFILE IMAGE.")
+                    .font(.system(size: 18))
+                    .fontWeight(.semibold)
+                    .foregroundColor(Color(red: 249/255, green: 0/255, blue: 98/255))
+                    .padding(.top, UIScreen.main.bounds.height / 2 + 10)
                 
-                ToolbarItemGroup(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        verifyOTP(enteredOTP: MyData.shared.phoneNumber)
-                        FirebaseServices.shared.saveUserFcmToken()
-                    }) {
-                        Text("Save")
-                            .foregroundColor(.white)
-                        Image(systemName: "square.and.arrow.up.fill")
-                            .foregroundColor(.white)
+                Text("Select a picture for your profile.  This is what people will see when you attend.")
+                    .font(.system(size: 24))
+                    .fontWeight(.light)
+                    .foregroundColor(.black)
+                    .opacity(/*@START_MENU_TOKEN@*/0.8/*@END_MENU_TOKEN@*/)
+                    .padding(.leading, 35)
+                    .padding(.trailing, 35)
+                    .padding(.top, 25)
+                    .multilineTextAlignment(.center)
+                VStack (spacing: 0){
+                    Text("FroopId \(myData.froopUserID)")
+                    Text("First Name \(myData.firstName)")
+                    Text("Last Name \(myData.lastName)")
+                    Text("Address \(myData.addressStreet)")
+                    Text("City \(myData.addressCity)")
+                    Text("State \(myData.addressState)")
+                    Text("Zip \(myData.addressZip)")
+                    Text("Google Code:  \(myData.fcmToken)")
+                    Text("URL \(myData.profileImageUrl)")
+                }
+                .font(.system(size: 12))
+                
+                Spacer()
+            }
+            
+            VStack {
+                VStack {
+                    Button {
+                        showProfileImagePicker = true
+                    } label: {
+                        HStack {
+                            ZStack {
+                                Circle()
+                                    .frame(width: 151, height: 151)
+                                    .foregroundColor(.black)
+                                    .opacity(0.6)
+                                Image("profileImage")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 150, height: 150)
+                                
+                                KFImage(URL(string: MyData.shared.profileImageUrl))
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 150, height: 150)
+                                    .clipShape(Circle())
+                                    .onTapGesture {
+                                        showProfileImagePicker = true
+                                    }
+                            }
+                        }
+                    }
+                    Text("Tap to Select")
+                        .font(.system(size: 20))
+                        .fontWeight(.light)
+                        .foregroundColor(.black)
+                        .opacity(0.5)
+                }
+                
+                
+                
+                Button () {
+                    
+                } label: {
+                    HStack {
+                        Spacer()
+                        Button {
+                            if isProfileImageSelected {
+                                SaveProfile()
+                            } else {
+                                ProfileCompletionCurrentPage = 2
+                            }
+                        } label: {
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 10)
+                                    .frame(width: 75, height: 35)
+                                    .foregroundColor(Color(red: 249/255, green: 0/255, blue: 98/255))
+                                Text(isProfileImageSelected ? "Finish" : "Skip")
+                                    .font(.system(size: 18))
+                                    .fontWeight(.regular)
+                                    .foregroundColor(.white)
+                            }
+                        }
                     }
                 }
+                .padding(.top, 50)
+                Spacer()
             }
-            .alert(isPresented: $showAlert) {
-                Alert(title: Text("Missing Information"),
-                      message: Text(alertMessage),
-                      dismissButton: .default(Text("OK")))
+            .frame(width: UIScreen.main.bounds.width - 100)
+            .padding(.top, 120)
+        }
+        .onReceive(
+            NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)
+                .merge(
+                    with: NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)
+                )
+        ) { notification in
+            guard let userInfo = notification.userInfo else { return }
+            
+            let endFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
+            
+            let duration = (userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue ?? 0.0
+            
+            withAnimation(.easeInOut(duration: duration)) {
+                if notification.name == UIResponder.keyboardWillShowNotification {
+                    keyboardHeight = endFrame?.height ?? 0
+                } else {
+                    keyboardHeight = 0
+                }
             }
         }
-        .disabled(isSaving)
+//        .offset(y: isKeyboardShown ? 0 : keyboardHeight / 2)
+        .sheet(isPresented: $showProfileImagePicker, onDismiss: {
+            isProfileImageSelected = true
+        }, content: {
+            PhotoPicker(avatarImage: $avatarImage)
+        })
+        .ignoresSafeArea()
     }
     
-    
-    
-    func saveProfile() {
+    func SaveProfile() {
         isSaving = true
         PrintControl.shared.printProfile("-ProfileCompletionView4: Function: saveProfile firing")
         if MyData.shared.firstName.isEmpty ||
@@ -323,7 +263,8 @@ struct ProfileCompletionView4: View {
             "addressCountry": MyData.shared.addressCountry,
             "profileImageUrl": MyData.shared.profileImageUrl,
             "timeZone": MyData.shared.timeZone,
-            "coordinate": MyData.shared.geoPoint
+            "coordinate": MyData.shared.geoPoint,
+            "OTPVerified": MyData.shared.OTPVerified
         ]
         userRef.setData(userDocumentData) { error in
             if let error = error {
@@ -357,7 +298,7 @@ struct ProfileCompletionView4: View {
                 ])
                 
                 // Present the next view in the series
-                ProfileCompletionCurrentPage = 5
+                ProfileCompletionCurrentPage = 2
             }
         }
     }
@@ -480,36 +421,4 @@ struct ProfileCompletionView4: View {
             return predicate.evaluate(with: phoneNumber)
         }
     }
-    
-    func sendOTP(phoneNumber: String) {
-        PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber, uiDelegate: nil) { (verificationID, error) in
-            if let error = error {
-                // Handle the error
-                print(error.localizedDescription)
-                return
-            }
-            // If there's no error, save the verificationID
-            UserDefaults.standard.set(verificationID, forKey: "authVerificationID")
-            isShowingOTPAlert = true
-        }
-    }
-    
-    func verifyOTP(enteredOTP: String) {
-        guard let verificationID = UserDefaults.standard.string(forKey: "authVerificationID") else { return }
-        let credential = PhoneAuthProvider.provider().credential(withVerificationID: verificationID, verificationCode: enteredOTP)
-        
-        Auth.auth().signIn(with: credential) { (authResult, error) in
-            if let error = error {
-                // Handle the error
-                print(error.localizedDescription)
-                return
-            }
-            // User is signed in successfully!
-            // Continue with the profile completion or any other task
-            
-            saveProfile()
-        }
-    }
 }
-
-

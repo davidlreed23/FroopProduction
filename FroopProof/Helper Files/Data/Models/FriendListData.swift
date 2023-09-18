@@ -110,15 +110,3 @@ class FriendListData: ObservableObject, Decodable, Identifiable, Hashable {
     }
 }
 
-extension FriendListData: Encodable {
-    func encode(to encoder: Encoder) throws {
-        PrintControl.shared.printInviteFriends("-FriendListData: Function: encode firing")
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(froopUserID, forKey: .froopUserID)
-        try container.encode(timeZone, forKey: .timeZone)
-        try container.encode(firstName, forKey: .firstName)
-        try container.encode(lastName, forKey: .lastName)
-        try container.encode(phoneNumber, forKey: .phoneNumber)
-        try container.encode(profileImageUrl, forKey: .profileImageUrl)
-    }
-}

@@ -35,12 +35,7 @@ struct FroopPassiveView: View {
     @State private var now = Date()
     @State private var loadIndex = 0
    
-    
-    
-    
-    //let hVTimer = Timer.publish(every: 15, on: .main, in: .common).autoconnect()
-    
-    
+
     var timeUntilNextFroop: TimeInterval? {
         let nextFroops = FroopDataListener.shared.myConfirmedList.filter { $0.froopStartTime > now }
         guard let nextFroop = nextFroops.min(by: { $0.froopStartTime < $1.froopStartTime }) else {

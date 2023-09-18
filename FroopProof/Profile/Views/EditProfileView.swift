@@ -177,60 +177,63 @@ struct EditProfileView: View {
                         }
                         Section(header: Text("Permissions")) {
                             Toggle("Calendar", isOn: $userSettings.calendarPermission)
-                                .onChange(of: userSettings.locateNowPermission) { newValue in
+                                .onChange(of: userSettings.locateNowPermission, initial: userSettings.locateNowPermission) { oldValue, newValue in
                                     if newValue {
                                         // New value is true, user is trying to grant permission
                                         userSettings.requestCalendarAccess { _ in
                                             print("calendar access granted")
                                         }
-                                    } else {
+                                    } else if oldValue != newValue {
                                         // User is trying to revoke permission, guide them to settings
                                         userSettings.openAppSettings()
                                     }
                                 }
+
                             Toggle("Photo Library", isOn: $userSettings.photoLibraryPermission)
-                                .onChange(of: userSettings.locateNowPermission) { newValue in
+                                .onChange(of: userSettings.locateNowPermission, initial: userSettings.locateNowPermission) { oldValue, newValue in
                                     if newValue {
                                         // New value is true, user is trying to grant permission
                                         userSettings.requestPhotoLibraryAuthorization { _ in
-                                            print("calendar access granted")
+                                            print("photo library access granted")
                                         }
-                                    } else {
+                                    } else if oldValue != newValue {
                                         // User is trying to revoke permission, guide them to settings
                                         userSettings.openAppSettings()
                                     }
                                 }
+
                             Toggle("Location Tracking Always", isOn: $userSettings.trackAlwaysPermission)
-                                .onChange(of: userSettings.locateNowPermission) { newValue in
+                                .onChange(of: userSettings.locateNowPermission, initial: userSettings.locateNowPermission) { oldValue, newValue in
                                     if newValue {
                                         // New value is true, user is trying to grant permission
                                         locationManager.requestAlwaysAuthorization()
-                                    } else {
+                                    } else if oldValue != newValue {
                                         // User is trying to revoke permission, guide them to settings
                                         userSettings.openAppSettings()
                                     }
                                 }
+
                             Toggle("Alerts", isOn: $userSettings.alertsPermission)
-                                .onChange(of: userSettings.locateNowPermission) { newValue in
+                                .onChange(of: userSettings.locateNowPermission, initial: userSettings.locateNowPermission) { oldValue, newValue in
                                     if newValue {
                                         // New value is true, user is trying to grant permission
                                         userSettings.requestNotificationPermission()
-                                    } else {
+                                    } else if oldValue != newValue {
                                         // User is trying to revoke permission, guide them to settings
                                         userSettings.openAppSettings()
                                     }
                                 }
+
                             Toggle("Notifications", isOn: $userSettings.notificationsPermission)
-                                .onChange(of: userSettings.locateNowPermission) { newValue in
+                                .onChange(of: userSettings.locateNowPermission, initial: userSettings.locateNowPermission) { oldValue, newValue in
                                     if newValue {
                                         // New value is true, user is trying to grant permission
                                         userSettings.requestNotificationPermission()
-                                    } else {
+                                    } else if oldValue != newValue {
                                         // User is trying to revoke permission, guide them to settings
                                         userSettings.openAppSettings()
                                     }
                                 }
-                            
                         }
                     }
                     .scrollContentBackground(.hidden)

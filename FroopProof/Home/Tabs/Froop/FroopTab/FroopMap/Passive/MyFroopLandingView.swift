@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct MyFroopLandingView: View {
-    
+    @ObservedObject var dataController = DataController.shared
     @ObservedObject var froopManager = FroopManager.shared
     var size: CGSize
     var safeArea: EdgeInsets
     @State var friendsView: Bool = false
-    @State private var offsetY: CGFloat = 0
-
+    //    @State private var offsetY: CGFloat = 0
+    
     
     
     var body: some View {
@@ -24,7 +24,7 @@ struct MyFroopLandingView: View {
                 ZStack {
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack(spacing: 5) {
-                            MyProfileHeaderView(size: size, safeArea: safeArea, offsetY: $offsetY)
+                            MyProfileHeaderView(size: size, safeArea: safeArea)
                                 .zIndex(1000)
                                 .ignoresSafeArea()
                             MyFroopsView()
@@ -33,7 +33,7 @@ struct MyFroopLandingView: View {
                         .id("SCROLLVIEW")
                         .background {
                             ScrollDetector { offset in
-                                offsetY = -offset
+                                dataController.offsetY = -offset
                             } onDraggingEnd: { offset, velocity in
                                 /// Resetting to Intial State, if not Completely Scrolled
                                 let headerHeight = (size.height * 0.3) + safeArea.top
@@ -57,141 +57,3 @@ struct MyFroopLandingView: View {
 
 
 
-extension View {
-    
-    func myMoveText(_ progress: CGFloat, _ headerHeight: CGFloat, _ headerWidth: CGFloat, _ minimumHeaderHeight: CGFloat, _ minimumHeaderWidth: CGFloat) -> some View {
-        self
-            .hidden()
-            .overlay {
-                GeometryReader { proxy in
-                    let rect = proxy.frame(in: .global)
-                    //let minX = rect.minX
-                    let midY = rect.midY
-                    // let midTarget = 0
-                    // let delta = rect.width - 125
-                    // let adjustededX = rect.width - delta
-                    /// Half Scaled Text Height (Since Text Scaling will be 0.85 (1 - 0.15))
-                    let halfScaledTextHeight = (rect.height * 0.85) / 2
-                    // let halfScaledTextWidth = (rect.width * 0.85) / 2
-                    /// Profile Image
-                    let profileImageHeight = (headerHeight * 0.9)
-//                    let profileImageWidth = (headerWidth * 0.9)
-                    /// Since Image Scaling will be 0.3 (1 - 0.7)
-                    let scaledImageHeight = profileImageHeight * 0.3
-                    //let scaledImageWidth = profileImageWidth * 0.3
-                    // let halfScaledImageHeight = scaledImageHeight / 2
-                    // let halfScaledImageWidth = scaledImageWidth / 2
-                    /// Applied VStack Spacing is 15
-                    /// 15 / 0.3 = 4.5 (0.3 -> Image Scaling)
-                    let vStackSpacing: CGFloat = 4.5
-                    let resizedOffsetY = (midY - ((minimumHeaderHeight / 3) - (halfScaledTextHeight * 2) - vStackSpacing - scaledImageHeight))
-                    //let resizedOffsetX = (minX - 10)
-                    
-                    self
-                        .scaleEffect(1 - (progress * 0.15))
-                        .offset(y: -resizedOffsetY * progress)
-                        //.offset(x: -resizedOffsetX * progress)
-                        .onAppear {
-                            printProperties(midY: midY,
-                                            minimumHeaderHeight: minimumHeaderHeight,
-                                            halfScaledTextHeight: halfScaledTextHeight,
-                                            vStackSpacing: vStackSpacing,
-                                            scaledImageHeight: scaledImageHeight,
-                                            resizedOffsetY: resizedOffsetY)
-                        }
-                }
-                
-            }
-        
-    }
-    
-    private func printProperties(midY: CGFloat, minimumHeaderHeight: CGFloat, halfScaledTextHeight: CGFloat, vStackSpacing: CGFloat, scaledImageHeight: CGFloat, resizedOffsetY: CGFloat) {
-        print("midY: \(midY)")
-        print("minimumHeaderHeight: \(minimumHeaderHeight)")
-        print("halfScaledTextHeight: \(halfScaledTextHeight)")
-        print("vStackSpacing: \(vStackSpacing)")
-        print("scaledImageHeight: \(scaledImageHeight)")
-        print("resizedOffsetY: \(resizedOffsetY)")
-    }
-
-func myMoveSymbols(_ progress: CGFloat, _ headerHeight: CGFloat, _ headerWidth: CGFloat, _ minimumHeaderHeight: CGFloat, _ minimumHeaderWidth: CGFloat) -> some View {
-    self
-        .hidden()
-        .overlay {
-            GeometryReader { proxy in
-                let rect = proxy.frame(in: .global)
-                let minX = rect.minX
-                let midY = rect.midY
-                /// Half Scaled Text Height (Since Text Scaling will be 0.85 (1 - 0.15))
-                let halfScaledTextHeight = (rect.height * 1) / 2
-                // let halfScaledTextWidth = (rect.width * 1) / 2
-                /// Profile Image
-                let profileImageHeight = (headerHeight * 0.9)
-//                let profileImageWidth = (headerWidth * 0.9)
-                /// Since Image Scaling will be 0.3 (1 - 0.7)
-                let scaledImageHeight = profileImageHeight * 0.3
-                //let scaledImageWidth = profileImageWidth * 0.3
-                // let halfScaledImageHeight = scaledImageHeight / 2
-                // let halfScaledImageWidth = scaledImageWidth / 2
-                /// Applied VStack Spacing is 15
-                /// 15 / 0.3 = 4.5 (0.3 -> Image Scaling)
-                let vStackSpacing: CGFloat = 4.5
-                    let resizedOffsetY = (midY - ((minimumHeaderHeight / 2) - halfScaledTextHeight - vStackSpacing - scaledImageHeight))
-                    let resizedOffsetX = (minX)
-                    
-                    self
-                        .scaleEffect(1 - (progress * 1))
-                        .offset(y: -resizedOffsetY * progress / 2)
-                        .offset(x: -resizedOffsetX * progress)
-                        .opacity(1 - progress)
-                        .onAppear {
-                            printProperties(midY: midY,
-                                            minimumHeaderHeight: minimumHeaderHeight,
-                                            halfScaledTextHeight: halfScaledTextHeight,
-                                            vStackSpacing: vStackSpacing,
-                                            scaledImageHeight: scaledImageHeight,
-                                            resizedOffsetY: resizedOffsetY)
-                        }
-                }
-            }
-    }
-    
-    func myMoveMenu(_ progress: CGFloat, _ headerHeight: CGFloat, _ headerWidth: CGFloat, _ minimumHeaderHeight: CGFloat, _ minimumHeaderWidth: CGFloat) -> some View {
-        self
-            .hidden()
-            .overlay {
-                GeometryReader { proxy in
-                    let rect = proxy.frame(in: .global)
-                   //let minX = rect.minX
-//                    let midX = rect.midX
-                    let midY = rect.midY
-                    /// Half Scaled Text Height (Since Text Scaling will be 0.85 (1 - 0.15))
-                    let halfScaledTextHeight = (rect.height * 1) / 2
-                    /// Profile Image
-                    let profileImageHeight = (headerHeight * 0.9)
-//                    let profileImageWidth = (headerWidth * 0.9)
-                    /// Since Image Scaling will be 0.3 (1 - 0.7)
-                    let scaledImageHeight = profileImageHeight * 0.3
-//                     let scaledImageWidth = profileImageWidth * 0.3
-                    /// Applied VStack Spacing is 15
-                    /// 15 / 0.3 = 4.5 (0.3 -> Image Scaling)
-                    let vStackSpacing: CGFloat = 4.5
-                    let resizedOffsetY = (midY - ((minimumHeaderHeight / 2) - (halfScaledTextHeight * 2) - vStackSpacing - scaledImageHeight + 65))
-                     //let resizedOffsetX = (minX - 80)
-                    
-                    self
-                        .scaleEffect(1)
-                        .offset(y: -resizedOffsetY * progress / 2)
-                    //.offset(x: -resizedOffsetX * progress)
-                        .onAppear {
-                            printProperties(midY: midY,
-                                            minimumHeaderHeight: minimumHeaderHeight,
-                                            halfScaledTextHeight: halfScaledTextHeight,
-                                            vStackSpacing: vStackSpacing,
-                                            scaledImageHeight: scaledImageHeight,
-                                            resizedOffsetY: resizedOffsetY)
-                        }
-                }
-            }
-    }
-}

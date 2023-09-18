@@ -6,10 +6,7 @@
 //
 
 import SwiftUI
-import iPhoneNumberField
-import Firebase
-import FirebaseFirestore
-import FirebaseFirestoreSwift
+
 
 
 struct ProfileCompletionView3: View {
@@ -67,7 +64,7 @@ struct InformationDetailView3: View {
     
     var title: String = ""
     var subTitle: String = ""
-    var imageName: String = ""
+    var imageName: String = "circle"
     
     var body: some View {
         HStack(alignment: .center) {

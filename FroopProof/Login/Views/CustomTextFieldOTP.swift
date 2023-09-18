@@ -31,12 +31,13 @@ struct CustomTextFieldOTP: View {
                 Spacer()
             }
         }
-        .onChange(of: isKeyboardOpen) { _ in
-            if !isKeyboardOpen {
+        .onChange(of: isKeyboardOpen, initial: isKeyboardOpen) { oldValue, newValue in
+            if !newValue {
                 focusedField = .nofield
                 hideKeyboard()
             }
         }
+
     }
     
     private func hideKeyboard() {
